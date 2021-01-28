@@ -1,0 +1,55 @@
+= C++20
+
+:imagesdir: images
+:icons: font
+:date: March 1, 2021
+:my_name: Bernd Doser
+:my_email: bernd.doser@h-its.org
+:my_twitter: BerndDoser
+:my_github: BerndDoser
+:revealjs_slideNumber: true
+:revealjs_center: false
+:customcss: custom.css
+:source-highlighter: highlightjs
+
+mailto:{my_email}[{my_name}]
+
+{date}
+
+image:HITS_RGB_eng.jpg[link=https://h-its.org,width=40%,role=external,window=_blank]
+
+https://twitter.com/{my_twitter}[icon:twitter[]] https://github.com/{my_github}[icon:github[]]
+
+
+== Who am I?
+
+[%step]
+* Scientific software developer since 15 years
+* PhD in theoretical chemistry
+* Linear scaling electron-electron correlation
+* Tailor-made force fields
+* https://github.com/BrainTwister/BlasBooster[BlasBooster,role=external,window=_blank]
+* https://github.com/HITS-MBM/gromacs-fda[GROMACS-FDA,role=external,window=_blank], https://github.com/HITS-MCM/gromacs-ramd[GROMACS-RAMD,role=external,window=_blank]
+* https://github.com/HITS-AIN/PINK[PINK,role=external,window=_blank]
+* https://emcl-gitlab.iwr.uni-heidelberg.de/hiflow3.org/hiflow3[HiFlow3,role=external,window=_blank]
+
+
+== Outline
+
+[%step]
+* Introduction
+* New features
+** Contracts
+** Modules
+** Ranges
+
+
+== Introduction
+
+- C++ is great
+
+
+== Thank you 
+
+https://bernddoser.github.io/workshop-dependency-management
+
