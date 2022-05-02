@@ -39,15 +39,64 @@ https://twitter.com/{my_twitter}[icon:twitter[]] https://github.com/{my_github}[
 [%step]
 * Introduction
 * New features
-** Contracts
 ** Modules
+** Contracts
+** Coroutines
 ** Ranges
+** std::format
 
 
 == Introduction
 
 - C++ is great
 
+== Helpful links
+
+* https://cppreference.com[cppreference.com,role=external,window=_blank]
+
+* https://gcc.godbolt.org[CompilerExplorer,role=external,window=_blank]
+
+[.columns]
+== New keywords
+
+[.column]
+* concept
+* requires
+* co_await
+* co_return
+* co_yield
+
+[.column]
+* import
+* module
+* constinit
+* consteval
+* char8_t
+
+== Modules
+
+* Replace header files
+
+== Contracts
+
+== Coroutines
+
+https://mariusbancila.ro/blog/2020/06/22/a-cpp20-coroutine-example/
+
+== Ranges
+
+== std::format
+
+[source, cpp]
+----
+#include <fmt/core.h>
+
+int main()
+{
+    fmt::print("Hello, world!\n");
+}
+----
+https://gcc.godbolt.org/z/xoTEjdT68[CompilerExplorer]
 
 == Thank you 
 
