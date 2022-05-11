@@ -48,13 +48,28 @@ https://twitter.com/{my_twitter}[icon:twitter[]] https://github.com/{my_github}[
 
 == Introduction
 
-- C++ is great
+Bjarne Stroustrup developed "C with classes", which introduces the class concept of "Simula" with data encapsulation into C.
+
+* Strong type system
+* Backward compatibility
+
+== ISO Standardization
+
+* C++98: First ISO Standard
+* C++11: 
+* C++14
+* C++17
+* C++20
+* C++23
 
 == Helpful links
 
 * https://cppreference.com[cppreference.com,role=external,window=_blank]
 
 * https://gcc.godbolt.org[CompilerExplorer,role=external,window=_blank]
+
+* https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines[C++ Core Guidelines,role=external,window=_blank]
+
 
 [.columns]
 == New keywords
@@ -83,11 +98,43 @@ https://twitter.com/{my_twitter}[icon:twitter[]] https://github.com/{my_github}[
 
 https://mariusbancila.ro/blog/2020/06/22/a-cpp20-coroutine-example/
 
+[source, python]
+----
+import os
+----
+
+
 == Ranges
+
+[source, c++]
+----
+#include <ranges>
+#include <iostream>
+ 
+int main()
+{
+    auto const ints = {0,1,2,3,4,5};
+    auto even = [](int i) { return 0 == i % 2; };
+    auto square = [](int i) { return i * i; };
+ 
+    // "pipe" syntax of composing the views:
+    for (int i : ints | std::views::filter(even) | std::views::transform(square)) {
+        std::cout << i << ' ';
+    }
+ 
+    std::cout << '\n';
+ 
+    // a traditional "functional" composing syntax:
+    for (int i : std::views::transform(std::views::filter(ints, even), square)) {
+        std::cout << i << ' ';
+    }
+}
+----
+
 
 == std::format
 
-[source, cpp]
+[source, c++]
 ----
 #include <fmt/core.h>
 
