@@ -397,7 +397,7 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );</script></head><
 <div class="paragraph"><p><span class="image external"><a class="image" href="https://h-its.org" target="_blank"><img src="images/HITS_RGB_eng.jpg" alt="HITS RGB eng" width="40%"></a></span></p></div>
 <div class="paragraph"><p><a href="https://twitter.com/BerndDoser"><span class="icon"><i class="fa fa-twitter"></i></span></a> <a href="https://github.com/BerndDoser"><span class="icon"><i class="fa fa-github"></i></span></a></p></div></div></section>
 <section id="_who_am_i"><h2>Who am I?</h2><div class="slide-content"><div class="ulist"><ul><li class="fragment"><p>Scientific software developer since 15 years</p></li><li class="fragment"><p>PhD in theoretical chemistry</p></li><li class="fragment"><p>Linear scaling electron-electron correlation</p></li><li class="fragment"><p>Tailor-made force fields</p></li><li class="fragment"><p><a href="https://github.com/BrainTwister/BlasBooster" class="external" target="_blank">BlasBooster</a></p></li><li class="fragment"><p><a href="https://github.com/HITS-MBM/gromacs-fda" class="external" target="_blank">GROMACS-FDA</a>, <a href="https://github.com/HITS-MCM/gromacs-ramd" class="external" target="_blank">GROMACS-RAMD</a></p></li><li class="fragment"><p><a href="https://github.com/HITS-AIN/PINK" class="external" target="_blank">PINK</a></p></li><li class="fragment"><p><a href="https://emcl-gitlab.iwr.uni-heidelberg.de/hiflow3.org/hiflow3" class="external" target="_blank">HiFlow3</a></p></li></ul></div></div></section>
-<section id="_outline"><h2>Outline</h2><div class="slide-content"><div class="ulist"><ul><li class="fragment"><p>Introduction</p></li><li class="fragment"><p>New features</p><div class="ulist"><ul><li><p>Modules</p></li><li><p>Contracts</p></li><li><p>Coroutines</p></li><li><p>Ranges</p></li><li><p>std::format</p></li></ul></div></li></ul></div></div></section>
+<section id="_outline"><h2>Outline</h2><div class="slide-content"><div class="ulist"><ul><li class="fragment"><p>Introduction</p></li><li class="fragment"><p>New features</p><div class="ulist"><ul><li><p>Modules</p></li><li><p>Contracts</p></li><li><p>Coroutines</p></li><li><p>Ranges</p></li><li><p>std::format</p></li><li><p>Spaceship operator &lt;&#8658;</p></li></ul></div></li></ul></div></div></section>
 <section id="_introduction"><h2>Introduction</h2><div class="slide-content"><div class="paragraph"><p>Bjarne Stroustrup developed "C with classes", which introduces the class concept of "Simula" with data encapsulation into C.</p></div>
 <div class="ulist"><ul><li><p>Strong type system</p></li><li><p>Backward compatibility</p></li></ul></div></div></section>
 <section id="_iso_standardization"><h2>ISO Standardization</h2><div class="slide-content"><div class="ulist"><ul><li><p>C++98: First ISO Standard</p></li><li><p>C++11:</p></li><li><p>C++14</p></li><li><p>C++17</p></li><li><p>C++20</p></li><li><p>C++23</p></li></ul></div></div></section>
@@ -406,7 +406,6 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );</script></head><
 <div class="ulist column"><ul><li><p>import</p></li><li><p>module</p></li><li><p>constinit</p></li><li><p>consteval</p></li><li><p>char8_t</p></li></ul></div></div></section>
 <section id="_modules"><h2>Modules</h2><div class="slide-content"><div class="ulist"><ul><li><p>Replace header files</p></li></ul></div></div></section>
 <section id="_contracts"><h2>Contracts</h2></section>
-<section id="_coroutines"><h2>Coroutines</h2></section>
 <section id="_evolution_of_functions"><h2>Evolution of Functions</h2><div class="slide-content"><div class="listingblock"><div class="content"><pre class="highlight"><code class="language-cpp" data-lang="cpp">int f1() { return 1; } // A C-like function
 
 int f2(int arg) { return arg; } // Function overloading
@@ -421,9 +420,10 @@ struct F4 { // Functor
 
 auto f5 = [] { return 5; }; // Lambda (C++11)
 
-auto f6 = [] (auto arg) { return arg; }; // Generic lambda (C++14)</code></pre></div></div>
+auto f6 = [] (auto arg) { return arg; }; // Generic lambda (C++14)</code></pre></div></div></div></section>
+<section id="_coroutines"><h2>Coroutines</h2><div class="slide-content"><div class="ulist"><ul><li><p>Generator</p></li></ul></div>
 <aside class="notes"><div class="paragraph"><p><a href="https://mariusbancila.ro/blog/2020/06/22/a-cpp20-coroutine-example/" class="bare">https://mariusbancila.ro/blog/2020/06/22/a-cpp20-coroutine-example/</a></p></div></aside></div></section>
-<section id="_ranges"><h2>Ranges</h2><div class="slide-content"><div class="listingblock"><div class="content"><pre class="highlight"><code class="language-c++" data-lang="c++">#include &lt;ranges&gt;
+<section id="_ranges"><h2>Ranges</h2><div class="slide-content"><div class="listingblock"><div class="content"><pre class="highlight"><code class="language-cpp" data-lang="cpp">#include &lt;ranges&gt;
 #include &lt;iostream&gt;
 
 int main()
@@ -444,13 +444,17 @@ int main()
         std::cout &lt;&lt; i &lt;&lt; ' ';
     }
 }</code></pre></div></div></div></section>
-<section id="_stdformat"><h2>std::format</h2><div class="slide-content"><div class="listingblock"><div class="content"><pre class="highlight"><code class="language-c++" data-lang="c++">#include &lt;fmt/core.h&gt;
+<section id="_stdformat"><h2>std::format</h2><div class="slide-content"><div class="listingblock"><div class="content"><pre class="highlight"><code class="language-cpp" data-lang="cpp">#include &lt;fmt/core.h&gt;
 
 int main()
 {
     fmt::print("Hello, world!\n");
 }</code></pre></div></div>
 <div class="paragraph"><p><a href="https://gcc.godbolt.org/z/xoTEjdT68">CompilerExplorer</a></p></div></div></section>
+<section id="_spaceship_operator"><h2>Spaceship operator &lt;&#8658;</h2><div class="slide-content"><div class="ulist"><ul><li><p>Comparing 2 objects
+a &gt; b, a &lt; b, a == b</p></li></ul></div>
+<div class="listingblock"><div class="content"><pre class="highlight"><code class="language-cpp" data-lang="cpp"></code></pre></div></div>
+<aside class="notes"><div class="ulist"><ul><li><p>Write point class with all comparison operators</p></li><li><p>Compile with makefile</p></li><li><p>Write same class with spaceship operator</p></li></ul></div></aside></div></section>
 <section id="_thank_you"><h2>Thank you</h2><div class="slide-content"><div class="paragraph"><p><a href="https://bernddoser.github.io/workshop-cpp20" class="bare">https://bernddoser.github.io/workshop-cpp20</a></p></div></div></section></div></div><script src="reveal.js/js/reveal.js"></script><script>Array.prototype.slice.call(document.querySelectorAll('.slides section')).forEach(function(slide) {
   if (slide.getAttribute('data-background-color')) return;
   // user needs to explicitly say he wants CSS color to override otherwise we might break custom css or theme (#226)

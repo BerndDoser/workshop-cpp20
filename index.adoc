@@ -12,7 +12,7 @@
 :revealjs_width: 1400
 :revealjs_height: 800
 :customcss: custom.css
-:source-highlighter: highlight.js
+:source-highlighter: rouge
 :highlightjs-theme: a11y-dark.css
 :highlightjs-languages: cpp
 
@@ -48,6 +48,7 @@ https://twitter.com/{my_twitter}[icon:twitter[]] https://github.com/{my_github}[
 ** Coroutines
 ** Ranges
 ** std::format
+** Spaceship operator <=>
 
 
 == Introduction
@@ -170,6 +171,25 @@ int main()
 ----
 
 https://gcc.godbolt.org/z/xoTEjdT68[CompilerExplorer]
+
+
+== Spaceship operator <=>
+
+* Comparing 2 objects
+a > b, a < b, a == b
+
+[source, cpp]
+----
+
+----
+
+[.notes]
+--
+* Write point class with all comparison operators
+* Compile with makefile
+* Write same class with spaceship operator
+--
+
 
 == Thank you 
 
