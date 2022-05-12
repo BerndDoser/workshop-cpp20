@@ -2,15 +2,19 @@
 
 :imagesdir: images
 :icons: font
-:date: March 1, 2021
+:date: June, 2022
 :my_name: Bernd Doser
 :my_email: bernd.doser@h-its.org
 :my_twitter: BerndDoser
 :my_github: BerndDoser
 :revealjs_slideNumber: true
 :revealjs_center: false
+:revealjs_width: 1400
+:revealjs_height: 800
 :customcss: custom.css
-:source-highlighter: highlightjs
+:source-highlighter: highlight.js
+:highlightjs-theme: a11y-dark.css
+:highlightjs-languages: cpp
 
 mailto:{my_email}[{my_name}]
 
@@ -94,19 +98,40 @@ Bjarne Stroustrup developed "C with classes", which introduces the class concept
 
 == Contracts
 
+== Evolution of Functions
+
+[source, cpp]
+----
+int f1() { return 1; } // A C-like function
+
+int f2(int arg) { return arg; } // Function overloading
+double f2(double arg) { return arg; }
+
+template <typename T> // Function template
+T f3(T arg) { return arg; }
+
+struct F4 { // Functor
+    int operator()() { return 4; }
+};
+
+auto f5 = [] { return 5; }; // Lambda (C++11)
+
+auto f6 = [] (auto arg) { return arg; }; // Generic lambda (C++14)
+----
+
 == Coroutines
 
-https://mariusbancila.ro/blog/2020/06/22/a-cpp20-coroutine-example/
+* Generator
 
-[source, python]
-----
-import os
-----
+[.notes]
+--
+https://mariusbancila.ro/blog/2020/06/22/a-cpp20-coroutine-example/
+--
 
 
 == Ranges
 
-[source, c++]
+[source, cpp]
 ----
 #include <ranges>
 #include <iostream>
@@ -134,7 +159,7 @@ int main()
 
 == std::format
 
-[source, c++]
+[source, cpp]
 ----
 #include <fmt/core.h>
 
@@ -143,9 +168,10 @@ int main()
     fmt::print("Hello, world!\n");
 }
 ----
+
 https://gcc.godbolt.org/z/xoTEjdT68[CompilerExplorer]
 
 == Thank you 
 
-https://bernddoser.github.io/workshop-dependency-management
+https://bernddoser.github.io/workshop-cpp20
 
