@@ -1,5 +1,6 @@
-#include <numeric>
 #include <iostream>
+#include <cmath>
+#include <numeric>
 #include <vector>
 
 struct DenseMatrix
@@ -16,18 +17,20 @@ struct SparseMatrix
 template <typename T>
 concept Matrix = requires (T x) { x.value; };
 
-auto norm(Matrix auto matrix)
+auto norm2(Matrix auto matrix)
 {
-    return std::accumulate(std::begin(matrix.value), std::end(matrix.value), 0);
+    double sum = 0.0;
+    for (auto v : matrix.value) { sum += std::pow(v,2); }
+    return std::sqrt(sum);
 }
 
 int main()
 {
     DenseMatrix A;
-    std::cout << norm(A) << std::endl;
+    std::cout << norm2(A) << std::endl;
 
     SparseMatrix B;
-    std::cout << norm(B) << std::endl;
+    std::cout << norm2(B) << std::endl;
 
     //std::cout << norm(1) << std::endl;
 }
