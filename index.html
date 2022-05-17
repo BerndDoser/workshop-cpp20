@@ -394,18 +394,29 @@ link.type = 'text/css';
 link.href = window.location.search.match( /print-pdf/gi ) ? "reveal.js/css/print/pdf.css" : "reveal.js/css/print/paper.css";
 document.getElementsByTagName( 'head' )[0].appendChild( link );</script></head><body><div class="reveal"><div class="slides"><section class="title" data-state="title"><h1>C++20</h1><div class="preamble"><div class="paragraph"><p><a href="mailto:bernd.doser@h-its.org">Bernd Doser</a></p></div>
 <div class="paragraph"><p>June, 2022</p></div>
-<div class="paragraph"><p><span class="image external"><a class="image" href="https://h-its.org" target="_blank"><img src="images/HITS_RGB_eng.jpg" alt="HITS RGB eng" width="40%"></a></span></p></div>
+<div class="paragraph"><p><span class="image"><img src="images/ISO_C++_Logo.svg" alt="background"></span>
+<span class="image external" style="float: right"><a class="image" href="https://h-its.org" target="_blank"><img src="images/HITS_RGB_eng.jpg" alt="HITS RGB eng" width="40%"></a></span></p></div>
 <div class="paragraph"><p><a href="https://twitter.com/BerndDoser"><span class="icon"><i class="fa fa-twitter"></i></span></a> <a href="https://github.com/BerndDoser"><span class="icon"><i class="fa fa-github"></i></span></a></p></div></div></section>
 <section id="_who_am_i"><h2>Who am I?</h2><div class="slide-content"><div class="ulist"><ul><li class="fragment"><p>Scientific software developer since 15 years</p></li><li class="fragment"><p>PhD in theoretical chemistry</p></li><li class="fragment"><p>Linear scaling electron-electron correlation</p></li><li class="fragment"><p>Tailor-made force fields</p></li><li class="fragment"><p><a href="https://github.com/BrainTwister/BlasBooster" class="external" target="_blank">BlasBooster</a></p></li><li class="fragment"><p><a href="https://github.com/HITS-MBM/gromacs-fda" class="external" target="_blank">GROMACS-FDA</a>, <a href="https://github.com/HITS-MCM/gromacs-ramd" class="external" target="_blank">GROMACS-RAMD</a></p></li><li class="fragment"><p><a href="https://github.com/HITS-AIN/PINK" class="external" target="_blank">PINK</a></p></li><li class="fragment"><p><a href="https://emcl-gitlab.iwr.uni-heidelberg.de/hiflow3.org/hiflow3" class="external" target="_blank">HiFlow3</a></p></li></ul></div></div></section>
-<section id="_outline"><h2>Outline</h2><div class="slide-content"><div class="ulist"><ul><li class="fragment"><p>Introduction</p></li><li class="fragment"><p>New features</p><div class="ulist"><ul><li><p>Modules</p></li><li><p>Contracts</p></li><li><p>Coroutines</p></li><li><p>Ranges</p></li><li><p>std::format</p></li><li><p>Spaceship operator &lt;&#8658;</p></li></ul></div></li></ul></div></div></section>
+<section id="_outline"><h2>Outline</h2><div class="slide-content"><div class="ulist"><ul><li class="fragment"><p>Introduction</p></li><li class="fragment"><p>New features</p><div class="ulist"><ul><li><p>Modules</p></li><li><p>Concepts</p></li><li><p>Coroutines</p></li><li><p>Ranges</p></li><li><p>std::format</p></li><li><p>Spaceship operator &lt;&#8658;</p></li></ul></div></li></ul></div></div></section>
 <section id="_introduction"><h2>Introduction</h2><div class="slide-content"><div class="paragraph"><p>Bjarne Stroustrup developed "C with classes", which introduces the class concept of "Simula" with data encapsulation into C.</p></div>
 <div class="ulist"><ul><li><p>Strong type system</p></li><li><p>Backward compatibility</p></li></ul></div></div></section>
-<section id="_iso_standardization"><h2>ISO Standardization</h2><div class="slide-content"><div class="ulist"><ul><li><p>C++98: First ISO Standard</p></li><li><p>C++11:</p></li><li><p>C++14</p></li><li><p>C++17</p></li><li><p>C++20</p></li><li><p>C++23</p></li></ul></div></div></section>
+<section id="_iso_standardization"><h2>ISO Standardization</h2><div class="slide-content"><div class="ulist"><ul><li><p>C++98: First ISO Standard</p></li><li><p>C++11: Smart pointers, Move sematic, Lambda functions, range-based for loop, auto</p></li><li><p>C++14: variable templates, generic lambdas</p></li><li><p>C++17:</p></li><li><p>C++20: Modules, Concepts, Coroutines, Ranges</p></li><li><p>C++23: A Plan for Ranges, Reflections?</p></li></ul></div></div></section>
+<section id="_books_and_iso_standard"><h2>Books and ISO Standard</h2><div class="slide-content"><div class="paragraph"><p><span class="image"><img src="images/cpp_stroustrup.jpg" alt="cpp stroustrup" height="300"></span>
+<span class="image"><img src="images/cppstd_josuttis.jpg" alt="cppstd josuttis" height="300"></span>
+<span class="image"><img src="images/cpp_concurrency_williams.jpg" alt="cpp concurrency williams" height="300"></span>
+<span class="image"><img src="images/effcpp_meyers.jpg" alt="effcpp meyers" height="300"></span></p></div>
+<div class="ulist"><ul><li><p>C++20 ISO Standard: ISO/IEC 14882:2020</p><div class="ulist"><ul><li><p>Commercial version ~200 EUR</p></li><li><p><a href="https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/n4849.pdf">Free working draft</a></p></li></ul></div></li></ul></div></div></section>
 <section id="_helpful_links"><h2>Helpful links</h2><div class="slide-content"><div class="ulist"><ul><li><p><a href="https://cppreference.com" class="external" target="_blank">cppreference.com</a></p></li><li><p><a href="https://gcc.godbolt.org" class="external" target="_blank">CompilerExplorer</a></p></li><li><p><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines" class="external" target="_blank">C++ Core Guidelines</a></p></li></ul></div></div></section>
 <section id="_new_keywords" class="columns"><h2>New keywords</h2><div class="slide-content"><div class="ulist column"><ul><li><p>concept</p></li><li><p>requires</p></li><li><p>co_await</p></li><li><p>co_return</p></li><li><p>co_yield</p></li></ul></div>
 <div class="ulist column"><ul><li><p>import</p></li><li><p>module</p></li><li><p>constinit</p></li><li><p>consteval</p></li><li><p>char8_t</p></li></ul></div></div></section>
 <section id="_modules"><h2>Modules</h2><div class="slide-content"><div class="ulist"><ul><li><p>Replace header files</p></li></ul></div></div></section>
-<section id="_contracts"><h2>Contracts</h2></section>
+<section id="_concepts"><h2>Concepts</h2><div class="slide-content"><div class="listingblock"><div class="content"><pre class="highlight"><code class="language-cpp" data-lang="cpp">// C++11/14, SFINAE (sub)
+template &lt;typename T&gt;
+std::enable_if_t&lt;std::is_same_v&lt;T, int&gt;&gt; f(T x);
+
+// C++20: concepts
+void f(std::same_as&lt;int&gt; auto x);</code></pre></div></div></div></section>
 <section id="_evolution_of_functions"><h2>Evolution of Functions</h2><div class="slide-content"><div class="listingblock"><div class="content"><pre class="highlight"><code class="language-cpp" data-lang="cpp">int f1() { return 1; } // A C-like function
 
 int f2(int arg) { return arg; } // Function overloading
@@ -455,6 +466,21 @@ int main()
 a &gt; b, a &lt; b, a == b</p></li></ul></div>
 <div class="listingblock"><div class="content"><pre class="highlight"><code class="language-cpp" data-lang="cpp"></code></pre></div></div>
 <aside class="notes"><div class="ulist"><ul><li><p>Write point class with all comparison operators</p></li><li><p>Compile with makefile</p></li><li><p>Write same class with spaceship operator</p></li></ul></div></aside></div></section>
+<section id="_carbage_collection_vs_raii"><h2>Carbage collection vs. RAII</h2><div class="slide-content"><div class="ulist"><ul><li><p>Carbage collection (Java, Python, Go)</p><div class="paragraph"><p>Automatic memory management, which periodically stops all threads and free unreferenced memory. Extra overhead</p></div></li></ul></div>
+<div class="admonitionblock tip"><table><tr><td class="icon"><i class="fa fa-lightbulb-o" title="Tip"></i></td><td class="content">C++ principle: "Don&#8217;t pay for something you don&#8217;t use."</td></tr></table></div>
+<div class="ulist"><ul><li><p>RAII: Resource Aquisition is Initialization (C++, Rust)</p><div class="paragraph"><p>The lifetime of a resource will be bound to the lifetime of a local variable. C automatically manages the lifetime of locals.
+Smart pointers ('C11') overcome the manually memory deallocation.</p></div></li></ul></div></div></section>
+<section id="_smart_pointers"><h2>Smart pointers</h2><div class="slide-content"><div class="ulist"><ul><li><p>Raw pointer (before C++11)</p><div class="listingblock"><div class="content"><pre class="highlight"><code class="language-cpp" data-lang="cpp">{
+    Molecule* ptrMolecule = new Molecule("c1ccccc1");
+    calculateEnergy(ptrMolecule);
+    delete molecule;
+}</code></pre></div></div>
+<div class="ulist"><ul><li><p>Segmentation fault if ptrMolecule is deleted within calculateEnergy.</p></li></ul></div></li><li><p>Smart pointer (C++11)</p><div class="listingblock"><div class="content"><pre class="highlight"><code class="language-cpp" data-lang="cpp">{
+    std::unique_ptr&lt;Molecule&gt; ptrMolecule(new Molecule("c1ccccc1"));
+    calculateEnergy(ptrMolecule);
+} // ptrMolecule is deleted automatically here.</code></pre></div></div>
+<div class="ulist"><ul><li><p>Copy of raw pointer not defined, only construction.</p></li></ul></div></li></ul></div></div></section>
+<section id="_smart_pointers_2"><h2>Smart pointers</h2><div class="slide-content"><div class="ulist"><ul><li><p>std::unique_ptr&lt;T&gt;</p><div class="ulist"><ul><li><p>Allows exactly one owner of the underlying pointer</p></li><li><p>Can be moved to a new owner, but not copied or shared</p></li></ul></div></li><li><p>std::shared_ptr&lt;T&gt;</p><div class="ulist"><ul><li><p>Reference-counted smart pointer</p></li><li><p>The raw pointer is not deleted until all owners have gone out of scope</p></li></ul></div></li><li><p>std::weak_ptr&lt;T&gt;</p><div class="ulist"><ul><li><p>Special-case smart pointer for use in conjunction with shared_ptr</p></li><li><p>Required to break circular references between shared_ptr</p></li></ul></div></li></ul></div></div></section>
 <section id="_thank_you"><h2>Thank you</h2><div class="slide-content"><div class="paragraph"><p><a href="https://bernddoser.github.io/workshop-cpp20" class="bare">https://bernddoser.github.io/workshop-cpp20</a></p></div></div></section></div></div><script src="reveal.js/js/reveal.js"></script><script>Array.prototype.slice.call(document.querySelectorAll('.slides section')).forEach(function(slide) {
   if (slide.getAttribute('data-background-color')) return;
   // user needs to explicitly say he wants CSS color to override otherwise we might break custom css or theme (#226)

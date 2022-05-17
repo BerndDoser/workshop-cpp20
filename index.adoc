@@ -20,7 +20,8 @@ mailto:{my_email}[{my_name}]
 
 {date}
 
-image:HITS_RGB_eng.jpg[link=https://h-its.org,width=40%,role=external,window=_blank]
+image:ISO_C++_Logo.svg[background,size=cover]
+image:HITS_RGB_eng.jpg[float="right",link=https://h-its.org,width=40%,role=external,window=_blank]
 
 https://twitter.com/{my_twitter}[icon:twitter[]] https://github.com/{my_github}[icon:github[]]
 
@@ -66,6 +67,18 @@ Bjarne Stroustrup developed "C with classes", which introduces the class concept
 * C++17: 
 * C++20: Modules, Concepts, Coroutines, Ranges
 * C++23: A Plan for Ranges, Reflections?
+
+== Books and ISO Standard
+
+image:cpp_stroustrup.jpg[height=300]
+image:cppstd_josuttis.jpg[height=300]
+image:cpp_concurrency_williams.jpg[height=300]
+image:effcpp_meyers.jpg[height=300]
+
+* C++20 ISO Standard: ISO/IEC 14882:2020
+** Commercial version ~200 EUR
+** https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/n4849.pdf[Free working draft]
+
 
 == Helpful links
 
@@ -206,20 +219,56 @@ a > b, a < b, a == b
 == Carbage collection vs. RAII
 
 * Carbage collection (Java, Python, Go)
-
++
 Automatic memory management, which periodically stops all threads and free unreferenced memory. Extra overhead
 
-C++ principles: "Don't pay for something you don't use."
+TIP: C++ principle: "Don't pay for something you don't use."
 
 * RAII: Resource Aquisition is Initialization (C++, Rust)
-
++
 The lifetime of a resource will be bound to the lifetime of a local variable. C++ automatically manages the lifetime of locals.
-
-Smart pointers (C++11) overcome the manually memory deallocation.
+Smart pointers ('C++11') overcome the manually memory deallocation.
 
 
 == Smart pointers
 
+* Raw pointer (before C++11)
++
+[source, cpp]
+----
+{
+    Molecule* ptrMolecule = new Molecule("c1ccccc1");
+    calculateEnergy(ptrMolecule);
+    delete molecule;
+}
+----
+** Segmentation fault if ptrMolecule is deleted within calculateEnergy.
+
+* Smart pointer (C++11)
++
+[source, cpp]
+----
+{
+    std::unique_ptr<Molecule> ptrMolecule(new Molecule("c1ccccc1"));
+    calculateEnergy(ptrMolecule);
+} // ptrMolecule is deleted automatically here.
+----
+** Copy of raw pointer not defined, only construction.
+
+
+== Smart pointers
+
+* std::unique_ptr<T>
+** Allows exactly one owner of the underlying pointer
+** Can be moved to a new owner, but not copied or shared
+
+* std::shared_ptr<T>
+** Reference-counted smart pointer
+** The raw pointer is not deleted until all owners have gone out of scope
+
+* std::weak_ptr<T>
+** Special-case smart pointer for use in conjunction with shared_ptr
+** Required to break circular references between shared_ptr
 
 
 == Thank you 
