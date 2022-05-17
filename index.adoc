@@ -44,7 +44,7 @@ https://twitter.com/{my_twitter}[icon:twitter[]] https://github.com/{my_github}[
 * Introduction
 * New features
 ** Modules
-** Contracts
+** Concepts
 ** Coroutines
 ** Ranges
 ** std::format
@@ -61,11 +61,11 @@ Bjarne Stroustrup developed "C with classes", which introduces the class concept
 == ISO Standardization
 
 * C++98: First ISO Standard
-* C++11: 
-* C++14
-* C++17
-* C++20
-* C++23
+* C++11: Smart pointers, Move sematic, Lambda functions, range-based for loop, auto
+* C++14: variable templates, generic lambdas
+* C++17: 
+* C++20: Modules, Concepts, Coroutines, Ranges
+* C++23: A Plan for Ranges, Reflections?
 
 == Helpful links
 
@@ -97,7 +97,19 @@ Bjarne Stroustrup developed "C with classes", which introduces the class concept
 
 * Replace header files
 
-== Contracts
+
+== Concepts
+
+[source, cpp]
+----
+// C++11/14, SFINAE (sub)
+template <typename T>
+std::enable_if_t<std::is_same_v<T, int>> f(T x);
+ 
+// C++20: concepts
+void f(std::same_as<int> auto x);
+----
+
 
 == Evolution of Functions
 
@@ -189,6 +201,25 @@ a > b, a < b, a == b
 * Compile with makefile
 * Write same class with spaceship operator
 --
+
+
+== Carbage collection vs. RAII
+
+* Carbage collection (Java, Python, Go)
+
+Automatic memory management, which periodically stops all threads and free unreferenced memory. Extra overhead
+
+C++ principles: "Don't pay for something you don't use."
+
+* RAII: Resource Aquisition is Initialization (C++, Rust)
+
+The lifetime of a resource will be bound to the lifetime of a local variable. C++ automatically manages the lifetime of locals.
+
+Smart pointers (C++11) overcome the manually memory deallocation.
+
+
+== Smart pointers
+
 
 
 == Thank you 
