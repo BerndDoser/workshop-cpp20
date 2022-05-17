@@ -28,7 +28,7 @@ https://twitter.com/{my_twitter}[icon:twitter[]] https://github.com/{my_github}[
 
 == Who am I?
 
-[%step]
+//[%step]
 * Scientific software developer since 15 years
 * PhD in theoretical chemistry
 * Linear scaling electron-electron correlation
@@ -41,7 +41,7 @@ https://twitter.com/{my_twitter}[icon:twitter[]] https://github.com/{my_github}[
 
 == Outline
 
-[%step]
+//[%step]
 * Introduction
 * New features
 ** Modules
@@ -70,13 +70,14 @@ Bjarne Stroustrup developed "C with classes", which introduces the class concept
 
 == Books and ISO Standard
 
-[%step]
 image:book_stroustrup.jpg[height=300]
 image:book_josuttis.jpg[height=300]
-image:book_williams.jpg[height=300]
-image:book_meyers.jpg[height=300]
+//image:book_williams.jpg[height=300]
+//image:book_meyers.jpg[height=300]
 image:book_gottschling.jpg[height=300]
+image:book_vandevoorde.jpg[height=300]
 
+[%step]
 * C++20 ISO Standard: ISO/IEC 14882:2020
 ** Commercial version ~200 EUR
 ** https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/n4849.pdf[Free working draft]
