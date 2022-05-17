@@ -70,10 +70,12 @@ Bjarne Stroustrup developed "C with classes", which introduces the class concept
 
 == Books and ISO Standard
 
-image:cpp_stroustrup.jpg[height=300]
-image:cppstd_josuttis.jpg[height=300]
-image:cpp_concurrency_williams.jpg[height=300]
-image:effcpp_meyers.jpg[height=300]
+[%step]
+image:book_stroustrup.jpg[height=300]
+image:book_josuttis.jpg[height=300]
+image:book_williams.jpg[height=300]
+image:book_meyers.jpg[height=300]
+image:book_gottschling.jpg[height=300]
 
 * C++20 ISO Standard: ISO/IEC 14882:2020
 ** Commercial version ~200 EUR
