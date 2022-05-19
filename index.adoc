@@ -160,6 +160,34 @@ https://mariusbancila.ro/blog/2020/06/22/a-cpp20-coroutine-example/
 
 == Ranges
 
+* Defined in header <ranges>
++
+[source, cpp]
+----
+template< class T >
+concept range = requires( T& t ) {
+  ranges::begin(t); // equality-preserving for forward iterators
+  ranges::end  (t);
+};
+----
+* std::begin(t) instead of t.begin()
+
+
+== Ranges: views
+
+TIP: "Views are composable adaptations of ranges where the adaptation happens lazily as the view is iterated." (Eric Niebler)
+
+
+== Range: pipe
+
+[source, cpp]
+----
+C(B)
+B | C
+----
+
+
+== Ranges: filter and transform
 [source, cpp]
 ----
 #include <ranges>
