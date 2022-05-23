@@ -43,7 +43,7 @@ https://twitter.com/{my_twitter}[icon:twitter[]] https://github.com/{my_github}[
 
 //[%step]
 * Introduction
-* New features
+* New features of C++20
 ** Modules
 ** Concepts
 ** Coroutines
@@ -177,6 +177,23 @@ concept range = requires( T& t ) {
 
 TIP: "Views are composable adaptations of ranges where the adaptation happens lazily as the view is iterated." (Eric Niebler)
 
+[source, cpp]
+----
+template<class D>
+  requires std::is_class_v<D> && std::same_as<D, std::remove_cv_t<D>>
+class view_interface;
+----
+
+view_interface is typically used with CRTP:
+
+[source, cpp]
+----
+class my_view : public std::ranges::view_interface<my_view> {
+public:
+    auto begin() const { /*...*/ }
+    auto end() const { /*...*/ }
+};
+----
 
 == Range: pipe
 

@@ -24,7 +24,6 @@ struct add_one_f
     }
 };
 
-
 int main()
 {
     const pipe_closure<add_one_f> add_one = {};

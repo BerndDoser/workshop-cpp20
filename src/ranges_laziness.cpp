@@ -3,9 +3,8 @@
  
 int main()
 {
-    auto const data = {0,1,2,3,4,5};
+    auto const data = {0, 1, 2, 3, 4, 5};
  
-    // "pipe" syntax of composing the views:
     auto result { data
         | std::views::transform([](const auto& value) {
             std::cout << "mult " << value << std::endl;
