@@ -49,7 +49,7 @@ https://twitter.com/{my_twitter}[icon:twitter[]] https://github.com/{my_github}[
 ** Coroutines
 ** Ranges
 ** std::format
-** Spaceship operator <=>
+** Spaceship operator `<=>`
 
 
 == Introduction
@@ -64,7 +64,7 @@ Bjarne Stroustrup developed "C with classes", which introduces the class concept
 * C++98: First ISO Standard
 * C++11: Smart pointers, Move sematic, Lambda functions, range-based for loop, auto
 * C++14: variable templates, generic lambdas
-* C++17: 
+* C++17: Structured bindings
 * C++20: Modules, Concepts, Coroutines, Ranges
 * C++23: A Plan for Ranges, Reflections?
 
@@ -72,10 +72,12 @@ Bjarne Stroustrup developed "C with classes", which introduces the class concept
 
 image:book_stroustrup.jpg[height=300]
 image:book_josuttis.jpg[height=300]
-//image:book_williams.jpg[height=300]
-//image:book_meyers.jpg[height=300]
 image:book_gottschling.jpg[height=300]
 image:book_vandevoorde.jpg[height=300]
+
+image:book_cukic.jpg[height=300]
+image:book_grimm.jpg[height=300]
+image:book_roth.jpg[height=300]
 
 [%step]
 * C++20 ISO Standard: ISO/IEC 14882:2020
@@ -86,9 +88,7 @@ image:book_vandevoorde.jpg[height=300]
 == Helpful links
 
 * https://cppreference.com[cppreference.com,role=external,window=_blank]
-
 * https://gcc.godbolt.org[CompilerExplorer,role=external,window=_blank]
-
 * https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines[C++ Core Guidelines,role=external,window=_blank]
 
 
@@ -150,12 +150,16 @@ auto f6 = [] (auto arg) { return arg; }; // Generic lambda (C++14)
 
 == Coroutines
 
+A function is a coroutine if it contains one of these:
+
+* `co_return` (coroutine return statement)
+* co_await (await expression)
+* co_yield (yield expression)
+
+
+* Task
 * Generator
 
-[.notes]
---
-https://mariusbancila.ro/blog/2020/06/22/a-cpp20-coroutine-example/
---
 
 
 == Ranges
@@ -175,7 +179,7 @@ concept range = requires( T& t ) {
 
 == Ranges: views
 
-TIP: "Views are composable adaptations of ranges where the adaptation happens lazily as the view is iterated." (Eric Niebler)
+NOTE: "Views are composable adaptations of ranges where the adaptation happens lazily as the view is iterated." (Eric Niebler)
 
 [source, cpp]
 ----
