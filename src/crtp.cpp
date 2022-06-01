@@ -1,5 +1,6 @@
 #include <iostream>
- 
+
+// Curiously Recurring Template Pattern (CRTP)
 template <class Derived>
 struct Base { void name() { (static_cast<Derived*>(this))->impl(); } };
  
