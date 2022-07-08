@@ -3,21 +3,24 @@ title: "The new ISO Standard C++20"
 author: "Bernd Doser"
 date: July 2022
 institute: HITS gGmbH
-format: revealjs
+format:
+  revealjs:
+    logo: images/HITS_RGB_eng.jpg
+    footer: "C++20 (B. Doser)"
 ---
 
 ## Who am I?
-
 
 ::: {.incremental}
 - Scientific software developer since 15 years
 - PhD in theoretical chemistry
 - Linear scaling electron-electron correlation
 - Tailor-made force fields
-- https://github.com/BrainTwister/BlasBooster[BlasBooster,role=external,window=_blank]
-- https://github.com/HITS-MBM/gromacs-fda[GROMACS-FDA,role=external,window=_blank], https://github.com/HITS-MCM/gromacs-ramd[GROMACS-RAMD,role=external,window=_blank]
-- https://github.com/HITS-AIN/PINK[PINK,role=external,window=_blank]
-- https://emcl-gitlab.iwr.uni-heidelberg.de/hiflow3.org/hiflow3[HiFlow3,role=external,window=_blank]
+- [BlasBooster](https://github.com/BrainTwister/BlasBooster){.link-external-newwindow}
+- [GROMACS-FDA](https://github.com/HITS-MBM/gromacs-fda), [GROMACS-RAMD](https://github.com/HITS-MCM/gromacs-ramd)
+- [PINK](https://github.com/HITS-AIN/PINK)
+- [HiFlow3](https://emcl-gitlab.iwr.uni-heidelberg.de/hiflow3.org/hiflow3)
+- TACO
 :::
 
 
@@ -31,25 +34,89 @@ format: revealjs
   - Coroutines
   - Ranges
   - std::format
-  - Spaceship operator `<=>`
+  - Spaceship operator <=>
 :::
 
-## Code
 
-```{.python code-line-numbers="6-8"}
-import numpy as np
-import matplotlib.pyplot as plt
+## Introduction
 
-r = np.arange(0, 2, 0.01)
-theta = 2 * np.pi * r
-fig, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-ax.plot(theta, r)
-ax.set_rticks([0.5, 1, 1.5, 2])
-ax.grid(True)
-plt.show()
+Bjarne Stroustrup developed "C with classes", which introduces the class concept of "Simula" with data encapsulation into C.
+
+- Strong type system
+- Backward compatibility
+
+## ISO Standardization
+
+- C++98: First ISO Standard
+- C++11: Smart pointers, Move sematic, Lambda functions, range-based for loop, auto
+- C++14: variable templates, generic lambdas
+- C++17: Structured bindings
+- C++20: Modules, Concepts, Coroutines, Ranges
+- C++23: A Plan for Ranges, Reflections?
+
+
+## Books and ISO Standard
+
+![](images/book_stroustrup.jpg){.border height="300"}
+![](images/book_josuttis.jpg){.border height="300"}
+![](images/book_gottschling.jpg){.border height="300"}
+![](images/book_vandevoorde.jpg){.border height="300"}
+
+![](images/book_cukic.jpg){.border height="300"}
+![](images/book_grimm.jpg){.border height="300"}
+![](images/book_roth.jpg){.border height="300"}
+
+- C++20 ISO Standard: ISO/IEC 14882:2020
+  - Commercial version ~200 EUR
+  - https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/n4849.pdf[Free working draft]
+
+
+## Helpful links
+
+- [cppreference.com](https://cppreference.com)
+- [CompilerExplorer](https://gcc.godbolt.org)
+- [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines)
+
+
+## New keywords
+
+::: columns
+::: {.column width="50%"}
+- concept
+- requires
+- co_await
+- co_return
+- co_yield
+:::
+
+::: {.column width="50%"}
+- import
+- module
+- constinit
+- consteval
+- char8_t
+:::
+:::
+
+
+## Modules
+
+- Replace header files
+
+
+## Concepts
+
+```{.cpp}
+// C++11/14, SFINAE (sub)
+template <typename T>
+std::enable_if_t<std::is_same_v<T, int>> f(T x);
+ 
+// C++20: concepts
+void f(std::same_as<int> auto x);
 ```
 
-## C++ Code
+
+## Evolution of Functions
 
 ```{.cpp}
 int f1() { return 1; } // A C-like function
@@ -68,3 +135,171 @@ auto f5 = [] { return 5; }; // Lambda (C++11)
 
 auto f6 = [] (auto arg) { return arg; }; // Generic lambda (C++14)
 ```
+
+## Coroutines
+
+A function is a coroutine if it contains one of these:
+
+- `co_return` (coroutine return statement)
+- co_await (await expression)
+- co_yield (yield expression)
+
+- Task
+- Generator
+
+
+## Ranges
+
+- Defined in header <ranges>
+
+```{.cpp}
+template< class T >
+concept range = requires( T& t ) {
+  ranges::begin(t); // equality-preserving for forward iterators
+  ranges::end  (t);
+};
+```
+
+- std::begin(t) instead of t.begin()
+
+
+## Ranges: views
+
+"Views are composable adaptations of ranges where the adaptation happens lazily as the view is iterated." (Eric Niebler)
+
+```{.cpp}
+template<class D>
+  requires std::is_class_v<D> && std::same_as<D, std::remove_cv_t<D>>
+class view_interface;
+```
+
+view_interface is typically used with CRTP:
+
+```{.cpp}
+class my_view : public std::ranges::view_interface<my_view> {
+public:
+    auto begin() const { /*...*/ }
+    auto end() const { /*...*/ }
+};
+```
+
+
+## Range: pipe
+
+```{.cpp}
+C(B)
+B | C
+```
+
+
+## Ranges: filter and transform
+
+```{.cpp}
+#include <ranges>
+#include <iostream>
+ 
+int main()
+{
+    auto const ints = {0,1,2,3,4,5};
+    auto even = [](int i) { return 0 ## i % 2; };
+    auto square = [](int i) { return i - i; };
+ 
+    // "pipe" syntax of composing the views:
+    for (int i : ints | std::views::filter(even) | std::views::transform(square)) {
+        std::cout << i << ' ';
+    }
+ 
+    std::cout << '\n';
+ 
+    // a traditional "functional" composing syntax:
+    for (int i : std::views::transform(std::views::filter(ints, even), square)) {
+        std::cout << i << ' ';
+    }
+}
+```
+
+
+## std::format
+
+```{.cpp}
+#include <fmt/core.h>
+
+int main()
+{
+    fmt::print("Hello, world!\n");
+}
+```
+
+::: footer
+[CompilerExplorer](https://gcc.godbolt.org/z/xoTEjdT68)
+:::
+
+
+## Spaceship operator <=>
+
+- Comparing 2 objects
+a > b, a < b, a ## b
+
+::: notes
+- Write point class with all comparison operators
+- Compile with makefile
+- Write same class with spaceship operator
+:::
+
+
+## Carbage collection vs. RAII
+
+- Carbage collection (Java, Python, Go)
+
+Automatic memory management, which periodically stops all threads and free unreferenced memory. Extra overhead
+
+TIP: C++ principle: "Don't pay for something you don't use."
+
+- RAII: Resource Aquisition is Initialization (C++, Rust)
+
+The lifetime of a resource will be bound to the lifetime of a local variable. C++ automatically manages the lifetime of locals.
+Smart pointers ('C++11') overcome the manually memory deallocation.
+
+
+## Smart pointers
+
+- Raw pointer (before C++11)
+
+```{.cpp}
+{
+    Molecule- ptrMolecule = new Molecule("c1ccccc1");
+    calculateEnergy(ptrMolecule);
+    delete molecule;
+}
+```
+- Segmentation fault if ptrMolecule is deleted within calculateEnergy.
+
+- Smart pointer (C++11)
+
+```{.cpp}
+{
+    std::unique_ptr<Molecule> ptrMolecule(new Molecule("c1ccccc1"));
+    calculateEnergy(ptrMolecule);
+} // ptrMolecule is deleted automatically here.
+```
+- Copy of raw pointer not defined, only construction.
+
+
+## Smart pointers
+
+- std::unique_ptr<T>
+  - Allows exactly one owner of the underlying pointer
+  - Can be moved to a new owner, but not copied or shared
+
+- std::shared_ptr<T>
+  - Reference-counted smart pointer
+  - The raw pointer is not deleted until all owners have gone out of scope
+
+- std::weak_ptr<T>
+  - Special-case smart pointer for use in conjunction with shared_ptr
+  - Required to break circular references between shared_ptr
+
+
+## Thank you 
+
+https://bernddoser.github.io/workshop-cpp20
