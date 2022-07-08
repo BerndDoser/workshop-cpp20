@@ -57,18 +57,22 @@ Bjarne Stroustrup developed "C with classes", which introduces the class concept
 
 ## Books and ISO Standard
 
-![](images/book_stroustrup.jpg){.border height="300"}
-![](images/book_josuttis.jpg){.border height="300"}
-![](images/book_gottschling.jpg){.border height="300"}
-![](images/book_vandevoorde.jpg){.border height="300"}
+::: columns
+::: {.column width="60%"}
+![](images/book_stroustrup.jpg){.border width="180" height="250"}
+![](images/book_josuttis.jpg){.border width="180" height="250"}
+![](images/book_gottschling.jpg){.border width="180" height="250"}
+![](images/book_vandevoorde.jpg){.border width="180" height="250"}
+![](images/book_cukic.jpg){.border width="180" height="250"}
+![](images/book_grimm.jpg){.border width="180" height="250"}
+:::
 
-![](images/book_cukic.jpg){.border height="300"}
-![](images/book_grimm.jpg){.border height="300"}
-![](images/book_roth.jpg){.border height="300"}
-
+::: {.column width="40%"}
 - C++20 ISO Standard: ISO/IEC 14882:2020
   - Commercial version ~200 EUR
-  - https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/n4849.pdf[Free working draft]
+  - [Free working draft](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/n4849.pdf)
+:::
+:::
 
 
 ## Helpful links
@@ -165,7 +169,9 @@ concept range = requires( T& t ) {
 
 ## Ranges: views
 
+::: citation
 "Views are composable adaptations of ranges where the adaptation happens lazily as the view is iterated." (Eric Niebler)
+:::
 
 ```{.cpp}
 template<class D>
@@ -230,7 +236,7 @@ int main()
 }
 ```
 
-::: footer
+::: aside
 [CompilerExplorer](https://gcc.godbolt.org/z/xoTEjdT68)
 :::
 
@@ -300,6 +306,6 @@ Smart pointers ('C++11') overcome the manually memory deallocation.
   - Required to break circular references between shared_ptr
 
 
-## Thank you 
+## Thank you {.center}
 
 https://bernddoser.github.io/workshop-cpp20

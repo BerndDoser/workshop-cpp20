@@ -443,15 +443,19 @@
 </section>
 <section id="books-and-iso-standard" class="slide level2">
 <h2>Books and ISO Standard</h2>
-<p><img data-src="images/book_stroustrup.jpg" class="border" height="300"> <img data-src="images/book_josuttis.jpg" class="border" height="300"> <img data-src="images/book_gottschling.jpg" class="border" height="300"> <img data-src="images/book_vandevoorde.jpg" class="border" height="300"></p>
-<p><img data-src="images/book_cukic.jpg" class="border" height="300"> <img data-src="images/book_grimm.jpg" class="border" height="300"> <img data-src="images/book_roth.jpg" class="border" height="300"></p>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p><img data-src="images/book_stroustrup.jpg" class="border" width="180" height="250"> <img data-src="images/book_josuttis.jpg" class="border" width="180" height="250"> <img data-src="images/book_gottschling.jpg" class="border" width="180" height="250"> <img data-src="images/book_vandevoorde.jpg" class="border" width="180" height="250"> <img data-src="images/book_cukic.jpg" class="border" width="180" height="250"> <img data-src="images/book_grimm.jpg" class="border" width="180" height="250"></p>
+</div><div class="column" style="width:40%;">
 <ul>
 <li>C++20 ISO Standard: ISO/IEC 14882:2020
 <ul>
-<li>Commercial version ~200 EUR</li>
-<li>https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/n4849.pdf[Free working draft]</li>
+<li>Commercial version ~180 EUR</li>
+<li><a href="https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/n4849.pdf">Free working draft</a></li>
 </ul></li>
 </ul>
+</div>
+</div>
 </section>
 <section id="helpful-links" class="slide level2">
 <h2>Helpful links</h2>
@@ -543,7 +547,9 @@
 </section>
 <section id="ranges-views" class="slide level2">
 <h2>Ranges: views</h2>
+<div class="citation">
 <p>“Views are composable adaptations of ranges where the adaptation happens lazily as the view is iterated.” (Eric Niebler)</p>
+</div>
 <div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">template</span><span class="op">&lt;</span><span class="kw">class</span> D<span class="op">&gt;</span></span>
 <span id="cb4-2"><a href="#cb4-2"></a>  <span class="kw">requires</span> <span class="bu">std::</span>is_class_v<span class="op">&lt;</span>D<span class="op">&gt;</span> <span class="op">&amp;&amp;</span> <span class="bu">std::</span>same_as<span class="op">&lt;</span>D<span class="op">,</span> <span class="bu">std::</span>remove_cv_t<span class="op">&lt;</span>D<span class="op">&gt;&gt;</span></span>
 <span id="cb4-3"><a href="#cb4-3"></a><span class="kw">class</span> view_interface<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -591,10 +597,10 @@
 <span id="cb8-4"><a href="#cb8-4"></a><span class="op">{</span></span>
 <span id="cb8-5"><a href="#cb8-5"></a>    fmt<span class="op">::</span>print<span class="op">(</span><span class="st">"Hello, world!</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
 <span id="cb8-6"><a href="#cb8-6"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="footer">
+
+<aside><div>
 <p><a href="https://gcc.godbolt.org/z/xoTEjdT68">CompilerExplorer</a></p>
-</div>
-</section>
+</div></aside></section>
 <section id="spaceship-operator" class="slide level2">
 <h2>Spaceship operator &lt;=&gt;</h2>
 <ul>
@@ -672,7 +678,7 @@
 </ul></t></li>
 </ul>
 </section>
-<section id="thank-you" class="slide level2">
+<section id="thank-you" class="slide level2 center">
 <h2>Thank you</h2>
 <p>https://bernddoser.github.io/workshop-cpp20</p>
 
