@@ -1,0 +1,70 @@
+---
+title: "The new ISO Standard C++20"
+author: "Bernd Doser"
+date: July 2022
+institute: HITS gGmbH
+format: revealjs
+---
+
+## Who am I?
+
+
+::: {.incremental}
+- Scientific software developer since 15 years
+- PhD in theoretical chemistry
+- Linear scaling electron-electron correlation
+- Tailor-made force fields
+- https://github.com/BrainTwister/BlasBooster[BlasBooster,role=external,window=_blank]
+- https://github.com/HITS-MBM/gromacs-fda[GROMACS-FDA,role=external,window=_blank], https://github.com/HITS-MCM/gromacs-ramd[GROMACS-RAMD,role=external,window=_blank]
+- https://github.com/HITS-AIN/PINK[PINK,role=external,window=_blank]
+- https://emcl-gitlab.iwr.uni-heidelberg.de/hiflow3.org/hiflow3[HiFlow3,role=external,window=_blank]
+:::
+
+
+## Outline
+
+::: {.incremental}
+- Introduction
+- New features of C++20
+  - Modules
+  - Concepts
+  - Coroutines
+  - Ranges
+  - std::format
+  - Spaceship operator `<=>`
+:::
+
+## Code
+
+```{.python code-line-numbers="6-8"}
+import numpy as np
+import matplotlib.pyplot as plt
+
+r = np.arange(0, 2, 0.01)
+theta = 2 * np.pi * r
+fig, ax = plt.subplots(subplot_kw={'projection': 'polar'})
+ax.plot(theta, r)
+ax.set_rticks([0.5, 1, 1.5, 2])
+ax.grid(True)
+plt.show()
+```
+
+## C++ Code
+
+```{.cpp}
+int f1() { return 1; } // A C-like function
+
+int f2(int arg) { return arg; } // Function overloading
+double f2(double arg) { return arg; }
+
+template <typename T> // Function template
+T f3(T arg) { return arg; }
+
+struct F4 { // Functor
+    int operator()() { return 4; }
+};
+
+auto f5 = [] { return 5; }; // Lambda (C++11)
+
+auto f6 = [] (auto arg) { return arg; }; // Generic lambda (C++14)
+```

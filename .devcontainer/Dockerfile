@@ -2,6 +2,10 @@
 
 # [Choice] Debian / Ubuntu version (use Debian 11, Ubuntu 18.04/21.04 on local arm64/Apple Silicon): debian-11, debian-10, ubuntu-21.04, ubuntu-20.04, ubuntu-18.04
 ARG VARIANT="bullseye"
+ARG USERNAME=user
+ARG GROUPNAME=users
+ARG USER_UID=1000
+ARG USER_GID=1000
 
 FROM mcr.microsoft.com/vscode/devcontainers/cpp:0-${VARIANT}
 
@@ -23,5 +27,11 @@ RUN if [ "${REINSTALL_CMAKE_VERSION_FROM_SOURCE}" != "none" ]; then \
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 #     && apt-get -y install --no-install-recommends <your-package-list-here>
 
-RUN useradd --uid 1026 -m user
+RUN wget https://github.com/quarto-dev/quarto-cli/releases/download/v0.9.655/quarto-0.9.655-linux-amd64.deb \
+ && sudo apt install ./quarto-0.9.655-linux-amd64.deb
+
+RUN useradd --uid 1026 -m user \
+ && adduser user sudo \
+ && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
 USER user
