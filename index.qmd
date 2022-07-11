@@ -34,7 +34,7 @@ format:
   - Coroutines
   - Ranges
   - std::format
-  - Spaceship operator <=>
+  - Three-way comparison
 :::
 
 
@@ -44,6 +44,7 @@ Bjarne Stroustrup developed "C with classes", which introduces the class concept
 
 - Strong type system
 - Backward compatibility
+
 
 ## ISO Standardization
 
@@ -75,37 +76,57 @@ Bjarne Stroustrup developed "C with classes", which introduces the class concept
 :::
 
 
-## Helpful links
+## Helpful Links
 
 - [cppreference.com](https://cppreference.com)
 - [CompilerExplorer](https://gcc.godbolt.org)
 - [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines)
 
 
-## New keywords
+## C++20: New Keywords
 
 ::: columns
 ::: {.column width="50%"}
-- concept
-- requires
-- co_await
-- co_return
-- co_yield
+- Concepts
+  - `concept`
+  - `requires`
+
+- Coroutines
+  - `co_await`
+  - `co_return`
+  - `co_yield`
 :::
 
 ::: {.column width="50%"}
-- import
-- module
-- constinit
-- consteval
-- char8_t
+- Modules
+  - `import`
+  - `module`
+
+- Others
+  - `constinit`
+  - `consteval`
+  - `char8_t`
 :::
 :::
 
 
 ## Modules
 
-- Replace header files
+- Problems of the header files
+  - macros leakage in and out from headers
+  - inclusion-order-dependent headers
+  - repetitive compilation of the same code
+  - cyclic dependencies
+  - poor encapsulation of implementation details
+
+```{.cpp}
+export module math;
+
+export int add(int fir, int sec)
+{
+    return fir + sec;
+} 
+```
 
 
 ## Concepts
@@ -145,8 +166,8 @@ auto f6 = [] (auto arg) { return arg; }; // Generic lambda (C++14)
 A function is a coroutine if it contains one of these:
 
 - `co_return` (coroutine return statement)
-- co_await (await expression)
-- co_yield (yield expression)
+- `co_await` (await expression)
+- `co_yield` (yield expression)
 
 - Task
 - Generator
@@ -154,22 +175,25 @@ A function is a coroutine if it contains one of these:
 
 ## Ranges
 
-- Defined in header <ranges>
-
+- A `Range` is a concept, not a new container class 
+- Defined in header `<ranges>`:
 ```{.cpp}
 template< class T >
 concept range = requires( T& t ) {
-  ranges::begin(t); // equality-preserving for forward iterators
-  ranges::end  (t);
+ranges::begin(t); // equality-preserving for forward iterators
+ranges::end  (t);
 };
 ```
+[cppreference](https://en.cppreference.com/w/cpp/ranges/range){.small}
 
-- std::begin(t) instead of t.begin()
+:::{.callout-tip}
+Why `std::begin(t)` instead of `t.begin()`?
+:::
 
 
 ## Ranges: views
 
-::: citation
+:::{.callout-note}
 "Views are composable adaptations of ranges where the adaptation happens lazily as the view is iterated." (Eric Niebler)
 :::
 
@@ -179,7 +203,7 @@ template<class D>
 class view_interface;
 ```
 
-view_interface is typically used with CRTP:
+`view_interface` is typically used with CRTP
 
 ```{.cpp}
 class my_view : public std::ranges::view_interface<my_view> {
@@ -235,20 +259,27 @@ int main()
     fmt::print("Hello, world!\n");
 }
 ```
-
-::: aside
 [CompilerExplorer](https://gcc.godbolt.org/z/xoTEjdT68)
-:::
 
 
-## Spaceship operator <=>
+## Three-way comparison
 
-- Comparing 2 objects
-a > b, a < b, a ## b
+- Comparison operators
+  - `==`, `!=` 
+  - `<`, `>`, `<=`, `>=`
+- Usually `==` and `<` contain the real logic and the others
+
+Example:
+```{.cpp}
+struct Point
+{
+    int x;
+    int y;
+};
+```
 
 ::: notes
-- Write point class with all comparison operators
-- Compile with makefile
+- Write a 2-dim. point class with all comparison operators
 - Write same class with spaceship operator
 :::
 
