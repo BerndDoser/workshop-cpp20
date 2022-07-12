@@ -173,6 +173,35 @@ A function is a coroutine if it contains one of these:
 - Generator
 
 
+## Ranges: The world before (C++11)
+
+```{.cpp}
+#include <algorithm>
+ 
+int main()
+{
+    std::vector<int> data{42, 1, 12, -3, 14, -5};
+    std::vector<int> pos;
+
+    // copy only positive numbers:
+    std::copy_if (data.begin(), data.end(),
+      std::back_inserter(pos), [](int i){return i>=0;} );
+
+    for (auto const& e : pos) std::cout << e << " ";
+    std::cout << std::endl;
+}
+```
+[cppreference std::copy_if](https://en.cppreference.com/w/cpp/algorithm/copy)
+
+```{.cpp}
+template< class InputIt, class OutputIt, class UnaryPredicate >
+OutputIt copy_if( InputIt first, InputIt last,
+                  OutputIt d_first,
+                  UnaryPredicate pred );
+```
+
+[CompilerExplorer](https://gcc.godbolt.org/z/7EMhaWd5q)
+
 ## Ranges
 
 - A `Range` is a concept, not a new container class 
@@ -214,7 +243,7 @@ public:
 ```
 
 
-## Range: pipe
+## Ranges: pipe
 
 ```{.cpp}
 C(B)
