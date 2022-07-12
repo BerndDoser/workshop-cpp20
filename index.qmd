@@ -7,6 +7,7 @@ format:
   revealjs:
     logo: images/HITS_RGB_eng.jpg
     footer: "C++20 (B. Doser)"
+    slide-number: true
 ---
 
 ## Who am I?
