@@ -83,6 +83,73 @@ Bjarne Stroustrup developed "C with classes", which introduces the class concept
 - [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines)
 
 
+## Carbage collection vs. RAII
+
+::: {.callout-note icon=false}
+## Carbage collection (Java, Python, Go)
+
+Automatic memory management, which periodically stops all threads and free unreferenced memory. Extra overhead
+:::
+
+::: {.callout-note icon=false}
+## RAII: Resource Aquisition is Initialization (C++, Rust)
+
+The lifetime of a resource will be bound to the lifetime of a local variable. C++ automatically manages the lifetime of locals.
+Smart pointers ('C++11') overcome the manually memory deallocation.
+
+C++ principle: "Don't pay for something you don't use."
+:::
+
+
+## Smart pointers
+
+::: {.callout-note icon=false}
+## Raw pointer (before C++11)
+
+```{.cpp}
+{
+    Molecule* ptrMolecule = new Molecule("c1ccccc1");
+    calculateEnergy(ptrMolecule);
+    delete molecule;
+}
+```
+- Segmentation faults
+- Memory leaks
+:::
+
+::: {.callout-note icon=false}
+## Smart pointer (C++11)
+
+```{.cpp}
+{
+    std::unique_ptr<Molecule> ptrMolecule(new Molecule("c1ccccc1"));
+    calculateEnergy(ptrMolecule);
+} // ptrMolecule is deleted automatically here.
+```
+:::
+
+
+## Smart pointers
+
+::: {.callout-note icon=false}
+## `std::unique_ptr<T>`
+- Allows exactly one owner of the underlying pointer
+- Can be moved to a new owner, but not copied or shared
+:::
+
+::: {.callout-note icon=false}
+## `std::shared_ptr<T>`
+- Reference-counted smart pointer
+- The raw pointer is not deleted until all owners have gone out of scope
+:::
+
+::: {.callout-note icon=false}
+## `std::weak_ptr<T>`
+- Special-case smart pointer for use in conjunction with `shared_ptr`
+- Required to break circular references between `shared_ptr`
+:::
+
+
 ## C++20: New Keywords
 
 ::: columns
@@ -161,6 +228,7 @@ auto f5 = [] { return 5; }; // Lambda (C++11)
 auto f6 = [] (auto arg) { return arg; }; // Generic lambda (C++14)
 ```
 
+
 ## Coroutines
 
 A function is a coroutine if it contains one of these:
@@ -173,7 +241,7 @@ A function is a coroutine if it contains one of these:
 - Generator
 
 
-## Ranges: The world before (C++11)
+## The world before ranges (C++11)
 
 ```{.cpp}
 #include <algorithm>
@@ -184,17 +252,14 @@ int main()
     std::vector<int> pos;
 
     // copy only positive numbers:
-    std::copy_if (data.begin(), data.end(),
-      std::back_inserter(pos), [](int i){return i>=0;} );
-
-    for (auto const& e : pos) std::cout << e << " ";
-    std::cout << std::endl;
+    std::copy_if(data.begin(), data.end(),
+      std::back_inserter(pos), [](int i){return i >= 0;} );
 }
 ```
 [cppreference std::copy_if](https://en.cppreference.com/w/cpp/algorithm/copy)
 
 ```{.cpp}
-template< class InputIt, class OutputIt, class UnaryPredicate >
+template <class InputIt, class OutputIt, class UnaryPredicate>
 OutputIt copy_if( InputIt first, InputIt last,
                   OutputIt d_first,
                   UnaryPredicate pred );
@@ -202,20 +267,50 @@ OutputIt copy_if( InputIt first, InputIt last,
 
 [CompilerExplorer](https://gcc.godbolt.org/z/7EMhaWd5q)
 
-## Ranges
 
-- A `Range` is a concept, not a new container class 
+## Ranges: What we want
+
+- Direct usage of containers without iterators (pointers)
+- Chaining like unix pipes
+- Lazy evaluation
+
+::: {.callout}
+`result = data | func1 | func2 | ...`
+:::
+
+## Ranges: filter
+
+```{.cpp}
+#include <ranges>
+#include <vector>
+ 
+int main()
+{
+    std::vector<int> data{42, 1, 12, -3, 14, -5};
+    auto even = [](int i){return i >= 0;};
+
+    auto pos = data | std::views::filter(even);
+}
+```
+[CompilerExplorer](https://gcc.godbolt.org/z/T5W6K46Gb)
+
+
+## Ranges: How it works
+
+- A `range` is a concept, not a container
 - Defined in header `<ranges>`:
 ```{.cpp}
-template< class T >
+template < class T >
 concept range = requires( T& t ) {
-ranges::begin(t); // equality-preserving for forward iterators
-ranges::end  (t);
+  ranges::begin(t);
+  ranges::end(t);
 };
 ```
-[cppreference](https://en.cppreference.com/w/cpp/ranges/range){.small}
+::: {.smaller}
+[cppreference std::ranges](https://en.cppreference.com/w/cpp/ranges/range)
+:::
 
-:::{.callout-tip}
+:::{.callout-note}
 Why `std::begin(t)` instead of `t.begin()`?
 :::
 
@@ -313,59 +408,36 @@ struct Point
 :::
 
 
-## Carbage collection vs. RAII
-
-- Carbage collection (Java, Python, Go)
-
-Automatic memory management, which periodically stops all threads and free unreferenced memory. Extra overhead
-
-TIP: C++ principle: "Don't pay for something you don't use."
-
-- RAII: Resource Aquisition is Initialization (C++, Rust)
-
-The lifetime of a resource will be bound to the lifetime of a local variable. C++ automatically manages the lifetime of locals.
-Smart pointers ('C++11') overcome the manually memory deallocation.
-
-
-## Smart pointers
-
-- Raw pointer (before C++11)
+## Three-way comparison
 
 ```{.cpp}
+struct Point
 {
-    Molecule- ptrMolecule = new Molecule("c1ccccc1");
-    calculateEnergy(ptrMolecule);
-    delete molecule;
-}
+    int x,y;
+
+    frind bool operator == (const Point& a, const Point& b) {
+      return a.x == b.x and a.y == b.y; }
+    frind bool operator <  (const Point& a, const Point& b) {
+      return a.x < b.x or (a.x == b.x and a.y < b.y); }
+    frind bool operator != (const Point& a, const Point& b) {
+      return !(a==b); }
+    frind bool operator <= (const Point& a, const Point& b) {
+      return !(b<a); }
+    frind bool operator >  (const Point& a, const Point& b) {
+      return b<a; }
+    frind bool operator >= (const Point& a, const Point& b) {
+      return !(a<b); }
+};
 ```
-- Segmentation fault if ptrMolecule is deleted within calculateEnergy.
-
-- Smart pointer (C++11)
-
-```{.cpp}
-{
-    std::unique_ptr<Molecule> ptrMolecule(new Molecule("c1ccccc1"));
-    calculateEnergy(ptrMolecule);
-} // ptrMolecule is deleted automatically here.
-```
-- Copy of raw pointer not defined, only construction.
-
-
-## Smart pointers
-
-- std::unique_ptr<T>
-  - Allows exactly one owner of the underlying pointer
-  - Can be moved to a new owner, but not copied or shared
-
-- std::shared_ptr<T>
-  - Reference-counted smart pointer
-  - The raw pointer is not deleted until all owners have gone out of scope
-
-- std::weak_ptr<T>
-  - Special-case smart pointer for use in conjunction with shared_ptr
-  - Required to break circular references between shared_ptr
 
 
 ## Thank you {.center}
 
 https://bernddoser.github.io/workshop-cpp20
+
+
+## TODO
+
+- ISO timeline
+- Feature papers
+- Programming paradigms

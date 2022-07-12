@@ -465,6 +465,106 @@
 <li><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines">C++ Core Guidelines</a></li>
 </ul>
 </section>
+<section id="carbage-collection-vs.-raii" class="slide level2">
+<h2>Carbage collection vs.&nbsp;RAII</h2>
+<div class="callout callout-note no-icon callout-captioned callout-style-default">
+<div class="callout-body">
+<div class="callout-caption">
+<p><strong>Carbage collection (Java, Python, Go)</strong></p>
+</div>
+<div class="callout-content">
+<p>Automatic memory management, which periodically stops all threads and free unreferenced memory. Extra overhead</p>
+</div>
+</div>
+</div>
+<div class="callout callout-note no-icon callout-captioned callout-style-default">
+<div class="callout-body">
+<div class="callout-caption">
+<p><strong>RAII: Resource Aquisition is Initialization (C++, Rust)</strong></p>
+</div>
+<div class="callout-content">
+<p>The lifetime of a resource will be bound to the lifetime of a local variable. C++ automatically manages the lifetime of locals. Smart pointers (‘C++11’) overcome the manually memory deallocation.</p>
+<p>C++ principle: “Don’t pay for something you don’t use.”</p>
+</div>
+</div>
+</div>
+</section>
+<section id="smart-pointers" class="slide level2">
+<h2>Smart pointers</h2>
+<div class="callout callout-note no-icon callout-captioned callout-style-default">
+<div class="callout-body">
+<div class="callout-caption">
+<p><strong>Raw pointer (before C++11)</strong></p>
+</div>
+<div class="callout-content">
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a>    Molecule<span class="op">*</span> ptrMolecule <span class="op">=</span> <span class="kw">new</span> Molecule<span class="op">(</span><span class="st">"c1ccccc1"</span><span class="op">);</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a>    calculateEnergy<span class="op">(</span>ptrMolecule<span class="op">);</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a>    <span class="kw">delete</span> molecule<span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Segmentation faults</li>
+<li>Memory leaks</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-note no-icon callout-captioned callout-style-default">
+<div class="callout-body">
+<div class="callout-caption">
+<p><strong>Smart pointer (C++11)</strong></p>
+</div>
+<div class="callout-content">
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1"></a><span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>    <span class="bu">std::</span>unique_ptr<span class="op">&lt;</span>Molecule<span class="op">&gt;</span> ptrMolecule<span class="op">(</span><span class="kw">new</span> Molecule<span class="op">(</span><span class="st">"c1ccccc1"</span><span class="op">));</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a>    calculateEnergy<span class="op">(</span>ptrMolecule<span class="op">);</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="op">}</span> <span class="co">// ptrMolecule is deleted automatically here.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="smart-pointers-1" class="slide level2">
+<h2>Smart pointers</h2>
+<div class="callout callout-note no-icon callout-captioned callout-style-default">
+<div class="callout-body">
+<div class="callout-caption">
+<p><strong><code>std::unique_ptr&lt;T&gt;</code></strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Allows exactly one owner of the underlying pointer</li>
+<li>Can be moved to a new owner, but not copied or shared</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-note no-icon callout-captioned callout-style-default">
+<div class="callout-body">
+<div class="callout-caption">
+<p><strong><code>std::shared_ptr&lt;T&gt;</code></strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Reference-counted smart pointer</li>
+<li>The raw pointer is not deleted until all owners have gone out of scope</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-note no-icon callout-captioned callout-style-default">
+<div class="callout-body">
+<div class="callout-caption">
+<p><strong><code>std::weak_ptr&lt;T&gt;</code></strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Special-case smart pointer for use in conjunction with <code>shared_ptr</code></li>
+<li>Required to break circular references between <code>shared_ptr</code></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
 <section id="c20-new-keywords" class="slide level2">
 <h2>C++20: New Keywords</h2>
 <div class="columns">
@@ -511,39 +611,39 @@
 <li>poor encapsulation of implementation details</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">export</span> <span class="kw">module</span> math<span class="op">;</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">export</span> <span class="dt">int</span> add<span class="op">(</span><span class="dt">int</span> fir<span class="op">,</span> <span class="dt">int</span> sec<span class="op">)</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="op">{</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a>    <span class="cf">return</span> fir <span class="op">+</span> sec<span class="op">;</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="op">}</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">export</span> <span class="kw">module</span> math<span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="kw">export</span> <span class="dt">int</span> add<span class="op">(</span><span class="dt">int</span> fir<span class="op">,</span> <span class="dt">int</span> sec<span class="op">)</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="op">{</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a>    <span class="cf">return</span> fir <span class="op">+</span> sec<span class="op">;</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="op">}</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="concepts" class="slide level2">
 <h2>Concepts</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">// C++11/14, SFINAE (sub)</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">template</span> <span class="op">&lt;</span><span class="kw">typename</span> T<span class="op">&gt;</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="bu">std::</span>enable_if_t<span class="op">&lt;</span><span class="bu">std::</span>is_same_v<span class="op">&lt;</span>T<span class="op">,</span> <span class="dt">int</span><span class="op">&gt;&gt;</span> f<span class="op">(</span>T x<span class="op">);</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a> </span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="co">// C++20: concepts</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="dt">void</span> f<span class="op">(</span><span class="bu">std::</span>same_as<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> <span class="kw">auto</span> x<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1"></a><span class="co">// C++11/14, SFINAE (sub)</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="kw">template</span> <span class="op">&lt;</span><span class="kw">typename</span> T<span class="op">&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="bu">std::</span>enable_if_t<span class="op">&lt;</span><span class="bu">std::</span>is_same_v<span class="op">&lt;</span>T<span class="op">,</span> <span class="dt">int</span><span class="op">&gt;&gt;</span> f<span class="op">(</span>T x<span class="op">);</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a> </span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="co">// C++20: concepts</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="dt">void</span> f<span class="op">(</span><span class="bu">std::</span>same_as<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> <span class="kw">auto</span> x<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="evolution-of-functions" class="slide level2">
 <h2>Evolution of Functions</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1"></a><span class="dt">int</span> f1<span class="op">()</span> <span class="op">{</span> <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span> <span class="op">}</span> <span class="co">// A C-like function</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="dt">int</span> f2<span class="op">(</span><span class="dt">int</span> arg<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> arg<span class="op">;</span> <span class="op">}</span> <span class="co">// Function overloading</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="dt">double</span> f2<span class="op">(</span><span class="dt">double</span> arg<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> arg<span class="op">;</span> <span class="op">}</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a></span>
-<span id="cb3-6"><a href="#cb3-6"></a><span class="kw">template</span> <span class="op">&lt;</span><span class="kw">typename</span> T<span class="op">&gt;</span> <span class="co">// Function template</span></span>
-<span id="cb3-7"><a href="#cb3-7"></a>T f3<span class="op">(</span>T arg<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> arg<span class="op">;</span> <span class="op">}</span></span>
-<span id="cb3-8"><a href="#cb3-8"></a></span>
-<span id="cb3-9"><a href="#cb3-9"></a><span class="kw">struct</span> F4 <span class="op">{</span> <span class="co">// Functor</span></span>
-<span id="cb3-10"><a href="#cb3-10"></a>    <span class="dt">int</span> <span class="kw">operator</span><span class="op">()()</span> <span class="op">{</span> <span class="cf">return</span> <span class="dv">4</span><span class="op">;</span> <span class="op">}</span></span>
-<span id="cb3-11"><a href="#cb3-11"></a><span class="op">};</span></span>
-<span id="cb3-12"><a href="#cb3-12"></a></span>
-<span id="cb3-13"><a href="#cb3-13"></a><span class="kw">auto</span> f5 <span class="op">=</span> <span class="op">[]</span> <span class="op">{</span> <span class="cf">return</span> <span class="dv">5</span><span class="op">;</span> <span class="op">};</span> <span class="co">// Lambda (C++11)</span></span>
-<span id="cb3-14"><a href="#cb3-14"></a></span>
-<span id="cb3-15"><a href="#cb3-15"></a><span class="kw">auto</span> f6 <span class="op">=</span> <span class="op">[]</span> <span class="op">(</span><span class="kw">auto</span> arg<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> arg<span class="op">;</span> <span class="op">};</span> <span class="co">// Generic lambda (C++14)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href="#cb5-1"></a><span class="dt">int</span> f1<span class="op">()</span> <span class="op">{</span> <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span> <span class="op">}</span> <span class="co">// A C-like function</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="dt">int</span> f2<span class="op">(</span><span class="dt">int</span> arg<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> arg<span class="op">;</span> <span class="op">}</span> <span class="co">// Function overloading</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="dt">double</span> f2<span class="op">(</span><span class="dt">double</span> arg<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> arg<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="kw">template</span> <span class="op">&lt;</span><span class="kw">typename</span> T<span class="op">&gt;</span> <span class="co">// Function template</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a>T f3<span class="op">(</span>T arg<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> arg<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="kw">struct</span> F4 <span class="op">{</span> <span class="co">// Functor</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a>    <span class="dt">int</span> <span class="kw">operator</span><span class="op">()()</span> <span class="op">{</span> <span class="cf">return</span> <span class="dv">4</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb5-11"><a href="#cb5-11"></a><span class="op">};</span></span>
+<span id="cb5-12"><a href="#cb5-12"></a></span>
+<span id="cb5-13"><a href="#cb5-13"></a><span class="kw">auto</span> f5 <span class="op">=</span> <span class="op">[]</span> <span class="op">{</span> <span class="cf">return</span> <span class="dv">5</span><span class="op">;</span> <span class="op">};</span> <span class="co">// Lambda (C++11)</span></span>
+<span id="cb5-14"><a href="#cb5-14"></a></span>
+<span id="cb5-15"><a href="#cb5-15"></a><span class="kw">auto</span> f6 <span class="op">=</span> <span class="op">[]</span> <span class="op">(</span><span class="kw">auto</span> arg<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> arg<span class="op">;</span> <span class="op">};</span> <span class="co">// Generic lambda (C++14)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="coroutines" class="slide level2">
 <h2>Coroutines</h2>
@@ -556,48 +656,76 @@
 <li><p>Generator</p></li>
 </ul>
 </section>
-<section id="ranges-the-world-before-c11" class="slide level2">
-<h2>Ranges: The world before (C++11)</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1"></a><span class="pp">#include </span><span class="im">&lt;algorithm&gt;</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a> </span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="dt">int</span> main<span class="op">()</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="op">{</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a>    <span class="bu">std::</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> data<span class="op">{</span><span class="dv">42</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">12</span><span class="op">,</span> <span class="op">-</span><span class="dv">3</span><span class="op">,</span> <span class="dv">14</span><span class="op">,</span> <span class="op">-</span><span class="dv">5</span><span class="op">};</span></span>
-<span id="cb4-6"><a href="#cb4-6"></a>    <span class="bu">std::</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> pos<span class="op">;</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a></span>
-<span id="cb4-8"><a href="#cb4-8"></a>    <span class="co">// copy only positive numbers:</span></span>
-<span id="cb4-9"><a href="#cb4-9"></a>    <span class="bu">std::</span>copy_if<span class="op"> (</span>data<span class="op">.</span>begin<span class="op">(),</span> data<span class="op">.</span>end<span class="op">(),</span></span>
-<span id="cb4-10"><a href="#cb4-10"></a>      <span class="bu">std::</span>back_inserter<span class="op">(</span>pos<span class="op">),</span> <span class="op">[](</span><span class="dt">int</span> i<span class="op">){</span><span class="cf">return</span> i<span class="op">&gt;=</span><span class="dv">0</span><span class="op">;}</span> <span class="op">);</span></span>
-<span id="cb4-11"><a href="#cb4-11"></a></span>
-<span id="cb4-12"><a href="#cb4-12"></a>    <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> <span class="at">const</span><span class="op">&amp;</span> e <span class="op">:</span> pos<span class="op">)</span> <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> e <span class="op">&lt;&lt;</span> <span class="st">" "</span><span class="op">;</span></span>
-<span id="cb4-13"><a href="#cb4-13"></a>    <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> <span class="bu">std::</span>endl<span class="op">;</span></span>
-<span id="cb4-14"><a href="#cb4-14"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="the-world-before-ranges-c11" class="slide level2">
+<h2>The world before ranges (C++11)</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href="#cb6-1"></a><span class="pp">#include </span><span class="im">&lt;algorithm&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a> </span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="op">{</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a>    <span class="bu">std::</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> data<span class="op">{</span><span class="dv">42</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">12</span><span class="op">,</span> <span class="op">-</span><span class="dv">3</span><span class="op">,</span> <span class="dv">14</span><span class="op">,</span> <span class="op">-</span><span class="dv">5</span><span class="op">};</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a>    <span class="bu">std::</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> pos<span class="op">;</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a></span>
+<span id="cb6-8"><a href="#cb6-8"></a>    <span class="co">// copy only positive numbers:</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a>    <span class="bu">std::</span>copy_if<span class="op">(</span>data<span class="op">.</span>begin<span class="op">(),</span> data<span class="op">.</span>end<span class="op">(),</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a>      <span class="bu">std::</span>back_inserter<span class="op">(</span>pos<span class="op">),</span> <span class="op">[](</span><span class="dt">int</span> i<span class="op">){</span><span class="cf">return</span> i <span class="op">&gt;=</span> <span class="dv">0</span><span class="op">;}</span> <span class="op">);</span></span>
+<span id="cb6-11"><a href="#cb6-11"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><a href="https://en.cppreference.com/w/cpp/algorithm/copy">cppreference std::copy_if</a></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">template</span><span class="op">&lt;</span> <span class="kw">class</span> InputIt<span class="op">,</span> <span class="kw">class</span> OutputIt<span class="op">,</span> <span class="kw">class</span> UnaryPredicate <span class="op">&gt;</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a>OutputIt copy_if<span class="op">(</span> InputIt first<span class="op">,</span> InputIt last<span class="op">,</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a>                  OutputIt d_first<span class="op">,</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a>                  UnaryPredicate pred <span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">template</span> <span class="op">&lt;</span><span class="kw">class</span> InputIt<span class="op">,</span> <span class="kw">class</span> OutputIt<span class="op">,</span> <span class="kw">class</span> UnaryPredicate<span class="op">&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>OutputIt copy_if<span class="op">(</span> InputIt first<span class="op">,</span> InputIt last<span class="op">,</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a>                  OutputIt d_first<span class="op">,</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a>                  UnaryPredicate pred <span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><a href="https://gcc.godbolt.org/z/7EMhaWd5q">CompilerExplorer</a></p>
 </section>
-<section id="ranges" class="slide level2">
-<h2>Ranges</h2>
+<section id="ranges-what-we-want" class="slide level2">
+<h2>Ranges: What we want</h2>
 <ul>
-<li>A <code>Range</code> is a concept, not a new container class</li>
+<li>Direct usage of containers without iterators (pointers)</li>
+<li>Chaining like unix pipes</li>
+<li>Lazy evaluation</li>
+</ul>
+<div class="callout callout-none no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p><code>result = data | func1 | func2 | ...</code></p>
+</div>
+</div>
+</div>
+</section>
+<section id="ranges-filter" class="slide level2">
+<h2>Ranges: filter</h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href="#cb8-1"></a><span class="pp">#include </span><span class="im">&lt;ranges&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a> </span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="op">{</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a>    <span class="bu">std::</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> data<span class="op">{</span><span class="dv">42</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">12</span><span class="op">,</span> <span class="op">-</span><span class="dv">3</span><span class="op">,</span> <span class="dv">14</span><span class="op">,</span> <span class="op">-</span><span class="dv">5</span><span class="op">};</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a>    <span class="kw">auto</span> even <span class="op">=</span> <span class="op">[](</span><span class="dt">int</span> i<span class="op">){</span><span class="cf">return</span> i <span class="op">&gt;=</span> <span class="dv">0</span><span class="op">;};</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a></span>
+<span id="cb8-9"><a href="#cb8-9"></a>    <span class="kw">auto</span> pos <span class="op">=</span> data <span class="op">|</span> <span class="bu">std::</span>views<span class="bu">::</span>filter<span class="op">(</span>even<span class="op">);</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><a href="https://gcc.godbolt.org/z/T5W6K46Gb">CompilerExplorer</a></p>
+</section>
+<section id="ranges-how-it-works" class="slide level2">
+<h2>Ranges: How it works</h2>
+<ul>
+<li>A <code>range</code> is a concept, not a container</li>
 <li>Defined in header <code>&lt;ranges&gt;</code>:</li>
 </ul>
-<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">template</span><span class="op">&lt;</span> <span class="kw">class</span> T <span class="op">&gt;</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="kw">concept</span> range <span class="op">=</span> <span class="kw">requires</span><span class="op">(</span> T<span class="op">&amp;</span> t <span class="op">)</span> <span class="op">{</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a>ranges<span class="op">::</span>begin<span class="op">(</span>t<span class="op">);</span> <span class="co">// equality-preserving for forward iterators</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a>ranges<span class="op">::</span>end  <span class="op">(</span>t<span class="op">);</span></span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><a href="https://en.cppreference.com/w/cpp/ranges/range" class="small">cppreference</a></p>
-<div class="callout callout-tip callout-captioned callout-style-default">
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">template</span> <span class="op">&lt;</span> <span class="kw">class</span> T <span class="op">&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="kw">concept</span> range <span class="op">=</span> <span class="kw">requires</span><span class="op">(</span> T<span class="op">&amp;</span> t <span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a>  ranges<span class="op">::</span>begin<span class="op">(</span>t<span class="op">);</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a>  ranges<span class="op">::</span>end<span class="op">(</span>t<span class="op">);</span></span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="smaller">
+<p><a href="https://en.cppreference.com/w/cpp/ranges/range">cppreference std::ranges</a></p>
+</div>
+<div class="callout callout-note callout-captioned callout-style-default">
 <div class="callout-body">
 <div class="callout-caption">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Tip</strong></p>
+<p><strong>Note</strong></p>
 </div>
 <div class="callout-content">
 <p>Why <code>std::begin(t)</code> instead of <code>t.begin()</code>?</p>
@@ -620,53 +748,53 @@
 </div>
 </div>
 </div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">template</span><span class="op">&lt;</span><span class="kw">class</span> D<span class="op">&gt;</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a>  <span class="kw">requires</span> <span class="bu">std::</span>is_class_v<span class="op">&lt;</span>D<span class="op">&gt;</span> <span class="op">&amp;&amp;</span> <span class="bu">std::</span>same_as<span class="op">&lt;</span>D<span class="op">,</span> <span class="bu">std::</span>remove_cv_t<span class="op">&lt;</span>D<span class="op">&gt;&gt;</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="kw">class</span> view_interface<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">template</span><span class="op">&lt;</span><span class="kw">class</span> D<span class="op">&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a>  <span class="kw">requires</span> <span class="bu">std::</span>is_class_v<span class="op">&lt;</span>D<span class="op">&gt;</span> <span class="op">&amp;&amp;</span> <span class="bu">std::</span>same_as<span class="op">&lt;</span>D<span class="op">,</span> <span class="bu">std::</span>remove_cv_t<span class="op">&lt;</span>D<span class="op">&gt;&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="kw">class</span> view_interface<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>view_interface</code> is typically used with CRTP</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">class</span> my_view <span class="op">:</span> <span class="kw">public</span> <span class="bu">std::</span>ranges<span class="bu">::</span>view_interface<span class="op">&lt;</span>my_view<span class="op">&gt;</span> <span class="op">{</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="kw">public</span><span class="op">:</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a>    <span class="kw">auto</span> begin<span class="op">()</span> <span class="at">const</span> <span class="op">{</span> <span class="co">/*...*/</span> <span class="op">}</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a>    <span class="kw">auto</span> end<span class="op">()</span> <span class="at">const</span> <span class="op">{</span> <span class="co">/*...*/</span> <span class="op">}</span></span>
-<span id="cb8-5"><a href="#cb8-5"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">class</span> my_view <span class="op">:</span> <span class="kw">public</span> <span class="bu">std::</span>ranges<span class="bu">::</span>view_interface<span class="op">&lt;</span>my_view<span class="op">&gt;</span> <span class="op">{</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a>    <span class="kw">auto</span> begin<span class="op">()</span> <span class="at">const</span> <span class="op">{</span> <span class="co">/*...*/</span> <span class="op">}</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a>    <span class="kw">auto</span> end<span class="op">()</span> <span class="at">const</span> <span class="op">{</span> <span class="co">/*...*/</span> <span class="op">}</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="range-pipe" class="slide level2">
-<h2>Range: pipe</h2>
-<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href="#cb9-1"></a>C<span class="op">(</span>B<span class="op">)</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a>B <span class="op">|</span> C</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="ranges-pipe" class="slide level2">
+<h2>Ranges: pipe</h2>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href="#cb12-1"></a>C<span class="op">(</span>B<span class="op">)</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a>B <span class="op">|</span> C</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="ranges-filter-and-transform" class="slide level2">
 <h2>Ranges: filter and transform</h2>
-<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href="#cb10-1"></a><span class="pp">#include </span><span class="im">&lt;ranges&gt;</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb10-3"><a href="#cb10-3"></a> </span>
-<span id="cb10-4"><a href="#cb10-4"></a><span class="dt">int</span> main<span class="op">()</span></span>
-<span id="cb10-5"><a href="#cb10-5"></a><span class="op">{</span></span>
-<span id="cb10-6"><a href="#cb10-6"></a>    <span class="kw">auto</span> <span class="at">const</span> ints <span class="op">=</span> <span class="op">{</span><span class="dv">0</span><span class="op">,</span><span class="dv">1</span><span class="op">,</span><span class="dv">2</span><span class="op">,</span><span class="dv">3</span><span class="op">,</span><span class="dv">4</span><span class="op">,</span><span class="dv">5</span><span class="op">};</span></span>
-<span id="cb10-7"><a href="#cb10-7"></a>    <span class="kw">auto</span> even <span class="op">=</span> <span class="op">[](</span><span class="dt">int</span> i<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> <span class="dv">0</span> <span class="er">## i % 2; };</span></span>
-<span id="cb10-8"><a href="#cb10-8"></a>    <span class="kw">auto</span> square <span class="op">=</span> <span class="op">[](</span><span class="dt">int</span> i<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> i <span class="op">-</span> i<span class="op">;</span> <span class="op">};</span></span>
-<span id="cb10-9"><a href="#cb10-9"></a> </span>
-<span id="cb10-10"><a href="#cb10-10"></a>    <span class="co">// "pipe" syntax of composing the views:</span></span>
-<span id="cb10-11"><a href="#cb10-11"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">:</span> ints <span class="op">|</span> <span class="bu">std::</span>views<span class="bu">::</span>filter<span class="op">(</span>even<span class="op">)</span> <span class="op">|</span> <span class="bu">std::</span>views<span class="bu">::</span>transform<span class="op">(</span>square<span class="op">))</span> <span class="op">{</span></span>
-<span id="cb10-12"><a href="#cb10-12"></a>        <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> i <span class="op">&lt;&lt;</span> <span class="ch">' '</span><span class="op">;</span></span>
-<span id="cb10-13"><a href="#cb10-13"></a>    <span class="op">}</span></span>
-<span id="cb10-14"><a href="#cb10-14"></a> </span>
-<span id="cb10-15"><a href="#cb10-15"></a>    <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">;</span></span>
-<span id="cb10-16"><a href="#cb10-16"></a> </span>
-<span id="cb10-17"><a href="#cb10-17"></a>    <span class="co">// a traditional "functional" composing syntax:</span></span>
-<span id="cb10-18"><a href="#cb10-18"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">:</span> <span class="bu">std::</span>views<span class="bu">::</span>transform<span class="op">(</span><span class="bu">std::</span>views<span class="bu">::</span>filter<span class="op">(</span>ints<span class="op">,</span> even<span class="op">),</span> square<span class="op">))</span> <span class="op">{</span></span>
-<span id="cb10-19"><a href="#cb10-19"></a>        <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> i <span class="op">&lt;&lt;</span> <span class="ch">' '</span><span class="op">;</span></span>
-<span id="cb10-20"><a href="#cb10-20"></a>    <span class="op">}</span></span>
-<span id="cb10-21"><a href="#cb10-21"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href="#cb13-1"></a><span class="pp">#include </span><span class="im">&lt;ranges&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a> </span>
+<span id="cb13-4"><a href="#cb13-4"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb13-5"><a href="#cb13-5"></a><span class="op">{</span></span>
+<span id="cb13-6"><a href="#cb13-6"></a>    <span class="kw">auto</span> <span class="at">const</span> ints <span class="op">=</span> <span class="op">{</span><span class="dv">0</span><span class="op">,</span><span class="dv">1</span><span class="op">,</span><span class="dv">2</span><span class="op">,</span><span class="dv">3</span><span class="op">,</span><span class="dv">4</span><span class="op">,</span><span class="dv">5</span><span class="op">};</span></span>
+<span id="cb13-7"><a href="#cb13-7"></a>    <span class="kw">auto</span> even <span class="op">=</span> <span class="op">[](</span><span class="dt">int</span> i<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> <span class="dv">0</span> <span class="er">## i % 2; };</span></span>
+<span id="cb13-8"><a href="#cb13-8"></a>    <span class="kw">auto</span> square <span class="op">=</span> <span class="op">[](</span><span class="dt">int</span> i<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> i <span class="op">-</span> i<span class="op">;</span> <span class="op">};</span></span>
+<span id="cb13-9"><a href="#cb13-9"></a> </span>
+<span id="cb13-10"><a href="#cb13-10"></a>    <span class="co">// "pipe" syntax of composing the views:</span></span>
+<span id="cb13-11"><a href="#cb13-11"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">:</span> ints <span class="op">|</span> <span class="bu">std::</span>views<span class="bu">::</span>filter<span class="op">(</span>even<span class="op">)</span> <span class="op">|</span> <span class="bu">std::</span>views<span class="bu">::</span>transform<span class="op">(</span>square<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb13-12"><a href="#cb13-12"></a>        <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> i <span class="op">&lt;&lt;</span> <span class="ch">' '</span><span class="op">;</span></span>
+<span id="cb13-13"><a href="#cb13-13"></a>    <span class="op">}</span></span>
+<span id="cb13-14"><a href="#cb13-14"></a> </span>
+<span id="cb13-15"><a href="#cb13-15"></a>    <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> <span class="ch">'</span><span class="sc">\n</span><span class="ch">'</span><span class="op">;</span></span>
+<span id="cb13-16"><a href="#cb13-16"></a> </span>
+<span id="cb13-17"><a href="#cb13-17"></a>    <span class="co">// a traditional "functional" composing syntax:</span></span>
+<span id="cb13-18"><a href="#cb13-18"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">:</span> <span class="bu">std::</span>views<span class="bu">::</span>transform<span class="op">(</span><span class="bu">std::</span>views<span class="bu">::</span>filter<span class="op">(</span>ints<span class="op">,</span> even<span class="op">),</span> square<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb13-19"><a href="#cb13-19"></a>        <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> i <span class="op">&lt;&lt;</span> <span class="ch">' '</span><span class="op">;</span></span>
+<span id="cb13-20"><a href="#cb13-20"></a>    <span class="op">}</span></span>
+<span id="cb13-21"><a href="#cb13-21"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="stdformat" class="slide level2">
 <h2>std::format</h2>
-<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href="#cb11-1"></a><span class="pp">#include </span><span class="im">&lt;fmt/core.h&gt;</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a></span>
-<span id="cb11-3"><a href="#cb11-3"></a><span class="dt">int</span> main<span class="op">()</span></span>
-<span id="cb11-4"><a href="#cb11-4"></a><span class="op">{</span></span>
-<span id="cb11-5"><a href="#cb11-5"></a>    fmt<span class="op">::</span>print<span class="op">(</span><span class="st">"Hello, world!</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
-<span id="cb11-6"><a href="#cb11-6"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href="#cb14-1"></a><span class="pp">#include </span><span class="im">&lt;fmt/core.h&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a></span>
+<span id="cb14-3"><a href="#cb14-3"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a><span class="op">{</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a>    fmt<span class="op">::</span>print<span class="op">(</span><span class="st">"Hello, world!</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
+<span id="cb14-6"><a href="#cb14-6"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><a href="https://gcc.godbolt.org/z/xoTEjdT68">CompilerExplorer</a></p>
 </section>
 <section id="three-way-comparison" class="slide level2">
@@ -680,11 +808,11 @@
 <li>Usually <code>==</code> and <code>&lt;</code> contain the real logic and the others</li>
 </ul>
 <p>Example:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">struct</span> Point</span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="op">{</span></span>
-<span id="cb12-3"><a href="#cb12-3"></a>    <span class="dt">int</span> x<span class="op">;</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a>    <span class="dt">int</span> y<span class="op">;</span></span>
-<span id="cb12-5"><a href="#cb12-5"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">struct</span> Point</span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="op">{</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a>    <span class="dt">int</span> x<span class="op">;</span></span>
+<span id="cb15-4"><a href="#cb15-4"></a>    <span class="dt">int</span> y<span class="op">;</span></span>
+<span id="cb15-5"><a href="#cb15-5"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <aside class="notes">
 <ul>
 <li>Write a 2-dim. point class with all comparison operators</li>
@@ -702,63 +830,37 @@
           display:block!important;
       }</style></aside>
 </section>
-<section id="carbage-collection-vs.-raii" class="slide level2">
-<h2>Carbage collection vs.&nbsp;RAII</h2>
-<ul>
-<li>Carbage collection (Java, Python, Go)</li>
-</ul>
-<p>Automatic memory management, which periodically stops all threads and free unreferenced memory. Extra overhead</p>
-<p>TIP: C++ principle: “Don’t pay for something you don’t use.”</p>
-<ul>
-<li>RAII: Resource Aquisition is Initialization (C++, Rust)</li>
-</ul>
-<p>The lifetime of a resource will be bound to the lifetime of a local variable. C++ automatically manages the lifetime of locals. Smart pointers (‘C++11’) overcome the manually memory deallocation.</p>
-</section>
-<section id="smart-pointers" class="slide level2">
-<h2>Smart pointers</h2>
-<ul>
-<li>Raw pointer (before C++11)</li>
-</ul>
-<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href="#cb13-1"></a><span class="op">{</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a>    Molecule<span class="op">-</span> ptrMolecule <span class="op">=</span> <span class="kw">new</span> Molecule<span class="op">(</span><span class="st">"c1ccccc1"</span><span class="op">);</span></span>
-<span id="cb13-3"><a href="#cb13-3"></a>    calculateEnergy<span class="op">(</span>ptrMolecule<span class="op">);</span></span>
-<span id="cb13-4"><a href="#cb13-4"></a>    <span class="kw">delete</span> molecule<span class="op">;</span></span>
-<span id="cb13-5"><a href="#cb13-5"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ul>
-<li><p>Segmentation fault if ptrMolecule is deleted within calculateEnergy.</p></li>
-<li><p>Smart pointer (C++11)</p></li>
-</ul>
-<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb14-1"><a href="#cb14-1"></a><span class="op">{</span></span>
-<span id="cb14-2"><a href="#cb14-2"></a>    <span class="bu">std::</span>unique_ptr<span class="op">&lt;</span>Molecule<span class="op">&gt;</span> ptrMolecule<span class="op">(</span><span class="kw">new</span> Molecule<span class="op">(</span><span class="st">"c1ccccc1"</span><span class="op">));</span></span>
-<span id="cb14-3"><a href="#cb14-3"></a>    calculateEnergy<span class="op">(</span>ptrMolecule<span class="op">);</span></span>
-<span id="cb14-4"><a href="#cb14-4"></a><span class="op">}</span> <span class="co">// ptrMolecule is deleted automatically here.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ul>
-<li>Copy of raw pointer not defined, only construction.</li>
-</ul>
-</section>
-<section id="smart-pointers-1" class="slide level2">
-<h2>Smart pointers</h2>
-<ul>
-<li>std::unique_ptr<t>
-<ul>
-<li>Allows exactly one owner of the underlying pointer</li>
-<li>Can be moved to a new owner, but not copied or shared</li>
-</ul></t></li>
-<li>std::shared_ptr<t>
-<ul>
-<li>Reference-counted smart pointer</li>
-<li>The raw pointer is not deleted until all owners have gone out of scope</li>
-</ul></t></li>
-<li>std::weak_ptr<t>
-<ul>
-<li>Special-case smart pointer for use in conjunction with shared_ptr</li>
-<li>Required to break circular references between shared_ptr</li>
-</ul></t></li>
-</ul>
+<section id="three-way-comparison-1" class="slide level2">
+<h2>Three-way comparison</h2>
+<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">struct</span> Point</span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="op">{</span></span>
+<span id="cb16-3"><a href="#cb16-3"></a>    <span class="dt">int</span> x<span class="op">,</span>y<span class="op">;</span></span>
+<span id="cb16-4"><a href="#cb16-4"></a></span>
+<span id="cb16-5"><a href="#cb16-5"></a>    frind <span class="dt">bool</span> <span class="kw">operator</span> <span class="op">==</span> <span class="op">(</span><span class="at">const</span> Point<span class="op">&amp;</span> a<span class="op">,</span> <span class="at">const</span> Point<span class="op">&amp;</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb16-6"><a href="#cb16-6"></a>      <span class="cf">return</span> a<span class="op">.</span>x <span class="op">==</span> b<span class="op">.</span>x <span class="kw">and</span> a<span class="op">.</span>y <span class="op">==</span> b<span class="op">.</span>y<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb16-7"><a href="#cb16-7"></a>    frind <span class="dt">bool</span> <span class="kw">operator</span> <span class="op">&lt;</span>  <span class="op">(</span><span class="at">const</span> Point<span class="op">&amp;</span> a<span class="op">,</span> <span class="at">const</span> Point<span class="op">&amp;</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb16-8"><a href="#cb16-8"></a>      <span class="cf">return</span> a<span class="op">.</span>x <span class="op">&lt;</span> b<span class="op">.</span>x <span class="kw">or</span> <span class="op">(</span>a<span class="op">.</span>x <span class="op">==</span> b<span class="op">.</span>x <span class="kw">and</span> a<span class="op">.</span>y <span class="op">&lt;</span> b<span class="op">.</span>y<span class="op">);</span> <span class="op">}</span></span>
+<span id="cb16-9"><a href="#cb16-9"></a>    frind <span class="dt">bool</span> <span class="kw">operator</span> <span class="op">!=</span> <span class="op">(</span><span class="at">const</span> Point<span class="op">&amp;</span> a<span class="op">,</span> <span class="at">const</span> Point<span class="op">&amp;</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb16-10"><a href="#cb16-10"></a>      <span class="cf">return</span> <span class="op">!(</span>a<span class="op">==</span>b<span class="op">);</span> <span class="op">}</span></span>
+<span id="cb16-11"><a href="#cb16-11"></a>    frind <span class="dt">bool</span> <span class="kw">operator</span> <span class="op">&lt;=</span> <span class="op">(</span><span class="at">const</span> Point<span class="op">&amp;</span> a<span class="op">,</span> <span class="at">const</span> Point<span class="op">&amp;</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb16-12"><a href="#cb16-12"></a>      <span class="cf">return</span> <span class="op">!(</span>b<span class="op">&lt;</span>a<span class="op">);</span> <span class="op">}</span></span>
+<span id="cb16-13"><a href="#cb16-13"></a>    frind <span class="dt">bool</span> <span class="kw">operator</span> <span class="op">&gt;</span>  <span class="op">(</span><span class="at">const</span> Point<span class="op">&amp;</span> a<span class="op">,</span> <span class="at">const</span> Point<span class="op">&amp;</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb16-14"><a href="#cb16-14"></a>      <span class="cf">return</span> b<span class="op">&lt;</span>a<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb16-15"><a href="#cb16-15"></a>    frind <span class="dt">bool</span> <span class="kw">operator</span> <span class="op">&gt;=</span> <span class="op">(</span><span class="at">const</span> Point<span class="op">&amp;</span> a<span class="op">,</span> <span class="at">const</span> Point<span class="op">&amp;</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb16-16"><a href="#cb16-16"></a>      <span class="cf">return</span> <span class="op">!(</span>a<span class="op">&lt;</span>b<span class="op">);</span> <span class="op">}</span></span>
+<span id="cb16-17"><a href="#cb16-17"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="thank-you" class="slide level2 center">
 <h2>Thank you</h2>
 <p>https://bernddoser.github.io/workshop-cpp20</p>
+</section>
+<section id="todo" class="slide level2">
+<h2>TODO</h2>
+<ul>
+<li>ISO timeline</li>
+<li>Feature papers</li>
+<li>Programming paradigms</li>
+</ul>
 
 <img src="images/HITS_RGB_eng.jpg" class="slide-logo r-stretch"><div class="footer footer-default">
 <p>C++20 (B. Doser)</p>
