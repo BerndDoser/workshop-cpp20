@@ -88,14 +88,15 @@ Bjarne Stroustrup developed "C with classes", which introduces the class concept
 ::: {.callout-note icon=false}
 ## Carbage collection (Java, Python, Go)
 
-Automatic memory management, which periodically stops all threads and free unreferenced memory. Extra overhead
+- Automatic memory management, which periodically stops all threads and free unreferenced memory.
+- Extra overhead
 :::
 
 ::: {.callout-note icon=false}
 ## RAII: Resource Aquisition is Initialization (C++, Rust)
 
-The lifetime of a resource will be bound to the lifetime of a local variable. C++ automatically manages the lifetime of locals.
-Smart pointers ('C++11') overcome the manually memory deallocation.
+- The lifetime of a resource will be bound to the lifetime of a local variable. C++ automatically manages the lifetime of locals.
+- Smart pointers ('C++11') overcome the manually memory deallocation.
 
 C++ principle: "Don't pay for something you don't use."
 :::
@@ -196,18 +197,6 @@ export int add(int fir, int sec)
 ```
 
 
-## Concepts
-
-```{.cpp}
-// C++11/14, SFINAE (sub)
-template <typename T>
-std::enable_if_t<std::is_same_v<T, int>> f(T x);
- 
-// C++20: concepts
-void f(std::same_as<int> auto x);
-```
-
-
 ## Evolution of Functions
 
 ```{.cpp}
@@ -239,6 +228,40 @@ A function is a coroutine if it contains one of these:
 
 - Task
 - Generator
+
+
+## Concepts
+
+- With concepts failure happens early and the error message is much cleaner.
+
+Before C++20 `enable_if` was used to check template arguments.Substitution failure is not an error (SFINAE)
+```{.cpp}
+// C++11
+template <typename T>
+std::enable_if_t<std::is_same_v<T, int>> f(T x);
+ 
+// C++20
+void f(std::same_as<int> auto x);
+```
+
+
+## Concepts: Example
+
+- Definintion
+```{.cpp}
+template <typename T>
+concept Incrementable = requires(T x) { x++; ++x };
+```
+- Usage
+```{.cpp}
+template <Incrementable T>
+void inc(T t);
+
+template <Incrementable T>
+void inc(T t) requires Incrementable<T>;
+
+void inc(Incrementable auto t);
+```
 
 
 ## The world before ranges (C++11)
@@ -338,12 +361,18 @@ public:
 ```
 
 
-## Ranges: pipe
+## Ranges: Pipelining
 
-```{.cpp}
+::: {.center}
 C(B)
+
 B | C
-```
+:::
+
+
+## Ranges: Lazy evaluation
+
+
 
 
 ## Ranges: filter and transform
