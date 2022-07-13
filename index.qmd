@@ -164,6 +164,29 @@ auto ptrA = std::make_shared<A>();
 - Required to break circular references between `shared_ptr`
 :::
 
+
+## Smart pointers (C++11)
+
+```{.cpp code-line-numbers="1-4|6-10|1,12-17"}
+    auto p1 = std::make_shared<int>(1);
+    auto p2 = p1;
+    assert(*p2 == 1);
+    assert(p1.use_count() == 2);
+
+    auto p3 = std::make_unique<int>(2);
+    // auto p4 = p3;   // unique_ptr can't be copied
+    auto p5 = std::move(p3);
+    assert(*p5 == 2);
+    assert(p3 == nullptr);
+
+    // auto p6 = std::weak_ptr<int>(3);  // weak_ptr can't own
+    auto p6 = std::weak_ptr<int>(p1);
+    assert(p6.use_count() == 2);
+    p1.reset();
+    p2.reset();
+    assert(p6.expired());
+```
+
 ## Containers
 
 | Name             | Description                           |
