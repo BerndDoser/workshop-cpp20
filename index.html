@@ -519,16 +519,15 @@
 <li>Memory leaks</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">{</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="dt">void</span> func<span class="op">()</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="op">{</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a>    <span class="dt">int</span><span class="op">*</span> valuePtr <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">(</span><span class="dv">42</span><span class="op">);</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a></span>
-<span id="cb1-6"><a href="#cb1-6"></a>    <span class="cf">if</span> <span class="op">(</span> <span class="co">/* ... */</span> <span class="op">)</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a>        <span class="cf">return</span><span class="op">;</span>   <span class="co">// memory leak</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a></span>
-<span id="cb1-9"><a href="#cb1-9"></a>    <span class="kw">delete</span> valuePtr<span class="op">;</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1"></a><span class="dt">void</span> func<span class="op">()</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="op">{</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a>    <span class="dt">int</span><span class="op">*</span> valuePtr <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">(</span><span class="dv">42</span><span class="op">);</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a>    <span class="cf">if</span> <span class="op">(</span> <span class="co">/* ... */</span> <span class="op">)</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a>        <span class="cf">return</span><span class="op">;</span>   <span class="co">// memory leak</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a></span>
+<span id="cb1-8"><a href="#cb1-8"></a>    <span class="kw">delete</span> valuePtr<span class="op">;</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="smart-pointers-c11" class="slide level2">
 <h2>Smart pointers (C++11)</h2>
@@ -605,6 +604,7 @@
 <span id="cb4-15"><a href="#cb4-15"></a>    p1<span class="op">.</span>reset<span class="op">();</span></span>
 <span id="cb4-16"><a href="#cb4-16"></a>    p2<span class="op">.</span>reset<span class="op">();</span></span>
 <span id="cb4-17"><a href="#cb4-17"></a>    <span class="ot">assert</span><span class="op">(</span>p6<span class="op">.</span>expired<span class="op">());</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><a href="https://godbolt.org/z/dErqbrYM4">CompilerExplorer</a></p>
 </section>
 <section id="containers" class="slide level2">
 <h2>Containers</h2>

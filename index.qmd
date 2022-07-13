@@ -113,7 +113,6 @@ C++ principle: "Don't pay for something you don't use."
   - Memory leaks
 
 ```{.cpp}
-{
 void func()
 {
     int* valuePtr = new int(42);
@@ -186,6 +185,7 @@ auto ptrA = std::make_shared<A>();
     p2.reset();
     assert(p6.expired());
 ```
+[CompilerExplorer](https://godbolt.org/z/dErqbrYM4)
 
 ## Containers
 
