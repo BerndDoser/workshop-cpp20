@@ -76,6 +76,9 @@ Bjarne Stroustrup developed "C with classes", which introduces the class concept
 :::
 :::
 
+::: notes
+- Show ranges concept
+:::
 
 ## Helpful Links
 
@@ -97,41 +100,52 @@ Bjarne Stroustrup developed "C with classes", which introduces the class concept
 ## RAII: Resource Aquisition is Initialization (C++, Rust)
 
 - The lifetime of a resource will be bound to the lifetime of a local variable. C++ automatically manages the lifetime of locals.
-- Smart pointers ('C++11') overcome the manually memory deallocation.
+- Smart pointers (C++11) overcome the manually memory deallocation.
 
 C++ principle: "Don't pay for something you don't use."
 :::
 
 
-## Smart pointers
+## Raw pointers (before C++11)
 
-::: {.callout-note icon=false}
-## Raw pointer (before C++11)
+- Manual allocation and deallocation of memory
+  - Segmentation faults
+  - Memory leaks
 
 ```{.cpp}
 {
-    Molecule* ptrMolecule = new Molecule("c1ccccc1");
-    calculateEnergy(ptrMolecule);
-    delete molecule;
+void func()
+{
+    int* valuePtr = new int(42);
+
+    if ( /* ... */ )
+        return;   // memory leak
+
+    delete valuePtr;
 }
 ```
-- Segmentation faults
-- Memory leaks
-:::
 
-::: {.callout-note icon=false}
-## Smart pointer (C++11)
+
+## Smart pointers (C++11)
 
 ```{.cpp}
+#include <memory>
+ 
+void func()
 {
-    std::unique_ptr<Molecule> ptrMolecule(new Molecule("c1ccccc1"));
-    calculateEnergy(ptrMolecule);
-} // ptrMolecule is deleted automatically here.
+    std::shared_ptr<int> valuePtr(new int(42));
+
+    if ( /* ... */ )
+        return;   // no memory leak
+}
 ```
-:::
+Better usage:
+```{.cpp}
+std::shared_ptr<A> ptrA = std::make_shared<A>();
+auto ptrA = std::make_shared<A>();
+```
 
-
-## Smart pointers
+## Smart pointers (C++11)
 
 ::: {.callout-note icon=false}
 ## `std::unique_ptr<T>`
@@ -147,9 +161,20 @@ C++ principle: "Don't pay for something you don't use."
 
 ::: {.callout-note icon=false}
 ## `std::weak_ptr<T>`
-- Special-case smart pointer for use in conjunction with `shared_ptr`
 - Required to break circular references between `shared_ptr`
 :::
+
+## Containers
+
+| Name             | Description                           |
+|------------------|---------------------------------------|
+| `array`          | static contiguous array               |
+| `vector`         | dynamic contiguous array              |
+| `list`           | linked list                           |
+| `set`            | sorted collection of unique keys      |
+| `map`            | sorted collection of key-value pairs  |
+| `unordered_set`  | hashed collection of unique keys      |
+| `unordered_map`  | hashed collection of key-value pairs  |
 
 
 ## C++20: New Keywords
