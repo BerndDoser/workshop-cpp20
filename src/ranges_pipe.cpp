@@ -27,6 +27,6 @@ struct add_one_f
 int main()
 {
     const pipe_closure<add_one_f> add_one = {};
-    int number_3 = 1 | add_one | add_one;
-    std::cout << number_3 << std::endl;
+    int result = 1 | add_one | add_one;
+    std::cout << result << std::endl;
 }
