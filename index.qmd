@@ -389,8 +389,9 @@ Why `std::begin(t)` instead of `t.begin()`?
 
 ## Ranges: views
 
-:::{.callout-note}
-"Views are composable adaptations of ranges where the adaptation happens lazily as the view is iterated." (Eric Niebler)
+:::{.callout-tip icon=false}
+## Eric Niebler
+"Views are composable adaptations of ranges where the adaptation happens lazily as the view is iterated."
 :::
 
 ```{.cpp}
@@ -509,6 +510,16 @@ struct Point
 ```
 
 
+## Coding competition
+
+Source: [GoogleCodeJam](https://codingcompetitions.withgoogle.com/codejam)
+
+2016 Quali Round Problem B: Revenge of the Pancakes
+
+Stack of pancakes with a happy face made of chocolate on one side '+' and nothing on the other side '-'. Goal is to have all pancakes with the happy side on the top.
+
+[CompilerExplorer]()
+
 ## Thank you {.center}
 
 https://bernddoser.github.io/workshop-cpp20
@@ -519,3 +530,5 @@ https://bernddoser.github.io/workshop-cpp20
 - ISO timeline
 - Feature papers
 - Programming paradigms
+- Move sematic
+- Meta programming
