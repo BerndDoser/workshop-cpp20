@@ -299,7 +299,7 @@ void f(std::same_as<int> auto x);
 - Definintion
 ```{.cpp}
 template <typename T>
-concept Incrementable = requires(T x) { x++; ++x };
+concept Incrementable = requires(T x) { x++; ++x; };
 ```
 - Usage
 ```{.cpp}
