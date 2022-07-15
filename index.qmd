@@ -39,6 +39,9 @@ format:
 
 ## Why C++
 
+![](images/meme-cpp-comple.jpg){.border height="250"}
+
+- Multi programming paradigms
 - Strong type system
 - Backward compatibility
 
