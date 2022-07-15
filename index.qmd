@@ -10,38 +10,34 @@ format:
     slide-number: true
 ---
 
-## Who am I?
+## Who I am
 
 ::: {.incremental}
-- Scientific software developer since 15 years
+- C++ scientific software developer since 2004
 - PhD in theoretical chemistry
 - Linear scaling electron-electron correlation
-- Tailor-made force fields
-- [BlasBooster](https://github.com/BrainTwister/BlasBooster){.link-external-newwindow}
-- [GROMACS-FDA](https://github.com/HITS-MBM/gromacs-fda), [GROMACS-RAMD](https://github.com/HITS-MCM/gromacs-ramd)
-- [PINK](https://github.com/HITS-AIN/PINK)
-- [HiFlow3](https://emcl-gitlab.iwr.uni-heidelberg.de/hiflow3.org/hiflow3)
-- TACO
+- Automatic differentiation for tailor-made force fields ([AMS GmbH Freiburg](https://avmatsim.eu/))
+- Open source projects @ HITS:
+  [GROMACS-FDA](https://github.com/HITS-MBM/gromacs-fda), [GROMACS-RAMD](https://github.com/HITS-MCM/gromacs-ramd), [PINK](https://github.com/HITS-AIN/PINK), [HiFlow3](https://emcl-gitlab.iwr.uni-heidelberg.de/hiflow3.org/hiflow3), [TACO](https://github.com/HITS-TOS/TACO)
+- Private open source projects:
+  [BlasBooster](https://github.com/BrainTwister/BlasBooster), [GeneHunter](https://github.com/BrainTwister/GeneHunter)
 :::
 
 
 ## Outline
 
 ::: {.incremental}
-- Introduction
-- New features of C++20
-  - Modules
-  - Concepts
-  - Coroutines
-  - Ranges
-  - std::format
-  - Three-way comparison
+- Warmup with C++
+- Important C++11 features
+- C++20 features
+  - Concepts, Ranges
+  - Modules, Coroutines
+  - std::format, three-way comparison
+- Coding competition
 :::
 
 
-## Introduction
-
-Bjarne Stroustrup developed "C with classes", which introduces the class concept of "Simula" with data encapsulation into C.
+## Why C++
 
 - Strong type system
 - Backward compatibility
@@ -80,11 +76,37 @@ Bjarne Stroustrup developed "C with classes", which introduces the class concept
 - Show ranges concept
 :::
 
-## Helpful Links
+## Helpful tools
 
 - [cppreference.com](https://cppreference.com)
 - [CompilerExplorer](https://gcc.godbolt.org)
 - [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines)
+
+
+## C++98 Warm-up
+
+```{.cpp}
+class Matrix
+{
+public:
+
+    Matrix(int m, int n)
+     : m(m), n(n), mat(m*n)
+    {}
+
+    Matrix operator * (Matrix B) {
+        Matrix C(this->m, B.n);
+        /* C(i,j) = sum_k A(i,k) * B(k,j) */
+        return C;
+    }
+
+private:
+    int m,n;
+    std::vector<double> mat;
+};
+```
+
+[CompilerExplorer](https://godbolt.org/z/cbbEbYcr9)
 
 
 ## Carbage collection vs. RAII
