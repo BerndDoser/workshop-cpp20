@@ -1,5 +1,5 @@
 ---
-title: "The new ISO Standard C++20"
+title: "The New ISO Standard C++20"
 author: "Bernd Doser"
 date: July 2022
 institute: HITS gGmbH
@@ -10,36 +10,43 @@ format:
     slide-number: true
 ---
 
-## Who I am
+<!-- TODO
+- ISO timeline
+- Feature papers
+- Programming paradigms
+- Meta programming -->
+
+
+## Agenda
 
 ::: {.incremental}
-- C++ scientific software developer since 2004
-- PhD in theoretical chemistry
-- Linear scaling electron-electron correlation
-- Automatic differentiation for tailor-made force fields ([AMS GmbH Freiburg](https://avmatsim.eu/))
-- Open source projects @ HITS:
-  [GROMACS-FDA](https://github.com/HITS-MBM/gromacs-fda), [GROMACS-RAMD](https://github.com/HITS-MCM/gromacs-ramd), [PINK](https://github.com/HITS-AIN/PINK), [HiFlow3](https://emcl-gitlab.iwr.uni-heidelberg.de/hiflow3.org/hiflow3), [TACO](https://github.com/HITS-TOS/TACO)
-- Private open source projects:
-  [BlasBooster](https://github.com/BrainTwister/BlasBooster), [GeneHunter](https://github.com/BrainTwister/GeneHunter)
-:::
-
-
-## Outline
-
-::: {.incremental}
-- Warmup with C++
+- Warm-up with C++
 - Important C++11 features
 - C++20 features
-  - Concepts, Ranges
-  - Modules, Coroutines
+  - Concepts, ranges
+  - Modules, coroutines
   - std::format, three-way comparison
 - Coding competition
 :::
 
 
-## Why C++
+## My Background
 
-![](images/meme-cpp-comple.jpg){.border height="250"}
+::: {.incremental}
+- PhD in theoretical chemistry
+  - Linear scaling electron-electron correlation
+- C++ scientific software developer since 2004
+- Automatic differentiation for tailor-made force fields ([AMS GmbH Freiburg](https://avmatsim.eu/))
+- Open source projects @ HITS:
+  [GROMACS-FDA](https://github.com/HITS-MBM/gromacs-fda), [GROMACS-RAMD](https://github.com/HITS-MCM/gromacs-ramd), [PINK](https://github.com/HITS-AIN/PINK), [HiFlow3](https://emcl-gitlab.iwr.uni-heidelberg.de/hiflow3.org/hiflow3), [TACO](https://github.com/HITS-TOS/TACO)
+- Personal open source projects:
+  [BlasBooster](https://github.com/BrainTwister/BlasBooster), [GeneHunter](https://github.com/BrainTwister/GeneHunter)
+:::
+
+
+## Why C++?
+
+![](images/meme-cpp-comple.jpg){.border height="500"}
 
 - Multi programming paradigms
 - Strong type system
@@ -49,11 +56,11 @@ format:
 ## ISO Standardization
 
 - C++98: First ISO Standard
-- C++11: Smart pointers, Move sematic, Lambda functions, range-based for loop, auto
-- C++14: variable templates, generic lambdas
+- C++11: Smart pointers, move sematic, Lambda functions, range-based for loop, auto
+- C++14: Variable templates, generic lambdas
 - C++17: Structured bindings
-- C++20: Modules, Concepts, Coroutines, Ranges
-- C++23: A Plan for Ranges, Reflections?
+- C++20: Modules, concepts, coroutines, ranges
+- Suggestions for C++23: "A plan for ranges", reflections
 
 
 ## Books and ISO Standard
@@ -79,11 +86,16 @@ format:
 - Show ranges concept
 :::
 
-## Helpful tools
 
+## Helpful Links and Tools
+
+::: {layout-ncol=2}
 - [cppreference.com](https://cppreference.com)
 - [CompilerExplorer](https://gcc.godbolt.org)
 - [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines)
+
+![](images/compiler_explorer.png)
+:::
 
 
 ## C++98 Warm-up
@@ -112,12 +124,12 @@ private:
 [CompilerExplorer](https://godbolt.org/z/cbbEbYcr9)
 
 
-## Carbage collection vs. RAII
+## Carbage Collection vs. RAII
 
 ::: {.callout-note icon=false}
-## Carbage collection (Java, Python, Go)
+## Carbage Collection (Java, Python, Go)
 
-- Automatic memory management, which periodically stops all threads and free unreferenced memory.
+- Automatic memory management, which periodically stops all threads and frees unreferenced memory.
 - Extra overhead
 :::
 
@@ -163,9 +175,12 @@ void func()
         return;   // no memory leak
 }
 ```
-Better usage:
+Better:
 ```{.cpp}
 std::shared_ptr<A> ptrA = std::make_shared<A>();
+```
+Best:
+```{.cpp}
 auto ptrA = std::make_shared<A>();
 ```
 
@@ -213,12 +228,27 @@ auto ptrA = std::make_shared<A>();
 [CompilerExplorer](https://godbolt.org/z/dErqbrYM4)
 
 
-## C++11: Move sematic
+## Move Semantics (C++11)
 
-Copying object, will
+:::{.callout-tip icon=false}
+## L-values will be copied
+- Permanent objects with a name and a storage address
+- Copy is expensive
+:::
 
-auto a = 1;
-auto b = a;
+:::{.callout-tip icon=false}
+## R-values will be moved
+- Temporary objects without a name and a storage address
+- R-values can only appear on the right side in an assignment
+- Move is fast
+:::
+
+```{.cpp}
+int i = 5;
+std::string s = "foo";
+double c = a * b;
+double y = function(x);
+```
 
 
 ## Containers
@@ -265,7 +295,7 @@ auto b = a;
 
 - Problems of the header files
   - macros leakage in and out from headers
-  - inclusion-order-dependent headers
+  - inclusion order-dependent headers
   - repetitive compilation of the same code
   - cyclic dependencies
   - poor encapsulation of implementation details
@@ -303,7 +333,7 @@ auto f6 = [] (auto arg) { return arg; }; // Generic lambda (C++14)
 
 ## Coroutines
 
-A function is a coroutine if it contains one of these:
+A function is a coroutine, if it contains one of these:
 
 - `co_return` (coroutine return statement)
 - `co_await` (await expression)
@@ -315,9 +345,9 @@ A function is a coroutine if it contains one of these:
 
 ## Concepts
 
-- With concepts failure happens early and the error message is much cleaner.
+- With concepts, failure happens early and the error message is much more meaningful.
 
-Before C++20 `enable_if` was used to check template arguments.Substitution failure is not an error (SFINAE)
+Before C++20 `enable_if` was used to check template arguments. Substitution failure is not an error (SFINAE)
 ```{.cpp}
 // C++11
 template <typename T>
@@ -330,7 +360,7 @@ void f(std::same_as<int> auto x);
 
 ## Concepts: Example
 
-- Definintion
+- Definition
 ```{.cpp}
 template <typename T>
 concept Incrementable = requires(T x) { x++; ++x; };
@@ -347,7 +377,7 @@ void inc(Incrementable auto t);
 ```
 
 
-## The world before ranges (C++11)
+## The World Before Ranges (C++11)
 
 ```{.cpp}
 #include <algorithm>
@@ -374,7 +404,7 @@ OutputIt copy_if( InputIt first, InputIt last,
 [CompilerExplorer](https://gcc.godbolt.org/z/7EMhaWd5q)
 
 
-## Ranges: What we want
+## Ranges: What We Want
 
 - Direct usage of containers without iterators (pointers)
 ```{.cpp}
@@ -382,7 +412,7 @@ std::vector<int> v{1,2,3};
 std::sort(std::begin(v), std::end(v));
 std::ranges::sort(v);
 ```
-- Chaining like unix pipes
+- Chaining-like unix pipes
 ```{.cpp}
 result = data | func1 | func2 | ...
 ```
@@ -601,14 +631,12 @@ std::cout << "You need " << n << " flips to make all happy." << std::endl;
 ```
 
 
+## Summary
+
+- C++ is going 
+
 ## Thank you {.center}
 
 https://bernddoser.github.io/workshop-cpp20
 
 
-## TODO
-
-- ISO timeline
-- Feature papers
-- Programming paradigms
-- Meta programming
