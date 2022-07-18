@@ -442,25 +442,19 @@ Exercises:
 </section>
 <section id="why-c" class="slide level2">
 <h2>Why C++?</h2>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div>
 <ul>
-<li>Multi-paradigm
+<li class="fragment">High performance</li>
+<li class="fragment">Multi-paradigm
 <ul>
-<li>Imperative</li>
-<li>Object oriented</li>
-<li>Generic</li>
-<li>Functional</li>
+<li class="fragment">Imperative</li>
+<li class="fragment">Object-oriented</li>
+<li class="fragment">Generic</li>
+<li class="fragment">Functional</li>
 </ul></li>
-<li>Strong type system</li>
-<li>Backward compatibility</li>
+<li class="fragment">Strong type system</li>
+<li class="fragment">Strict backward compatibility</li>
 </ul>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img data-src="images/meme-cpp-comple.jpg"></p>
-</div>
-</div>
 </div>
 </section>
 <section id="iso-standardization" class="slide level2">
@@ -858,9 +852,11 @@ Exercises:
 <span id="cb9-10"><a href="#cb9-10"></a>    <span class="dt">int</span> <span class="kw">operator</span><span class="op">()()</span> <span class="op">{</span> <span class="cf">return</span> <span class="dv">4</span><span class="op">;</span> <span class="op">}</span></span>
 <span id="cb9-11"><a href="#cb9-11"></a><span class="op">};</span></span>
 <span id="cb9-12"><a href="#cb9-12"></a></span>
-<span id="cb9-13"><a href="#cb9-13"></a><span class="kw">auto</span> f5 <span class="op">=</span> <span class="op">[]</span> <span class="op">{</span> <span class="cf">return</span> <span class="dv">5</span><span class="op">;</span> <span class="op">};</span> <span class="co">// Lambda (C++11)</span></span>
+<span id="cb9-13"><a href="#cb9-13"></a><span class="kw">auto</span> f5 <span class="op">=</span> <span class="op">[]</span> <span class="op">(</span><span class="dt">int</span> i<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> i <span class="op">*</span> i<span class="op">;</span> <span class="op">};</span> <span class="co">// Lambda (C++11)</span></span>
 <span id="cb9-14"><a href="#cb9-14"></a></span>
-<span id="cb9-15"><a href="#cb9-15"></a><span class="kw">auto</span> f6 <span class="op">=</span> <span class="op">[]</span> <span class="op">(</span><span class="kw">auto</span> arg<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> arg<span class="op">;</span> <span class="op">};</span> <span class="co">// Generic lambda (C++14)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-15"><a href="#cb9-15"></a><span class="kw">auto</span> f6 <span class="op">=</span> <span class="op">[]</span> <span class="op">(</span><span class="kw">auto</span> arg<span class="op">)</span> <span class="op">{</span> <span class="co">// Generic lambda (C++14)</span></span>
+<span id="cb9-16"><a href="#cb9-16"></a>   <span class="cf">return</span> <span class="bu">std::</span>to_string<span class="op">(</span>arg<span class="op">);</span></span>
+<span id="cb9-17"><a href="#cb9-17"></a><span class="op">};</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="coroutines" class="slide level2">
 <h2>Coroutines</h2>
@@ -1084,7 +1080,7 @@ Exercises:
 <ul>
 <li>Available at <a href="https://github.com/fmtlib/fmt">{fmt}</a> until compiler support</li>
 </ul>
-<p><a href="https://godbolt.org/z/T4P5oWjcd">CompilerExplorer</a></p>
+<p><a href="https://godbolt.org/z/Psoavhbc4">CompilerExplorer</a></p>
 </section>
 <section id="comparison-before-c20" class="slide level2">
 <h2>Comparison before C++20</h2>

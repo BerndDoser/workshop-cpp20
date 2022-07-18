@@ -62,16 +62,15 @@ Exercises:
 
 ## Why C++?
 
-::: {layout-ncol=2}
+::: {.incremental}
+- High performance
 - Multi-paradigm
   - Imperative
-  - Object oriented
+  - Object-oriented
   - Generic
   - Functional
 - Strong type system
-- Backward compatibility
-
-![](images/meme-cpp-comple.jpg)
+- Strict backward compatibility
 :::
 
 
@@ -370,9 +369,11 @@ struct F4 { // Functor
     int operator()() { return 4; }
 };
 
-auto f5 = [] { return 5; }; // Lambda (C++11)
+auto f5 = [] (int i) { return i * i; }; // Lambda (C++11)
 
-auto f6 = [] (auto arg) { return arg; }; // Generic lambda (C++14)
+auto f6 = [] (auto arg) { // Generic lambda (C++14)
+   return std::to_string(arg);
+}; 
 ```
 
 
@@ -609,7 +610,7 @@ std::format("strftime-like format: {:%H:%M:%S}\n", 3h + 15min + 30s);
 ```
 - Available at [{fmt}](https://github.com/fmtlib/fmt) until compiler support
 
-[CompilerExplorer](https://godbolt.org/z/T4P5oWjcd)
+[CompilerExplorer](https://godbolt.org/z/Psoavhbc4)
 
 
 ## Comparison before C++20
