@@ -727,13 +727,10 @@ std::cout << "You need " << n << " flips to make all happy." << std::endl;
   - `Coroutines` are stackless and can be suspended
 - `Reflections` and more ranges are expected for C++23
 
+
+## Thank you {.center}
+
 :::{.callout-tip icon=false}
 ## Bjarne Stroustrup
 "Within C++, there is a much smaller and cleaner language struggling to get out"
 :::
-
-
-## Thank you {.center}
-
-https://bernddoser.github.io/workshop-cpp20
-
