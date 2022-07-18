@@ -603,7 +603,7 @@ std::format("strftime-like format: {:%H:%M:%S}\n", 3h + 15min + 30s);
   - `op(const& T1, const& T2)`
   - `op(const& T2, const& T1)`
 
-[CompilerExplorer](https://godbolt.org/z/cPjanE9db)
+[CompilerExplorer](https://godbolt.org/z/jjfz3rfxz)
 
 ::: notes
 - Write a 2-dim. point class with all comparison operators

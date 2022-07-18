@@ -1,5 +1,7 @@
 #include <cassert>
+#include <chrono>
 #include <fmt/core.h>
+#include <fmt/chrono.h>
 #include <fmt/ranges.h>
 #include <iostream>
 #include <iomanip>
@@ -19,11 +21,13 @@ int main()
 
     auto pi = std::numbers::pi_v<double>;  // C++20 introduce mathematical constants
     std::cout << std::setprecision(2) << std::fixed << pi << std::endl;
-
     fmt::print("{:.5f}\n", pi);
 
     fmt::print("{:<30}\n", "left aligned");
     fmt::print("{:>30}\n", "right aligned");
     fmt::print("{:^30}\n", "centered");
     fmt::print("{:*^30}\n", "centered");
+
+    // std::chrono
+    fmt::print("{:%Y-%m-%d %H:%M:%S}", std::chrono::system_clock::now());
 }
