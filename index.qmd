@@ -8,6 +8,7 @@ format:
     logo: images/HITS_RGB_eng.jpg
     footer: "C++20 (B. Doser)"
     slide-number: true
+    highlight-style: a11y
 ---
 
 ## This presentation is available at{.center}
@@ -130,7 +131,7 @@ Exercises:
 
 ## C++98 Warm-up
 
-```{.cpp}
+```cpp
 class Matrix
 {
 public:
@@ -179,7 +180,7 @@ C++ principle: "Don't pay for something you don't use."
   - Segmentation faults
   - Memory leaks
 
-```{.cpp}
+```cpp
 void func()
 {
     int* valuePtr = new int(42);
@@ -194,24 +195,24 @@ Raw pointers (`new`) are deprecated in C++20 and will be removed in C++23.
 
 ## Smart pointers (C++11)
 
-```{.cpp}
+```cpp
 #include <memory>
  
 void func()
 {
-    std::shared_ptr<int> valuePtr(new int(42));
+    std::shared_ptr<int> ptr (new int(42));
 
     if ( /* ... */ )
         return;   // no memory leak
 }
 ```
 Better:
-```{.cpp}
-std::shared_ptr<A> ptrA = std::make_shared<A>();
+```cpp
+std::shared_ptr<int> ptr = std::make_shared<int>();
 ```
 Best:
-```{.cpp}
-auto ptrA = std::make_shared<A>();
+```cpp
+auto ptr = std::make_shared<int>();
 ```
 
 ## Smart pointers (C++11)
@@ -273,7 +274,7 @@ auto ptrA = std::make_shared<A>();
 - Move is fast
 :::
 
-```{.cpp}
+```cpp
 int i = 5;
 std::string s = "foo";
 double c = a * b;
@@ -334,7 +335,7 @@ double y = function(x);
 
 ## Modules
 
-```{.cpp}
+```cpp
 // math.cppm
 export module math;
 
@@ -351,11 +352,12 @@ int main()
    add(2000, 20);
 }
 ```
+- Modules are orthogonal to namespaces.
 
 
 ## Coroutines: Evolution of Functions
 
-```{.cpp}
+```cpp
 int f1() { return 1; } // A C-like function
 
 int f2(int arg) { return arg; } // Function overloading
@@ -394,7 +396,7 @@ Coroutines provides a very low-level interface. [CppCoro](https://github.com/lew
 
 ## Coroutines: Generator
 
-```{.cpp}
+```cpp
 Generator<int> getNext(int start = 0, int step = 1){
     auto value = start;
     while (true) {
@@ -415,7 +417,7 @@ for (int i = 0; i <= 20; ++i) {
 - With concepts, failure happens early and the error message is much more meaningful.
 
 Before C++20 `enable_if` was used to check template arguments. Substitution failure is not an error (SFINAE)
-```{.cpp}
+```cpp
 // C++11
 template <typename T>
 std::enable_if_t<std::is_same_v<T, int>> f(T x);
@@ -428,12 +430,12 @@ void f(std::same_as<int> auto x);
 ## Concepts: Example
 
 - Definition
-```{.cpp}
+```cpp
 template <typename T>
 concept Incrementable = requires(T x) { x++; ++x; };
 ```
 - Usage
-```{.cpp}
+```cpp
 template <Incrementable T>
 void inc(T t);
 
@@ -446,7 +448,7 @@ void inc(Incrementable auto t);
 
 ## The World Before Ranges (C++11)
 
-```{.cpp}
+```cpp
 #include <algorithm>
  
 int main()
@@ -461,7 +463,7 @@ int main()
 ```
 [cppreference std::copy_if](https://en.cppreference.com/w/cpp/algorithm/copy)
 
-```{.cpp}
+```cpp
 template <class InputIt, class OutputIt, class UnaryPredicate>
 OutputIt copy_if( InputIt first, InputIt last,
                   OutputIt d_first,
@@ -474,13 +476,13 @@ OutputIt copy_if( InputIt first, InputIt last,
 ## Ranges: What We Want
 
 - Direct usage of containers without iterators (pointers)
-```{.cpp}
+```cpp
 std::vector<int> v{1,2,3};
 std::sort(std::begin(v), std::end(v));
 std::ranges::sort(v);
 ```
 - Chaining-like unix pipes
-```{.cpp}
+```cpp
 result = data | func1 | func2 | ...
 ```
 - Lazy evaluation
@@ -488,7 +490,7 @@ result = data | func1 | func2 | ...
 
 ## Ranges: filter
 
-```{.cpp}
+```cpp
 #include <ranges>
 #include <vector>
  
@@ -507,7 +509,7 @@ int main()
 
 - A `range` is a concept, not a container
 - Defined in header `<ranges>`:
-```{.cpp}
+```cpp
 template < class T >
 concept range = requires( T& t ) {
   ranges::begin(t);
@@ -530,7 +532,7 @@ Why `std::begin(t)` instead of `t.begin()`?
 "Views are composable adaptations of ranges where the adaptation happens lazily as the view is iterated."
 :::
 
-```{.cpp}
+```cpp
 template<class D>
   requires std::is_class_v<D> && std::same_as<D, std::remove_cv_t<D>>
 class view_interface;
@@ -538,7 +540,7 @@ class view_interface;
 
 `view_interface` is typically used with CRTP
 
-```{.cpp}
+```cpp
 class my_view : public std::ranges::view_interface<my_view> {
 public:
     auto begin() const { /*...*/ }
@@ -549,14 +551,14 @@ public:
 
 ## Ranges: Pipelining
 
-```{.cpp}
+```cpp
 C(B)
 B | C
 ```
 - Views can be chained by overloading the `operator|`
   (see [CompilerExplorer](https://godbolt.org/z/7hvYnrbWa)).
 
-```{.cpp}
+```cpp
 auto const data = {0, 1, 2, 3, 4, 5};
 auto even = [](const auto& v) { return 0 ## v % 2; };
 auto square = [](const auto& v) { return v * v; };
@@ -573,7 +575,7 @@ auto result { data
 
 ## Ranges: Lazy Evaluation
 
-```{.cpp}
+```cpp
 auto odd = [](int i){ return i % 2 == 1; };
 auto isPrime = [](int i) {
     for (int j=2; j*j <= i; ++j){
@@ -601,7 +603,7 @@ for (int i: std::views::iota(1) | std::views::filter(odd)
 - Safe and extensible
 - Faster then printf and iostreams
 - Separation of format string and arguments
-```{.cpp}
+```cpp
 std::format("The answer is {}.", 42);
 std::format("strftime-like format: {:%H:%M:%S}\n", 3h + 15min + 30s);
 ```
@@ -631,7 +633,7 @@ std::format("strftime-like format: {:%H:%M:%S}\n", 3h + 15min + 30s);
 
 ## Comparison before C++20
 
-```{.cpp}
+```cpp
 struct Point
 {
     int x,y;
@@ -659,7 +661,7 @@ struct Point
   - (a <=> b) > 0 if a > b
   - (a <=> b) == 0 if a == b
 - Compiler generates all 6 comparison operators to compare X with Y memberwise
-```{.cpp}
+```cpp
 auto X:: operator<=>(const Y&) const = default;
 ```
 - Custom implementation needs also `operator ==`
@@ -690,7 +692,7 @@ Stack of pancakes with a happy face made of chocolate on one side '+' and nothin
 
 ## Solution
 
-```{.cpp}
+```cpp
 std::string stack{"++--+-"};
 
 auto flip = [](const char c){
