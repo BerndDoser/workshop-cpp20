@@ -10,11 +10,9 @@ format:
     slide-number: true
 ---
 
-<!-- TODO
-- ISO timeline
-- Feature papers
-- Programming paradigms
-- Meta programming -->
+## This presentation is available at{.center}
+
+[https://bernddoser.github.io/workshop-cpp20](https://bernddoser.github.io/workshop-cpp20)
 
 
 ## Agenda
@@ -28,6 +26,15 @@ format:
   - std::format, three-way comparison
 - Coding competition
 :::
+
+<!-- TODO
+- Modules
+- Concepts
+- ISO timeline
+- Feature papers
+- Programming paradigms
+- Meta programming
+-->
 
 
 ## My Background
@@ -46,11 +53,17 @@ format:
 
 ## Why C++?
 
-![](images/meme-cpp-comple.jpg){.border height="500"}
-
-- Multi programming paradigms
+::: {layout-ncol=2}
+- Multi-paradigm
+  - Imperative
+  - Object oriented
+  - Generic
+  - Functional
 - Strong type system
 - Backward compatibility
+
+![](images/meme-cpp-comple.jpg)
+:::
 
 
 ## ISO Standardization
@@ -293,24 +306,37 @@ double y = function(x);
 
 ## Modules
 
-- Problems of the header files
-  - macros leakage in and out from headers
-  - inclusion order-dependent headers
-  - repetitive compilation of the same code
-  - cyclic dependencies
-  - poor encapsulation of implementation details
+- Modules are a new way to organize C++ code into logical components
+- Problems of the obsolete header files
+  - Repetitive compilation of the same code
+  - Inclusion order-dependent headers
+  - Cyclic dependencies
+  - Macros leakage in and out from headers
+  - Poor encapsulation of implementation details
+
+
+## Modules
 
 ```{.cpp}
+// math.cppm
 export module math;
 
 export int add(int fir, int sec)
 {
     return fir + sec;
-} 
+}
+
+// client.cpp
+import math;
+
+int main()
+{
+   add(2000, 20);
+}
 ```
 
 
-## Evolution of Functions
+## Coroutines: Evolution of Functions
 
 ```{.cpp}
 int f1() { return 1; } // A C-like function
@@ -333,14 +359,20 @@ auto f6 = [] (auto arg) { return arg; }; // Generic lambda (C++14)
 
 ## Coroutines
 
-A function is a coroutine, if it contains one of these:
+- A coroutine is a generalisation of a function that allows the function to be suspended and then later resumed.
+- A coroutine is stackless: their state is stored in heap, not on stack
+- A coroutine contains one of these keywords:
+  - `co_return` (coroutine return statement)
+  - `co_await` (await expression)
+  - `co_yield` (yield expression)
 
-- `co_return` (coroutine return statement)
-- `co_await` (await expression)
-- `co_yield` (yield expression)
 
-- Task
-- Generator
+## Coroutines and CppCoro
+
+Coroutines provides a very low-level interface. [CppCoro](https://github.com/lewissbaker/cppcoro) is an experimental library that is exploring the space of high-performance, scalable asynchronous programming abstractions
+
+- task<T>: asynchronous computation that is executed lazily
+- generator<T>: a coroutine type that produces a sequence of values of type `T` where values are produced lazily and synchronously.
 
 
 ## Concepts
@@ -536,7 +568,9 @@ int main()
 ```
 
 
-## std::format
+## Text Formating
+
+- 
 
 ```{.cpp}
 #include <fmt/core.h>
@@ -638,5 +672,4 @@ std::cout << "You need " << n << " flips to make all happy." << std::endl;
 ## Thank you {.center}
 
 https://bernddoser.github.io/workshop-cpp20
-
 

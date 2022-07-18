@@ -389,13 +389,9 @@
   <p class="date">July 2022</p>
 </section>
 
-<section class="slide level2">
-
-<!-- TODO
-- ISO timeline
-- Feature papers
-- Programming paradigms
-- Meta programming -->
+<section id="this-presentation-is-available-at" class="slide level2 center">
+<h2>This presentation is available at</h2>
+<p><a href="https://bernddoser.github.io/workshop-cpp20">https://bernddoser.github.io/workshop-cpp20</a></p>
 </section>
 <section id="agenda" class="slide level2">
 <h2>Agenda</h2>
@@ -412,6 +408,14 @@
 <li class="fragment">Coding competition</li>
 </ul>
 </div>
+<!-- TODO
+- Modules
+- Concepts
+- ISO timeline
+- Feature papers
+- Programming paradigms
+- Meta programming
+-->
 </section>
 <section id="my-background" class="slide level2">
 <h2>My Background</h2>
@@ -430,12 +434,26 @@
 </section>
 <section id="why-c" class="slide level2">
 <h2>Why C++?</h2>
-<p><img data-src="images/meme-cpp-comple.jpg" class="border" height="500"></p>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <ul>
-<li>Multi programming paradigms</li>
+<li>Multi-paradigm
+<ul>
+<li>Imperative</li>
+<li>Object oriented</li>
+<li>Generic</li>
+<li>Functional</li>
+</ul></li>
 <li>Strong type system</li>
 <li>Backward compatibility</li>
 </ul>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img data-src="images/meme-cpp-comple.jpg"></p>
+</div>
+</div>
+</div>
 </section>
 <section id="iso-standardization" class="slide level2">
 <h2>ISO Standardization</h2>
@@ -767,24 +785,37 @@
 <section id="modules" class="slide level2">
 <h2>Modules</h2>
 <ul>
-<li>Problems of the header files
+<li>Modules are a new way to organize C++ code into logical components</li>
+<li>Problems of the obsolete header files
 <ul>
-<li>macros leakage in and out from headers</li>
-<li>inclusion order-dependent headers</li>
-<li>repetitive compilation of the same code</li>
-<li>cyclic dependencies</li>
-<li>poor encapsulation of implementation details</li>
+<li>Repetitive compilation of the same code</li>
+<li>Inclusion order-dependent headers</li>
+<li>Cyclic dependencies</li>
+<li>Macros leakage in and out from headers</li>
+<li>Poor encapsulation of implementation details</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">export</span> <span class="kw">module</span> math<span class="op">;</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a></span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="kw">export</span> <span class="dt">int</span> add<span class="op">(</span><span class="dt">int</span> fir<span class="op">,</span> <span class="dt">int</span> sec<span class="op">)</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="op">{</span></span>
-<span id="cb8-5"><a href="#cb8-5"></a>    <span class="cf">return</span> fir <span class="op">+</span> sec<span class="op">;</span></span>
-<span id="cb8-6"><a href="#cb8-6"></a><span class="op">}</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="evolution-of-functions" class="slide level2">
-<h2>Evolution of Functions</h2>
+<section id="modules-1" class="slide level2">
+<h2>Modules</h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">// math.cppm</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="kw">export</span> <span class="kw">module</span> math<span class="op">;</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="kw">export</span> <span class="dt">int</span> add<span class="op">(</span><span class="dt">int</span> fir<span class="op">,</span> <span class="dt">int</span> sec<span class="op">)</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="op">{</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a>    <span class="cf">return</span> fir <span class="op">+</span> sec<span class="op">;</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="op">}</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a></span>
+<span id="cb8-9"><a href="#cb8-9"></a><span class="co">// client.cpp</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a><span class="kw">import</span> math<span class="op">;</span></span>
+<span id="cb8-11"><a href="#cb8-11"></a></span>
+<span id="cb8-12"><a href="#cb8-12"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb8-13"><a href="#cb8-13"></a><span class="op">{</span></span>
+<span id="cb8-14"><a href="#cb8-14"></a>   add<span class="op">(</span><span class="dv">2000</span><span class="op">,</span> <span class="dv">20</span><span class="op">);</span></span>
+<span id="cb8-15"><a href="#cb8-15"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="coroutines-evolution-of-functions" class="slide level2">
+<h2>Coroutines: Evolution of Functions</h2>
 <div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href="#cb9-1"></a><span class="dt">int</span> f1<span class="op">()</span> <span class="op">{</span> <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span> <span class="op">}</span> <span class="co">// A C-like function</span></span>
 <span id="cb9-2"><a href="#cb9-2"></a></span>
 <span id="cb9-3"><a href="#cb9-3"></a><span class="dt">int</span> f2<span class="op">(</span><span class="dt">int</span> arg<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> arg<span class="op">;</span> <span class="op">}</span> <span class="co">// Function overloading</span></span>
@@ -803,13 +834,23 @@
 </section>
 <section id="coroutines" class="slide level2">
 <h2>Coroutines</h2>
-<p>A function is a coroutine, if it contains one of these:</p>
 <ul>
-<li><p><code>co_return</code> (coroutine return statement)</p></li>
-<li><p><code>co_await</code> (await expression)</p></li>
-<li><p><code>co_yield</code> (yield expression)</p></li>
-<li><p>Task</p></li>
-<li><p>Generator</p></li>
+<li>A coroutine is a generalisation of a function that allows the function to be suspended and then later resumed.</li>
+<li>A coroutine is stackless: their state is stored in heap, not on stack</li>
+<li>A coroutine contains one of these keywords:
+<ul>
+<li><code>co_return</code> (coroutine return statement)</li>
+<li><code>co_await</code> (await expression)</li>
+<li><code>co_yield</code> (yield expression)</li>
+</ul></li>
+</ul>
+</section>
+<section id="coroutines-and-cppcoro" class="slide level2">
+<h2>Coroutines and CppCoro</h2>
+<p>Coroutines provides a very low-level interface. <a href="https://github.com/lewissbaker/cppcoro">CppCoro</a> is an experimental library that is exploring the space of high-performance, scalable asynchronous programming abstractions</p>
+<ul>
+<li>task<t>: asynchronous computation that is executed lazily</t></li>
+<li>generator<t>: a coroutine type that produces a sequence of values of type <code>T</code> where values are produced lazily and synchronously.</t></li>
 </ul>
 </section>
 <section id="concepts" class="slide level2">
@@ -989,8 +1030,11 @@
 <span id="cb23-20"><a href="#cb23-20"></a>    <span class="op">}</span></span>
 <span id="cb23-21"><a href="#cb23-21"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="stdformat" class="slide level2">
-<h2>std::format</h2>
+<section id="text-formating" class="slide level2">
+<h2>Text Formating</h2>
+<ul>
+<li></li>
+</ul>
 <div class="sourceCode" id="cb24"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href="#cb24-1"></a><span class="pp">#include </span><span class="im">&lt;fmt/core.h&gt;</span></span>
 <span id="cb24-2"><a href="#cb24-2"></a></span>
 <span id="cb24-3"><a href="#cb24-3"></a><span class="dt">int</span> main<span class="op">()</span></span>
