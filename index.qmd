@@ -34,6 +34,15 @@ format:
 - Feature papers
 - Programming paradigms
 - Meta programming
+
+Exercises:
+- C++98 Warm-up matrix
+- Smart pointer
+- Move semantic
+- Concepts
+- Ranges
+- Three-way comparison
+- Pancakes
 -->
 
 
@@ -536,7 +545,7 @@ auto result { data
 ```
 
 
-## Ranges: Lazy evaluation
+## Ranges: Lazy Evaluation
 
 
 
@@ -583,21 +592,17 @@ int main()
 [CompilerExplorer](https://gcc.godbolt.org/z/xoTEjdT68)
 
 
-## Three-way comparison
+## Three-way Comparison
 
 - Comparison operators
-  - `==`, `!=` 
-  - `<`, `>`, `<=`, `>=`
-- Usually `==` and `<` contain the real logic and the others
+  - `==`, `<` contain the real logic
+  - `!=`, `>`, `<=`, `>=` will be derived
+- Three-way comparison operator 
+  - (a <=> b) < 0 if a < b
+  - (a <=> b) > 0 if a > b
+  - (a <=> b) == 0 if a == b
 
-Example:
-```{.cpp}
-struct Point
-{
-    int x;
-    int y;
-};
-```
+[CompilerExplorer](https://godbolt.org/z/cPjanE9db)
 
 ::: notes
 - Write a 2-dim. point class with all comparison operators
@@ -605,7 +610,7 @@ struct Point
 :::
 
 
-## Three-way comparison
+## Three-way Comparison
 
 ```{.cpp}
 struct Point
@@ -628,9 +633,9 @@ struct Point
 ```
 
 
-## Coding competition
+## Coding Competition
 
-Source: [GoogleCodeJam](https://codingcompetitions.withgoogle.com/codejam)
+[GoogleCodeJam](https://codingcompetitions.withgoogle.com/codejam)
 
 2016 Quali Round Problem B: Revenge of the Pancakes
 
@@ -668,6 +673,7 @@ std::cout << "You need " << n << " flips to make all happy." << std::endl;
 ## Summary
 
 - C++ is going 
+
 
 ## Thank you {.center}
 
