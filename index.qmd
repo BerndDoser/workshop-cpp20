@@ -42,6 +42,7 @@ Exercises:
 - Concepts
 - Ranges
 - Three-way comparison
+- format
 - Pancakes
 -->
 
@@ -577,60 +578,86 @@ int main()
 ```
 
 
-## Text Formating
+## C++20: Text Formating
 
-- 
-
+- `std::format`
+- Safe and extensible
+- Faster then printf and iostreams
+- Separation of format string and arguments
 ```{.cpp}
-#include <fmt/core.h>
-
-int main()
-{
-    fmt::print("Hello, world!\n");
-}
+std::format("The answer is {}.", 42);
+std::format("strftime-like format: {:%H:%M:%S}\n", 3h + 15min + 30s);
 ```
-[CompilerExplorer](https://gcc.godbolt.org/z/xoTEjdT68)
+- Available at [{fmt}](https://github.com/fmtlib/fmt) until compiler support
+
+[CompilerExplorer](https://godbolt.org/z/T4P5oWjcd)
 
 
-## Three-way Comparison
+## Comparison before C++20
 
-- Comparison operators
+- 6 comparison operators
   - `==`, `<` contain the real logic
   - `!=`, `>`, `<=`, `>=` will be derived
-- Three-way comparison operator 
-  - (a <=> b) < 0 if a < b
-  - (a <=> b) > 0 if a > b
-  - (a <=> b) == 0 if a == b
+- Free functions to allow comparison of convertible types
+- 18 comparison operators for non-convertible types
+  - `op(const& T1, const& T2)`
+  - `op(const& T2, const& T1)`
 
 [CompilerExplorer](https://godbolt.org/z/cPjanE9db)
 
 ::: notes
 - Write a 2-dim. point class with all comparison operators
+- Show free function
 - Write same class with spaceship operator
 :::
 
 
-## Three-way Comparison
+## Comparison before C++20
 
 ```{.cpp}
 struct Point
 {
     int x,y;
 
-    frind bool operator == (const Point& a, const Point& b) {
+    friend bool operator == (const Point& a, const Point& b) {
       return a.x == b.x and a.y == b.y; }
-    frind bool operator <  (const Point& a, const Point& b) {
+    friend bool operator <  (const Point& a, const Point& b) {
       return a.x < b.x or (a.x == b.x and a.y < b.y); }
-    frind bool operator != (const Point& a, const Point& b) {
+    friend bool operator != (const Point& a, const Point& b) {
       return !(a==b); }
-    frind bool operator <= (const Point& a, const Point& b) {
+    friend bool operator <= (const Point& a, const Point& b) {
       return !(b<a); }
-    frind bool operator >  (const Point& a, const Point& b) {
+    friend bool operator >  (const Point& a, const Point& b) {
       return b<a; }
-    frind bool operator >= (const Point& a, const Point& b) {
+    friend bool operator >= (const Point& a, const Point& b) {
       return !(a<b); }
 };
 ```
+
+
+## C++20: Three-way Comparison
+
+- Spaceship operator `<=>` (similar to `strcmp`)
+  - (a <=> b) < 0 if a < b
+  - (a <=> b) > 0 if a > b
+  - (a <=> b) == 0 if a == b
+- Compiler generates all 6 comparison operators to compare X with Y memberwise
+```{.cpp}
+auto X:: operator<=>(const Y&) const = default;
+```
+- Custom implementation needs also `operator ==`
+
+
+## Comparison Categories {.smaller}
+
+- `strong_ordering`
+  - exactly one of `<, >, ==` must be true and if `a == b` then `f(a) == f(b)`
+- `weak_ordering` (equivalent but not equal)
+  - exactly one of `<, >, ==` must be true and if `a == b` then `f(a) != f(b)`
+  - Example: `CaseInsensitiveString` storing original string, but compare in case-insensitive way.
+- `partial_ordering`
+  - one of `<, >, ==` might be true and if `a==b` then `f(a) != f(b)`
+  - Example: float/double because `NaN` is not comparable
 
 
 ## Coding Competition

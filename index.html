@@ -422,6 +422,8 @@ Exercises:
 - Move semantic
 - Concepts
 - Ranges
+- Three-way comparison
+- format
 - Pancakes
 -->
 </section>
@@ -1038,38 +1040,41 @@ Exercises:
 <span id="cb23-20"><a href="#cb23-20"></a>    <span class="op">}</span></span>
 <span id="cb23-21"><a href="#cb23-21"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="text-formating" class="slide level2">
-<h2>Text Formating</h2>
+<section id="c20-text-formating" class="slide level2">
+<h2>C++20: Text Formating</h2>
 <ul>
-<li></li>
+<li><code>std::format</code></li>
+<li>Safe and extensible</li>
+<li>Faster then printf and iostreams</li>
+<li>Separation of format string and arguments</li>
 </ul>
-<div class="sourceCode" id="cb24"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href="#cb24-1"></a><span class="pp">#include </span><span class="im">&lt;fmt/core.h&gt;</span></span>
-<span id="cb24-2"><a href="#cb24-2"></a></span>
-<span id="cb24-3"><a href="#cb24-3"></a><span class="dt">int</span> main<span class="op">()</span></span>
-<span id="cb24-4"><a href="#cb24-4"></a><span class="op">{</span></span>
-<span id="cb24-5"><a href="#cb24-5"></a>    fmt<span class="op">::</span>print<span class="op">(</span><span class="st">"Hello, world!</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
-<span id="cb24-6"><a href="#cb24-6"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb24-1"><a href="#cb24-1"></a><span class="bu">std::</span>format<span class="op">(</span><span class="st">"The answer is </span><span class="sc">{}</span><span class="st">."</span><span class="op">,</span> <span class="dv">42</span><span class="op">);</span></span>
+<span id="cb24-2"><a href="#cb24-2"></a><span class="bu">std::</span>format<span class="op">(</span><span class="st">"strftime-like format: {:%H:%M:%S}</span><span class="sc">\n</span><span class="st">"</span><span class="op">,</span> <span class="dv">3</span><span class="bu">h</span> <span class="op">+</span> <span class="dv">15</span><span class="bu">min</span> <span class="op">+</span> <span class="dv">30</span><span class="bu">s</span><span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Available at <a href="https://github.com/fmtlib/fmt">{fmt}</a> until compiler support</li>
+</ul>
 <p><a href="https://gcc.godbolt.org/z/xoTEjdT68">CompilerExplorer</a></p>
 </section>
-<section id="three-way-comparison" class="slide level2">
-<h2>Three-way Comparison</h2>
+<section id="comparison-before-c20" class="slide level2">
+<h2>Comparison before C++20</h2>
 <ul>
-<li>Comparison operators
+<li>6 comparison operators
 <ul>
-<li><code>==</code>, <code>!=</code></li>
-<li><code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code></li>
+<li><code>==</code>, <code>&lt;</code> contain the real logic</li>
+<li><code>!=</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code> will be derived</li>
 </ul></li>
-<li>Usually <code>==</code> and <code>&lt;</code> contain the real logic and the others</li>
+<li>Free functions to allow comparison of convertible types</li>
+<li>18 comparison operators for non-convertible types
+<ul>
+<li><code>op(const&amp; T1, const&amp; T2)</code></li>
+<li><code>op(const&amp; T2, const&amp; T1)</code></li>
+</ul></li>
 </ul>
-<p>Example:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href="#cb25-1"></a><span class="kw">struct</span> Point</span>
-<span id="cb25-2"><a href="#cb25-2"></a><span class="op">{</span></span>
-<span id="cb25-3"><a href="#cb25-3"></a>    <span class="dt">int</span> x<span class="op">;</span></span>
-<span id="cb25-4"><a href="#cb25-4"></a>    <span class="dt">int</span> y<span class="op">;</span></span>
-<span id="cb25-5"><a href="#cb25-5"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><a href="https://godbolt.org/z/cPjanE9db">CompilerExplorer</a></p>
 <aside class="notes">
 <ul>
 <li>Write a 2-dim. point class with all comparison operators</li>
+<li>Show free function</li>
 <li>Write same class with spaceship operator</li>
 </ul>
 <style type="text/css">
@@ -1084,25 +1089,60 @@ Exercises:
           display:block!important;
       }</style></aside>
 </section>
-<section id="three-way-comparison-1" class="slide level2">
-<h2>Three-way Comparison</h2>
-<div class="sourceCode" id="cb26"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb26-1"><a href="#cb26-1"></a><span class="kw">struct</span> Point</span>
-<span id="cb26-2"><a href="#cb26-2"></a><span class="op">{</span></span>
-<span id="cb26-3"><a href="#cb26-3"></a>    <span class="dt">int</span> x<span class="op">,</span>y<span class="op">;</span></span>
-<span id="cb26-4"><a href="#cb26-4"></a></span>
-<span id="cb26-5"><a href="#cb26-5"></a>    frind <span class="dt">bool</span> <span class="kw">operator</span> <span class="op">==</span> <span class="op">(</span><span class="at">const</span> Point<span class="op">&amp;</span> a<span class="op">,</span> <span class="at">const</span> Point<span class="op">&amp;</span> b<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb26-6"><a href="#cb26-6"></a>      <span class="cf">return</span> a<span class="op">.</span>x <span class="op">==</span> b<span class="op">.</span>x <span class="kw">and</span> a<span class="op">.</span>y <span class="op">==</span> b<span class="op">.</span>y<span class="op">;</span> <span class="op">}</span></span>
-<span id="cb26-7"><a href="#cb26-7"></a>    frind <span class="dt">bool</span> <span class="kw">operator</span> <span class="op">&lt;</span>  <span class="op">(</span><span class="at">const</span> Point<span class="op">&amp;</span> a<span class="op">,</span> <span class="at">const</span> Point<span class="op">&amp;</span> b<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb26-8"><a href="#cb26-8"></a>      <span class="cf">return</span> a<span class="op">.</span>x <span class="op">&lt;</span> b<span class="op">.</span>x <span class="kw">or</span> <span class="op">(</span>a<span class="op">.</span>x <span class="op">==</span> b<span class="op">.</span>x <span class="kw">and</span> a<span class="op">.</span>y <span class="op">&lt;</span> b<span class="op">.</span>y<span class="op">);</span> <span class="op">}</span></span>
-<span id="cb26-9"><a href="#cb26-9"></a>    frind <span class="dt">bool</span> <span class="kw">operator</span> <span class="op">!=</span> <span class="op">(</span><span class="at">const</span> Point<span class="op">&amp;</span> a<span class="op">,</span> <span class="at">const</span> Point<span class="op">&amp;</span> b<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb26-10"><a href="#cb26-10"></a>      <span class="cf">return</span> <span class="op">!(</span>a<span class="op">==</span>b<span class="op">);</span> <span class="op">}</span></span>
-<span id="cb26-11"><a href="#cb26-11"></a>    frind <span class="dt">bool</span> <span class="kw">operator</span> <span class="op">&lt;=</span> <span class="op">(</span><span class="at">const</span> Point<span class="op">&amp;</span> a<span class="op">,</span> <span class="at">const</span> Point<span class="op">&amp;</span> b<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb26-12"><a href="#cb26-12"></a>      <span class="cf">return</span> <span class="op">!(</span>b<span class="op">&lt;</span>a<span class="op">);</span> <span class="op">}</span></span>
-<span id="cb26-13"><a href="#cb26-13"></a>    frind <span class="dt">bool</span> <span class="kw">operator</span> <span class="op">&gt;</span>  <span class="op">(</span><span class="at">const</span> Point<span class="op">&amp;</span> a<span class="op">,</span> <span class="at">const</span> Point<span class="op">&amp;</span> b<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb26-14"><a href="#cb26-14"></a>      <span class="cf">return</span> b<span class="op">&lt;</span>a<span class="op">;</span> <span class="op">}</span></span>
-<span id="cb26-15"><a href="#cb26-15"></a>    frind <span class="dt">bool</span> <span class="kw">operator</span> <span class="op">&gt;=</span> <span class="op">(</span><span class="at">const</span> Point<span class="op">&amp;</span> a<span class="op">,</span> <span class="at">const</span> Point<span class="op">&amp;</span> b<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb26-16"><a href="#cb26-16"></a>      <span class="cf">return</span> <span class="op">!(</span>a<span class="op">&lt;</span>b<span class="op">);</span> <span class="op">}</span></span>
-<span id="cb26-17"><a href="#cb26-17"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="comparison-before-c20-1" class="slide level2">
+<h2>Comparison before C++20</h2>
+<div class="sourceCode" id="cb25"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb25-1"><a href="#cb25-1"></a><span class="kw">struct</span> Point</span>
+<span id="cb25-2"><a href="#cb25-2"></a><span class="op">{</span></span>
+<span id="cb25-3"><a href="#cb25-3"></a>    <span class="dt">int</span> x<span class="op">,</span>y<span class="op">;</span></span>
+<span id="cb25-4"><a href="#cb25-4"></a></span>
+<span id="cb25-5"><a href="#cb25-5"></a>    <span class="kw">friend</span> <span class="dt">bool</span> <span class="kw">operator</span> <span class="op">==</span> <span class="op">(</span><span class="at">const</span> Point<span class="op">&amp;</span> a<span class="op">,</span> <span class="at">const</span> Point<span class="op">&amp;</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb25-6"><a href="#cb25-6"></a>      <span class="cf">return</span> a<span class="op">.</span>x <span class="op">==</span> b<span class="op">.</span>x <span class="kw">and</span> a<span class="op">.</span>y <span class="op">==</span> b<span class="op">.</span>y<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb25-7"><a href="#cb25-7"></a>    <span class="kw">friend</span> <span class="dt">bool</span> <span class="kw">operator</span> <span class="op">&lt;</span>  <span class="op">(</span><span class="at">const</span> Point<span class="op">&amp;</span> a<span class="op">,</span> <span class="at">const</span> Point<span class="op">&amp;</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb25-8"><a href="#cb25-8"></a>      <span class="cf">return</span> a<span class="op">.</span>x <span class="op">&lt;</span> b<span class="op">.</span>x <span class="kw">or</span> <span class="op">(</span>a<span class="op">.</span>x <span class="op">==</span> b<span class="op">.</span>x <span class="kw">and</span> a<span class="op">.</span>y <span class="op">&lt;</span> b<span class="op">.</span>y<span class="op">);</span> <span class="op">}</span></span>
+<span id="cb25-9"><a href="#cb25-9"></a>    <span class="kw">friend</span> <span class="dt">bool</span> <span class="kw">operator</span> <span class="op">!=</span> <span class="op">(</span><span class="at">const</span> Point<span class="op">&amp;</span> a<span class="op">,</span> <span class="at">const</span> Point<span class="op">&amp;</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb25-10"><a href="#cb25-10"></a>      <span class="cf">return</span> <span class="op">!(</span>a<span class="op">==</span>b<span class="op">);</span> <span class="op">}</span></span>
+<span id="cb25-11"><a href="#cb25-11"></a>    <span class="kw">friend</span> <span class="dt">bool</span> <span class="kw">operator</span> <span class="op">&lt;=</span> <span class="op">(</span><span class="at">const</span> Point<span class="op">&amp;</span> a<span class="op">,</span> <span class="at">const</span> Point<span class="op">&amp;</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb25-12"><a href="#cb25-12"></a>      <span class="cf">return</span> <span class="op">!(</span>b<span class="op">&lt;</span>a<span class="op">);</span> <span class="op">}</span></span>
+<span id="cb25-13"><a href="#cb25-13"></a>    <span class="kw">friend</span> <span class="dt">bool</span> <span class="kw">operator</span> <span class="op">&gt;</span>  <span class="op">(</span><span class="at">const</span> Point<span class="op">&amp;</span> a<span class="op">,</span> <span class="at">const</span> Point<span class="op">&amp;</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb25-14"><a href="#cb25-14"></a>      <span class="cf">return</span> b<span class="op">&lt;</span>a<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb25-15"><a href="#cb25-15"></a>    <span class="kw">friend</span> <span class="dt">bool</span> <span class="kw">operator</span> <span class="op">&gt;=</span> <span class="op">(</span><span class="at">const</span> Point<span class="op">&amp;</span> a<span class="op">,</span> <span class="at">const</span> Point<span class="op">&amp;</span> b<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb25-16"><a href="#cb25-16"></a>      <span class="cf">return</span> <span class="op">!(</span>a<span class="op">&lt;</span>b<span class="op">);</span> <span class="op">}</span></span>
+<span id="cb25-17"><a href="#cb25-17"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="c20-three-way-comparison" class="slide level2">
+<h2>C++20: Three-way Comparison</h2>
+<ul>
+<li>Spaceship operator <code>&lt;=&gt;</code> (similar to <code>strcmp</code>)
+<ul>
+<li>(a &lt;=&gt; b) &lt; 0 if a &lt; b</li>
+<li>(a &lt;=&gt; b) &gt; 0 if a &gt; b</li>
+<li>(a &lt;=&gt; b) == 0 if a == b</li>
+</ul></li>
+<li>Compiler generates all 6 comparison operators to compare X with Y memberwise</li>
+</ul>
+<div class="sourceCode" id="cb26"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb26-1"><a href="#cb26-1"></a><span class="kw">auto</span> X<span class="op">::</span> <span class="kw">operator</span><span class="op">&lt;=&gt;(</span><span class="at">const</span> Y<span class="op">&amp;)</span> <span class="at">const</span> <span class="op">=</span> <span class="cf">default</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Custom implementation needs also <code>operator ==</code></li>
+</ul>
+</section>
+<section id="comparison-categories" class="slide level2 smaller">
+<h2>Comparison Categories</h2>
+<ul>
+<li><code>strong_ordering</code>
+<ul>
+<li>exactly one of <code>&lt;, &gt;, ==</code> must be true and if <code>a == b</code> then <code>f(a) == f(b)</code></li>
+</ul></li>
+<li><code>weak_ordering</code> (equivalent but not equal)
+<ul>
+<li>exactly one of <code>&lt;, &gt;, ==</code> must be true and if <code>a == b</code> then <code>f(a) != f(b)</code></li>
+<li>Example: <code>CaseInsensitiveString</code> storing original string, but compare in case-insensitive way.</li>
+</ul></li>
+<li><code>partial_ordering</code>
+<ul>
+<li>one of <code>&lt;, &gt;, ==</code> might be true and if <code>a==b</code> then <code>f(a) != f(b)</code></li>
+<li>Example: float/double because <code>NaN</code> is not comparable</li>
+</ul></li>
+</ul>
 </section>
 <section id="coding-competition" class="slide level2">
 <h2>Coding Competition</h2>
