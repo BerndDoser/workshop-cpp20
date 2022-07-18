@@ -86,7 +86,7 @@ Exercises:
 
 ## ISO Timeline
 
-![](images/iso-timeline.png)
+[![](images/iso-timeline.png)](https://isocpp.org/std/status)
 
 
 ## Books and ISO Standard
@@ -719,12 +719,17 @@ std::cout << "You need " << n << " flips to make all happy." << std::endl;
 
 ## Summary
 
-::: {.incremental}
 - C++20 is like C++11 a major change in the language
-- Ranges is a great step towards a functional paradigm
-- Modules will simplify of multiple translation units in the future
-- Concepts
-- C++23 
+- The Big Four of C++20
+  - `Ranges` is a great step towards functional programming
+  - `Modules` simplifies multiple translation units
+  - `Concepts` allows template arguments specifications
+  - `Coroutines` are stackless and can be suspended
+- `Reflections` and more ranges are expected for C++23
+
+:::{.callout-tip icon=false}
+## Bjarne Stroustrup
+"Within C++, there is a much smaller and cleaner language struggling to get out"
 :::
 
 
