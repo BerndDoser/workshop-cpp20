@@ -30,10 +30,9 @@ format:
 <!-- TODO
 - Modules
 - Concepts
-- ISO timeline
-- Feature papers
-- Programming paradigms
+- ISO timeline, Feature papers
 - Meta programming
+- Reflections
 
 Exercises:
 - C++98 Warm-up matrix
@@ -86,6 +85,11 @@ Exercises:
 - Suggestions for C++23: "A plan for ranges", reflections
 
 
+## ISO Timeline
+
+![](images/iso-timeline.png)
+
+
 ## Books and ISO Standard
 
 ::: columns
@@ -118,6 +122,10 @@ Exercises:
 - [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines)
 
 ![](images/compiler_explorer.png)
+:::
+
+::: notes
+- Compiler feature support with proposals
 :::
 
 
@@ -548,7 +556,7 @@ auto result { data
 
 ## Ranges: Lazy Evaluation
 
-
+[CompilerExplorer](https://godbolt.org/z/fEnKGoK7f)
 
 
 ## Ranges: filter and transform
