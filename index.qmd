@@ -30,7 +30,6 @@ format:
 <!-- TODO
 - Modules
 - Concepts
-- ISO timeline, Feature papers
 - Meta programming
 - Reflections
 
@@ -385,13 +384,31 @@ auto f6 = [] (auto arg) { return arg; }; // Generic lambda (C++14)
   - `co_yield` (yield expression)
 
 
-## Coroutines and CppCoro
+## Coroutines: CppCoro
 
 Coroutines provides a very low-level interface. [CppCoro](https://github.com/lewissbaker/cppcoro) is an experimental library that is exploring the space of high-performance, scalable asynchronous programming abstractions
 
-- task<T>: asynchronous computation that is executed lazily
-- generator<T>: a coroutine type that produces a sequence of values of type `T` where values are produced lazily and synchronously.
+- `Task<T>`: asynchronous computation that is executed lazily
+- `Generator<T>`: a coroutine type that produces a sequence of values of type `T` where values are produced lazily and synchronously.
 
+
+## Coroutines: Generator
+
+```{.cpp}
+Generator<int> getNext(int start = 0, int step = 1){
+    auto value = start;
+    while (true) {
+        co_yield value;            
+        value += step;
+    }
+}
+
+auto gen = getNext(100, -10);
+for (int i = 0; i <= 20; ++i) {
+    gen.next();             
+    std::cout << gen.getValue() << " ";
+}
+```
 
 ## Concepts
 
@@ -556,34 +573,26 @@ auto result { data
 
 ## Ranges: Lazy Evaluation
 
-[CompilerExplorer](https://godbolt.org/z/fEnKGoK7f)
-
-
-## Ranges: filter and transform
-
 ```{.cpp}
-#include <ranges>
-#include <iostream>
- 
-int main()
+auto odd = [](int i){ return i % 2 == 1; };
+auto isPrime = [](int i) {
+    for (int j=2; j*j <= i; ++j){
+        if (i % j == 0) return false;
+    }
+    return true;
+};
+
+for (int i: std::views::iota(1) | std::views::filter(odd)
+                                | std::views::filter(isPrime)
+                                | std::views::take(10))
 {
-    auto const ints = {0,1,2,3,4,5};
-    auto even = [](int i) { return 0 ## i % 2; };
-    auto square = [](int i) { return i - i; };
- 
-    // "pipe" syntax of composing the views:
-    for (int i : ints | std::views::filter(even) | std::views::transform(square)) {
-        std::cout << i << ' ';
-    }
- 
-    std::cout << '\n';
- 
-    // a traditional "functional" composing syntax:
-    for (int i : std::views::transform(std::views::filter(ints, even), square)) {
-        std::cout << i << ' ';
-    }
+    std::cout << i << std::endl;
 }
 ```
+
+- Expression templates
+- [CompilerExplorer isPrime](https://godbolt.org/z/vszY5WjYr)
+- [CompilerExplorer transform](https://godbolt.org/z/fEnKGoK7f)
 
 
 ## C++20: Text Formating
@@ -707,7 +716,13 @@ std::cout << "You need " << n << " flips to make all happy." << std::endl;
 
 ## Summary
 
-- C++ is going 
+::: {.incremental}
+- C++20 is like C++11 a major change in the language
+- Ranges is a great step towards a functional paradigm
+- Modules will simplify of multiple translation units in the future
+- Concepts
+- C++23 
+:::
 
 
 ## Thank you {.center}
