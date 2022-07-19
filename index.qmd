@@ -276,12 +276,7 @@ auto ptr = std::make_shared<int>();
 - Move is fast
 :::
 
-```cpp
-int i = 5;
-std::string s = "foo";
-double c = a * b;
-double y = function(x);
-```
+[CompilerExplorer](https://godbolt.org/z/EcP7GhvnE)
 
 
 ## Containers
