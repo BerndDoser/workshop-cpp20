@@ -119,6 +119,7 @@ Exercises:
 - [cppreference.com](https://cppreference.com)
 - [CompilerExplorer](https://gcc.godbolt.org)
 - [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines)
+- [Overview C++20 by Oleksandr Koval](https://oleksandrkvl.github.io/2021/04/02/cpp-20-overview.html)
 
 ![](images/compiler_explorer.png)
 :::
