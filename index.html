@@ -522,6 +522,8 @@ Exercises:
 <aside class="notes">
 <ul>
 <li>Compiler feature support with proposals</li>
+<li>Explain CompilerExplorer</li>
+<li>Show C++ Guidlines (best practice)</li>
 </ul>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -873,15 +875,18 @@ Exercises:
 </section>
 <section id="coroutines-cppcoro" class="slide level2">
 <h2>Coroutines: CppCoro</h2>
-<p>Coroutines provides a very low-level interface. <a href="https://github.com/lewissbaker/cppcoro">CppCoro</a> is an experimental library that is exploring the space of high-performance, scalable asynchronous programming abstractions</p>
+<ul>
+<li>Coroutines provides a very low-level interface.</li>
+<li><a href="https://github.com/lewissbaker/cppcoro">CppCoro</a> provides asynchronous programming abstractions (maybe in C++23)
 <ul>
 <li><code>Task&lt;T&gt;</code>: asynchronous computation that is executed lazily</li>
 <li><code>Generator&lt;T&gt;</code>: a coroutine type that produces a sequence of values of type <code>T</code> where values are produced lazily and synchronously.</li>
+</ul></li>
 </ul>
 </section>
 <section id="coroutines-generator" class="slide level2">
 <h2>Coroutines: Generator</h2>
-<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href="#cb10-1"></a>Generator<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> getNext<span class="op">(</span><span class="dt">int</span> start <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">int</span> step <span class="op">=</span> <span class="dv">1</span><span class="op">){</span></span>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href="#cb10-1"></a>Generator<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> getNext<span class="op">(</span><span class="dt">int</span> start <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">int</span> step <span class="op">=</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
 <span id="cb10-2"><a href="#cb10-2"></a>    <span class="kw">auto</span> value <span class="op">=</span> start<span class="op">;</span></span>
 <span id="cb10-3"><a href="#cb10-3"></a>    <span class="cf">while</span> <span class="op">(</span><span class="kw">true</span><span class="op">)</span> <span class="op">{</span></span>
 <span id="cb10-4"><a href="#cb10-4"></a>        <span class="cf">co_yield</span> value<span class="op">;</span>            </span>
@@ -899,10 +904,10 @@ Exercises:
 <h2>Concepts</h2>
 <ul>
 <li>With concepts, failure happens early and the error message is much more meaningful.</li>
+<li>Before C++20 <code>enable_if</code> was used to check template arguments (<a href="https://github.com/BrainTwister/BlasBooster/blob/c1bd253971ea831f6e1b844568c2d69dfec4e239/include/BlasBooster/Core/DenseMatrix.h#L72">Example</a>).</li>
 </ul>
-<p>Before C++20 <code>enable_if</code> was used to check template arguments. Substitution failure is not an error (SFINAE)</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb11-1"><a href="#cb11-1"></a><span class="co">// C++11</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="kw">template</span> <span class="op">&lt;</span><span class="kw">typename</span> T<span class="op">&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="kw">template</span> <span class="op">&lt;</span><span class="kw">typename</span> T<span class="op">&gt;</span>  <span class="co">// Substitution failure is not an error (SFINAE)</span></span>
 <span id="cb11-3"><a href="#cb11-3"></a><span class="bu">std::</span>enable_if_t<span class="op">&lt;</span><span class="bu">std::</span>is_same_v<span class="op">&lt;</span>T<span class="op">,</span> <span class="dt">int</span><span class="op">&gt;&gt;</span> f<span class="op">(</span>T x<span class="op">);</span></span>
 <span id="cb11-4"><a href="#cb11-4"></a> </span>
 <span id="cb11-5"><a href="#cb11-5"></a><span class="co">// C++20</span></span>
@@ -937,7 +942,7 @@ Exercises:
 <span id="cb14-7"><a href="#cb14-7"></a></span>
 <span id="cb14-8"><a href="#cb14-8"></a>    <span class="co">// copy only positive numbers:</span></span>
 <span id="cb14-9"><a href="#cb14-9"></a>    <span class="bu">std::</span>copy_if<span class="op">(</span>data<span class="op">.</span>begin<span class="op">(),</span> data<span class="op">.</span>end<span class="op">(),</span></span>
-<span id="cb14-10"><a href="#cb14-10"></a>      <span class="bu">std::</span>back_inserter<span class="op">(</span>pos<span class="op">),</span> <span class="op">[](</span><span class="dt">int</span> i<span class="op">){</span><span class="cf">return</span> i <span class="op">&gt;=</span> <span class="dv">0</span><span class="op">;}</span> <span class="op">);</span></span>
+<span id="cb14-10"><a href="#cb14-10"></a>      <span class="bu">std::</span>back_inserter<span class="op">(</span>pos<span class="op">),</span> <span class="op">[](</span><span class="dt">int</span> i<span class="op">){</span> <span class="cf">return</span> i <span class="op">&gt;=</span> <span class="dv">0</span><span class="op">;</span> <span class="op">});</span></span>
 <span id="cb14-11"><a href="#cb14-11"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><a href="https://en.cppreference.com/w/cpp/algorithm/copy">cppreference std::copy_if</a></p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">template</span> <span class="op">&lt;</span><span class="kw">class</span> InputIt<span class="op">,</span> <span class="kw">class</span> OutputIt<span class="op">,</span> <span class="kw">class</span> UnaryPredicate<span class="op">&gt;</span></span>
@@ -955,7 +960,7 @@ Exercises:
 <span id="cb16-2"><a href="#cb16-2"></a><span class="bu">std::</span>sort<span class="op">(</span><span class="bu">std::</span>begin<span class="op">(</span>v<span class="op">),</span> <span class="bu">std::</span>end<span class="op">(</span>v<span class="op">));</span></span>
 <span id="cb16-3"><a href="#cb16-3"></a><span class="bu">std::</span>ranges<span class="bu">::</span>sort<span class="op">(</span>v<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
-<li>Chaining-like unix pipes</li>
+<li>Chaining similar to unix pipes</li>
 </ul>
 <div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href="#cb17-1"></a>result <span class="op">=</span> data <span class="op">|</span> func1 <span class="op">|</span> func2 <span class="op">|</span> <span class="op">...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
@@ -1019,7 +1024,7 @@ Exercises:
 <div class="sourceCode" id="cb20"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb20-1"><a href="#cb20-1"></a><span class="kw">template</span><span class="op">&lt;</span><span class="kw">class</span> D<span class="op">&gt;</span></span>
 <span id="cb20-2"><a href="#cb20-2"></a>  <span class="kw">requires</span> <span class="bu">std::</span>is_class_v<span class="op">&lt;</span>D<span class="op">&gt;</span> <span class="op">&amp;&amp;</span> <span class="bu">std::</span>same_as<span class="op">&lt;</span>D<span class="op">,</span> <span class="bu">std::</span>remove_cv_t<span class="op">&lt;</span>D<span class="op">&gt;&gt;</span></span>
 <span id="cb20-3"><a href="#cb20-3"></a><span class="kw">class</span> view_interface<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>view_interface</code> is typically used with CRTP</p>
+<p><code>view_interface</code> is typically used with <a href="https://godbolt.org/z/4G77YKf1z">CRTP</a></p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb21-1"><a href="#cb21-1"></a><span class="kw">class</span> my_view <span class="op">:</span> <span class="kw">public</span> <span class="bu">std::</span>ranges<span class="bu">::</span>view_interface<span class="op">&lt;</span>my_view<span class="op">&gt;</span> <span class="op">{</span></span>
 <span id="cb21-2"><a href="#cb21-2"></a><span class="kw">public</span><span class="op">:</span></span>
 <span id="cb21-3"><a href="#cb21-3"></a>    <span class="kw">auto</span> begin<span class="op">()</span> <span class="at">const</span> <span class="op">{</span> <span class="co">/*...*/</span> <span class="op">}</span></span>
@@ -1097,7 +1102,7 @@ Exercises:
 <li><code>op(const&amp; T2, const&amp; T1)</code></li>
 </ul></li>
 </ul>
-<p><a href="https://godbolt.org/z/jjfz3rfxz">CompilerExplorer</a></p>
+<p><a href="https://godbolt.org/z/8qj6vx1hf">Exercise</a></p>
 <aside class="notes">
 <ul>
 <li>Write a 2-dim. point class with all comparison operators</li>
@@ -1176,10 +1181,10 @@ Exercises:
 <p><a href="https://codingcompetitions.withgoogle.com/codejam">GoogleCodeJam</a></p>
 <p>2016 Quali Round Problem B: Revenge of the Pancakes</p>
 <p>Stack of pancakes with a happy face made of chocolate on one side ‘+’ and nothing on the other side ‘-’. Goal is to have all pancakes with the happy side on the top.</p>
-<p><a href="https://godbolt.org/z/61fede6sr">CompilerExplorer</a></p>
+<p><a href="https://godbolt.org/z/jc8TocKMn">Here we go!</a></p>
 </section>
-<section id="solution" class="slide level2">
-<h2>Solution</h2>
+<section id="coding-competition-solution" class="slide level2 smaller">
+<h2>Coding Competition Solution</h2>
 <div class="sourceCode" id="cb28"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb28-1"><a href="#cb28-1"></a><span class="bu">std::</span>string<span class="op"> </span>stack<span class="op">{</span><span class="st">"++--+-"</span><span class="op">};</span></span>
 <span id="cb28-2"><a href="#cb28-2"></a></span>
 <span id="cb28-3"><a href="#cb28-3"></a><span class="kw">auto</span> flip <span class="op">=</span> <span class="op">[](</span><span class="at">const</span> <span class="dt">char</span> c<span class="op">){</span></span>
@@ -1200,6 +1205,20 @@ Exercises:
 <span id="cb28-18"><a href="#cb28-18"></a>  <span class="op">}</span></span>
 <span id="cb28-19"><a href="#cb28-19"></a><span class="op">}</span></span>
 <span id="cb28-20"><a href="#cb28-20"></a><span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> <span class="st">"You need "</span> <span class="op">&lt;&lt;</span> n <span class="op">&lt;&lt;</span> <span class="st">" flips to make all happy."</span> <span class="op">&lt;&lt;</span> <span class="bu">std::</span>endl<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><a href="https://godbolt.org/z/8jKWfGY59">CompilerExplorer</a></p>
+<aside class="notes">
+<p>Solution: 74 flips</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="summary" class="slide level2">
 <h2>Summary</h2>

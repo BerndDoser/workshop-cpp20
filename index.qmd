@@ -125,6 +125,8 @@ Exercises:
 
 ::: notes
 - Compiler feature support with proposals
+- Explain CompilerExplorer
+- Show C++ Guidlines (best practice)
 :::
 
 
@@ -389,16 +391,16 @@ auto f6 = [] (auto arg) { // Generic lambda (C++14)
 
 ## Coroutines: CppCoro
 
-Coroutines provides a very low-level interface. [CppCoro](https://github.com/lewissbaker/cppcoro) is an experimental library that is exploring the space of high-performance, scalable asynchronous programming abstractions
-
-- `Task<T>`: asynchronous computation that is executed lazily
-- `Generator<T>`: a coroutine type that produces a sequence of values of type `T` where values are produced lazily and synchronously.
+- Coroutines provides a very low-level interface.
+- [CppCoro](https://github.com/lewissbaker/cppcoro) provides asynchronous programming abstractions (maybe in C++23)
+  - `Task<T>`: asynchronous computation that is executed lazily
+  - `Generator<T>`: a coroutine type that produces a sequence of values of type `T` where values are produced lazily and synchronously.
 
 
 ## Coroutines: Generator
 
 ```cpp
-Generator<int> getNext(int start = 0, int step = 1){
+Generator<int> getNext(int start = 0, int step = 1) {
     auto value = start;
     while (true) {
         co_yield value;            
@@ -416,17 +418,15 @@ for (int i = 0; i <= 20; ++i) {
 ## Concepts
 
 - With concepts, failure happens early and the error message is much more meaningful.
-
-Before C++20 `enable_if` was used to check template arguments. Substitution failure is not an error (SFINAE)
+- Before C++20 `enable_if` was used to check template arguments ([Example](https://github.com/BrainTwister/BlasBooster/blob/c1bd253971ea831f6e1b844568c2d69dfec4e239/include/BlasBooster/Core/DenseMatrix.h#L72)).
 ```cpp
 // C++11
-template <typename T>
+template <typename T>  // Substitution failure is not an error (SFINAE)
 std::enable_if_t<std::is_same_v<T, int>> f(T x);
  
 // C++20
 void f(std::same_as<int> auto x);
 ```
-
 
 ## Concepts: Example
 
@@ -459,7 +459,7 @@ int main()
 
     // copy only positive numbers:
     std::copy_if(data.begin(), data.end(),
-      std::back_inserter(pos), [](int i){return i >= 0;} );
+      std::back_inserter(pos), [](int i){ return i >= 0; });
 }
 ```
 [cppreference std::copy_if](https://en.cppreference.com/w/cpp/algorithm/copy)
@@ -482,7 +482,7 @@ std::vector<int> v{1,2,3};
 std::sort(std::begin(v), std::end(v));
 std::ranges::sort(v);
 ```
-- Chaining-like unix pipes
+- Chaining similar to unix pipes
 ```cpp
 result = data | func1 | func2 | ...
 ```
@@ -539,7 +539,7 @@ template<class D>
 class view_interface;
 ```
 
-`view_interface` is typically used with CRTP
+`view_interface` is typically used with [CRTP](https://godbolt.org/z/4G77YKf1z)
 
 ```cpp
 class my_view : public std::ranges::view_interface<my_view> {
@@ -623,7 +623,7 @@ std::format("strftime-like format: {:%H:%M:%S}\n", 3h + 15min + 30s);
   - `op(const& T1, const& T2)`
   - `op(const& T2, const& T1)`
 
-[CompilerExplorer](https://godbolt.org/z/jjfz3rfxz)
+[Exercise](https://godbolt.org/z/8qj6vx1hf)
 
 ::: notes
 - Write a 2-dim. point class with all comparison operators
@@ -688,10 +688,10 @@ auto X:: operator<=>(const Y&) const = default;
 
 Stack of pancakes with a happy face made of chocolate on one side '+' and nothing on the other side '-'. Goal is to have all pancakes with the happy side on the top.
 
-[CompilerExplorer](https://godbolt.org/z/61fede6sr)
+[Here we go!](https://godbolt.org/z/jc8TocKMn)
 
 
-## Solution
+## Coding Competition Solution {.smaller}
 
 ```cpp
 std::string stack{"++--+-"};
@@ -715,7 +715,11 @@ for (auto first = std::ranges::find(stack, '-'); first != std::end(stack);
 }
 std::cout << "You need " << n << " flips to make all happy." << std::endl;
 ```
+[CompilerExplorer](https://godbolt.org/z/8jKWfGY59)
 
+::: notes
+Solution: 74 flips
+:::
 
 ## Summary
 
