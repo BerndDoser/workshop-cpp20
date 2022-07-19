@@ -1,25 +1,22 @@
+#include <iostream>
+#include <string>
 #include <type_traits>
 #include <utility>
-#include <iostream>
 
 struct Foo
 {
-    Foo(int i = 0) : i(i) {}
-    Foo(Foo& other) : i(other.i) { std::cout << "copy" << std::endl; }
-    Foo(Foo&& other) : i(std::exchange(other.i,0)) { std::cout << "move" << std::endl; }
+    Foo(std::string s) : s(s) {}
+    Foo(Foo& other) : s(other.s) { std::cout << "copy" << std::endl; }
+    Foo(Foo&& other) : s(std::exchange(other.s, "empty")) { std::cout << "move" << std::endl; }
 
-    int i;
+    std::string s;
 };
 
 int main()
 {
-    auto a = 2;
-    auto b = a;
-    static_assert(std::is_same<decltype(a), int>::value);
-
-    Foo f0(2);
+    Foo f0("test");
     Foo f1{f0};
     Foo f2{std::move(f0)};
-    std::cout << f2.i << std::endl;
-    std::cout << f0.i << std::endl;
+    std::cout << f2.s << std::endl;
+    std::cout << f0.s << std::endl;
 }
