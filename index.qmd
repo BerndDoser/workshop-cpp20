@@ -590,7 +590,6 @@ for (int i: std::views::iota(1) | std::views::filter(odd)
 ```
 
 - Expression templates
-- [CompilerExplorer isPrime](https://godbolt.org/z/vszY5WjYr)
 - [CompilerExplorer transform](https://godbolt.org/z/fEnKGoK7f)
 
 
