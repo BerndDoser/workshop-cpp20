@@ -717,6 +717,27 @@ std::cout << "You need " << n << " flips to make all happy." << std::endl;
 Solution: 74 flips
 :::
 
+
+## Easier Exercise
+
+- Print the first 10 prime numbers
+
+```cpp
+auto isPrime = [](int i) {
+    for (int j=2; j*j <= i; ++j){
+        if (i % j == 0) return false;
+    }
+    return true;
+};
+
+auto primes = // use std::views::iota, std::views::filter, std::views::take(10)
+
+fmt::print("{}\n", primes);
+```
+
+[Here we go!](https://godbolt.org/z/14MEKKo6z)
+
+
 ## Summary
 
 - C++20 is like C++11 a major change in the language
@@ -726,6 +747,8 @@ Solution: 74 flips
   - `Concepts` allows template arguments specifications
   - `Coroutines` are stackless and can be suspended
 - `Reflections` and more ranges are expected for C++23
+
+[Solution](https://godbolt.org/z/sqndT57j3)
 
 
 ## Thank you {.center}
