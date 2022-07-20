@@ -522,6 +522,30 @@ Why `std::begin(t)` instead of `t.begin()`?
 :::
 
 
+## Ranges: Pipelining
+
+```cpp
+C(B)
+B | C
+```
+- Views can be chained by overloading the `operator|`
+  (see [CompilerExplorer](https://godbolt.org/z/7hvYnrbWa)).
+
+```cpp
+auto const data = {0, 1, 2, 3, 4, 5};
+auto even = [](const auto& v) { return 0 == v % 2; };
+auto square = [](const auto& v) { return v * v; };
+
+// "pipe" syntax of composing the views:
+auto result { data
+    | std::views::filter(even)
+    | std::views::transform(square)
+    | std::views::drop(2)
+    | std::views::reverse
+    | std::views::transform([](const auto& v){ return std::to_string(v); }) };
+```
+
+
 ## Ranges: views
 
 :::{.callout-tip icon=false}
@@ -543,30 +567,6 @@ public:
     auto begin() const { /*...*/ }
     auto end() const { /*...*/ }
 };
-```
-
-
-## Ranges: Pipelining
-
-```cpp
-C(B)
-B | C
-```
-- Views can be chained by overloading the `operator|`
-  (see [CompilerExplorer](https://godbolt.org/z/7hvYnrbWa)).
-
-```cpp
-auto const data = {0, 1, 2, 3, 4, 5};
-auto even = [](const auto& v) { return 0 ## v % 2; };
-auto square = [](const auto& v) { return v * v; };
-
-// "pipe" syntax of composing the views:
-auto result { data
-    | std::views::filter(even)
-    | std::views::transform(square)
-    | std::views::drop(2)
-    | std::views::reverse
-    | std::views::transform([](const auto& v){ return std::to_string(v); }) };
 ```
 
 
