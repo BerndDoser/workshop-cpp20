@@ -276,7 +276,7 @@ auto ptr = std::make_shared<int>();
 - Move is fast
 :::
 
-[CompilerExplorer](https://godbolt.org/z/ohv3GzdbW)
+[CompilerExplorer](https://godbolt.org/z/x737PaMjK)
 
 
 ## Containers
