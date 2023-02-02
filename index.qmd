@@ -2,7 +2,8 @@
 title: "The New ISO Standard C++20"
 author: "Bernd Doser"
 date: July 2022
-institute: HITS gGmbH
+date-format: "MMMM YYYY"
+institute: "[HITS gGmbH](https://h-its.org)"
 format:
   revealjs:
     logo: images/HITS_RGB_eng.jpg
@@ -154,7 +155,8 @@ private:
 };
 ```
 
-[CompilerExplorer](https://godbolt.org/z/cbbEbYcr9)
+[![](images/godbolt-icon.svg){height=40}
+Task: Find the performance issue.](https://godbolt.org/z/cbbEbYcr9)
 
 
 ## Carbage Collection vs. RAII
@@ -199,7 +201,7 @@ Raw pointers (`new`) are deprecated in C++20 and will be removed in C++23.
 
 ```cpp
 #include <memory>
- 
+
 void func()
 {
     std::shared_ptr<int> ptr (new int(42));
@@ -258,7 +260,8 @@ auto ptr = std::make_shared<int>();
     p2.reset();
     assert(p6.expired());
 ```
-[CompilerExplorer](https://godbolt.org/z/dErqbrYM4)
+[![](images/godbolt-icon.svg){height=40}
+Exercise](https://godbolt.org/z/dErqbrYM4)
 
 
 ## Move Semantics (C++11)
@@ -276,7 +279,8 @@ auto ptr = std::make_shared<int>();
 - Move is fast
 :::
 
-[CompilerExplorer](https://godbolt.org/z/x737PaMjK)
+[![](images/godbolt-icon.svg){height=40}
+Exersice](https://godbolt.org/z/x737PaMjK)
 
 
 ## Containers
@@ -371,7 +375,7 @@ auto f5 = [] (int i) { return i * i; }; // Lambda (C++11)
 
 auto f6 = [] (auto arg) { // Generic lambda (C++14)
    return std::to_string(arg);
-}; 
+};
 ```
 
 
@@ -399,14 +403,14 @@ auto f6 = [] (auto arg) { // Generic lambda (C++14)
 Generator<int> getNext(int start = 0, int step = 1) {
     auto value = start;
     while (true) {
-        co_yield value;            
+        co_yield value;
         value += step;
     }
 }
 
 auto gen = getNext(100, -10);
 for (int i = 0; i <= 20; ++i) {
-    gen.next();             
+    gen.next();
     std::cout << gen.getValue() << " ";
 }
 ```
@@ -419,7 +423,7 @@ for (int i = 0; i <= 20; ++i) {
 // C++11
 template <typename T>  // Substitution failure is not an error (SFINAE)
 std::enable_if_t<std::is_same_v<T, int>> f(T x);
- 
+
 // C++20
 void f(std::same_as<int> auto x);
 ```
@@ -447,7 +451,7 @@ void inc(Incrementable auto t);
 
 ```cpp
 #include <algorithm>
- 
+
 int main()
 {
     std::vector<int> data{42, 1, 12, -3, 14, -5};
@@ -467,7 +471,8 @@ OutputIt copy_if( InputIt first, InputIt last,
                   UnaryPredicate pred );
 ```
 
-[CompilerExplorer](https://gcc.godbolt.org/z/7EMhaWd5q)
+[![](images/godbolt-icon.svg){height=40}
+Exercise](https://gcc.godbolt.org/z/7EMhaWd5q)
 
 
 ## Ranges: What We Want
@@ -490,7 +495,7 @@ result = data | func1 | func2 | ...
 ```cpp
 #include <ranges>
 #include <vector>
- 
+
 int main()
 {
     std::vector<int> data{42, 1, 12, -3, 14, -5};
@@ -499,7 +504,8 @@ int main()
     auto pos = data | std::views::filter(even);
 }
 ```
-[CompilerExplorer](https://gcc.godbolt.org/z/T5W6K46Gb)
+[![](images/godbolt-icon.svg){height=40}
+Exercise](https://gcc.godbolt.org/z/T5W6K46Gb)
 
 
 ## Ranges: How it works
@@ -605,7 +611,8 @@ std::format("strftime-like format: {:%H:%M:%S}\n", 3h + 15min + 30s);
 ```
 - Available at [{fmt}](https://github.com/fmtlib/fmt) until compiler support
 
-[CompilerExplorer](https://godbolt.org/z/Psoavhbc4)
+[![](images/godbolt-icon.svg){height=40}
+Exercise](https://godbolt.org/z/Psoavhbc4)
 
 
 ## Comparison before C++20
@@ -618,7 +625,8 @@ std::format("strftime-like format: {:%H:%M:%S}\n", 3h + 15min + 30s);
   - `op(const& T1, const& T2)`
   - `op(const& T2, const& T1)`
 
-[Exercise](https://godbolt.org/z/8qj6vx1hf)
+[![](images/godbolt-icon.svg){height=40}
+Exercise](https://godbolt.org/z/8qj6vx1hf)
 
 ::: notes
 - Write a 2-dim. point class with all comparison operators
@@ -683,7 +691,8 @@ auto X:: operator<=>(const Y&) const = default;
 
 Stack of pancakes with a happy face made of chocolate on one side '+' and nothing on the other side '-'. Goal is to have all pancakes with the happy side on the top.
 
-[Here we go!](https://godbolt.org/z/jc8TocKMn)
+[![](images/godbolt-icon.svg){height=40}
+Here we go!](https://godbolt.org/z/jc8TocKMn)
 
 
 ## Coding Competition Solution {.smaller}
@@ -710,7 +719,8 @@ for (auto first = std::ranges::find(stack, '-'); first != std::end(stack);
 }
 std::cout << "You need " << n << " flips to make all happy." << std::endl;
 ```
-[CompilerExplorer](https://godbolt.org/z/8jKWfGY59)
+[![](images/godbolt-icon.svg){height=40}
+Exercise](https://godbolt.org/z/8jKWfGY59)
 
 ::: notes
 Solution: 74 flips
@@ -734,7 +744,11 @@ auto primes = // use std::views::iota, std::views::filter, std::views::take(10)
 fmt::print("{}\n", primes);
 ```
 
-[Here we go!](https://godbolt.org/z/14MEKKo6z)
+[![](images/godbolt-icon.svg){height=40}
+Here we go!](https://godbolt.org/z/14MEKKo6z)
+
+[![](images/godbolt-icon.svg){height=40}
+Solution](https://godbolt.org/z/sqndT57j3)
 
 
 ## Summary
@@ -746,8 +760,6 @@ fmt::print("{}\n", primes);
   - `Concepts` allows template arguments specifications
   - `Coroutines` are stackless and can be suspended
 - `Reflections` and more ranges are expected for C++23
-
-[Solution](https://godbolt.org/z/sqndT57j3)
 
 
 ## Thank you {.center}

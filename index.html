@@ -5,9 +5,9 @@
 <script src="index_files/libs/quarto-html/popper.min.js"></script>
 <script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="index_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet">
+<link href="index_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-0.9.655">
+  <meta name="generator" content="quarto-1.2.335">
 
   <meta name="author" content="Bernd Doser">
   <title>The New ISO Standard C++20</title>
@@ -19,10 +19,15 @@
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
     pre > code.sourceCode { white-space: pre; position: relative; }
     pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -60,7 +65,7 @@
     code span { color: #545454; } /* Normal */
     code span.al { color: #7928a1; } /* Alert */
     code span.an { color: #696969; } /* Annotation */
-    code span.at { color: #aa5d00; } /* Attribute */
+    code span.at { color: #a55a00; } /* Attribute */
     code span.bn { color: #7928a1; } /* BaseN */
     code span.bu { } /* BuiltIn */
     code span.cf { color: #d91e18; } /* ControlFlow */
@@ -73,18 +78,18 @@
     code span.dv { color: #7928a1; } /* DecVal */
     code span.er { color: #7928a1; } /* Error */
     code span.ex { } /* Extension */
-    code span.fl { color: #aa5d00; } /* Float */
+    code span.fl { color: #a55a00; } /* Float */
     code span.fu { color: #06287e; } /* Function */
     code span.im { } /* Import */
     code span.in { color: #696969; } /* Information */
     code span.kw { color: #d91e18; } /* Keyword */
-    code span.op { color: #007faa; } /* Operator */
+    code span.op { color: #00769e; } /* Operator */
     code span.ot { color: #d91e18; } /* Other */
     code span.pp { color: #7928a1; } /* Preprocessor */
-    code span.sc { color: #007faa; } /* SpecialChar */
+    code span.sc { color: #00769e; } /* SpecialChar */
     code span.ss { color: #008000; } /* SpecialString */
     code span.st { color: #008000; } /* String */
-    code span.va { color: #aa5d00; } /* Variable */
+    code span.va { color: #a55a00; } /* Variable */
     code span.vs { color: #008000; } /* VerbatimString */
     code span.wa { color: #696969; font-style: italic; } /* Warning */
   </style>
@@ -378,17 +383,26 @@
     }
   </style>
 </head>
-<body>
+<body class="quarto-light">
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" class="center">
+<section id="title-slide" class="quarto-title-block center">
   <h1 class="title">The New ISO Standard C++20</h1>
-  <p class="author">Bernd Doser</p>
-  <p class="institute">HITS gGmbH</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Bernd Doser 
+</div>
+        <p class="quarto-title-affiliation">
+            <a href="https://h-its.org">HITS gGmbH</a>
+          </p>
+    </div>
+</div>
+
   <p class="date">July 2022</p>
 </section>
-
 <section id="this-presentation-is-available-at" class="slide level2 center">
 <h2>This presentation is available at</h2>
 <p><a href="https://bernddoser.github.io/workshop-cpp20">https://bernddoser.github.io/workshop-cpp20</a></p>
@@ -558,7 +572,7 @@ Exercises:
 <span id="cb1-16"><a href="#cb1-16"></a>    <span class="dt">int</span> m<span class="op">,</span>n<span class="op">;</span></span>
 <span id="cb1-17"><a href="#cb1-17"></a>    <span class="bu">std::</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> mat<span class="op">;</span></span>
 <span id="cb1-18"><a href="#cb1-18"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><a href="https://godbolt.org/z/cbbEbYcr9">CompilerExplorer</a></p>
+<p><a href="https://godbolt.org/z/cbbEbYcr9"><img data-src="images/godbolt-icon.svg" height="40"> Task: Find the performance issue.</a></p>
 </section>
 <section id="carbage-collection-vs.-raii" class="slide level2">
 <h2>Carbage Collection vs.&nbsp;RAII</h2>
@@ -622,7 +636,7 @@ Exercises:
 <section id="smart-pointers-c11" class="slide level2">
 <h2>Smart pointers (C++11)</h2>
 <div class="sourceCode" id="cb3"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1"></a><span class="pp">#include </span><span class="im">&lt;memory&gt;</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a> </span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
 <span id="cb3-3"><a href="#cb3-3"></a><span class="dt">void</span> func<span class="op">()</span></span>
 <span id="cb3-4"><a href="#cb3-4"></a><span class="op">{</span></span>
 <span id="cb3-5"><a href="#cb3-5"></a>    <span class="bu">std::</span>shared_ptr<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> ptr <span class="op">(</span><span class="kw">new</span> <span class="dt">int</span><span class="op">(</span><span class="dv">42</span><span class="op">));</span></span>
@@ -695,7 +709,7 @@ Exercises:
 <span id="cb6-15"><a href="#cb6-15"></a>    p1<span class="op">.</span>reset<span class="op">();</span></span>
 <span id="cb6-16"><a href="#cb6-16"></a>    p2<span class="op">.</span>reset<span class="op">();</span></span>
 <span id="cb6-17"><a href="#cb6-17"></a>    <span class="ot">assert</span><span class="op">(</span>p6<span class="op">.</span>expired<span class="op">());</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><a href="https://godbolt.org/z/dErqbrYM4">CompilerExplorer</a></p>
+<p><a href="https://godbolt.org/z/dErqbrYM4"><img data-src="images/godbolt-icon.svg" height="40"> Exercise</a></p>
 </section>
 <section id="move-semantics-c11" class="slide level2">
 <h2>Move Semantics (C++11)</h2>
@@ -726,7 +740,7 @@ Exercises:
 </div>
 </div>
 </div>
-<p><a href="https://godbolt.org/z/x737PaMjK">CompilerExplorer</a></p>
+<p><a href="https://godbolt.org/z/x737PaMjK"><img data-src="images/godbolt-icon.svg" height="40"> Exersice</a></p>
 </section>
 <section id="containers" class="slide level2">
 <h2>Containers</h2>
@@ -856,7 +870,7 @@ Exercises:
 <span id="cb8-14"><a href="#cb8-14"></a></span>
 <span id="cb8-15"><a href="#cb8-15"></a><span class="kw">auto</span> f6 <span class="op">=</span> <span class="op">[]</span> <span class="op">(</span><span class="kw">auto</span> arg<span class="op">)</span> <span class="op">{</span> <span class="co">// Generic lambda (C++14)</span></span>
 <span id="cb8-16"><a href="#cb8-16"></a>   <span class="cf">return</span> <span class="bu">std::</span>to_string<span class="op">(</span>arg<span class="op">);</span></span>
-<span id="cb8-17"><a href="#cb8-17"></a><span class="op">};</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-17"><a href="#cb8-17"></a><span class="op">};</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="coroutines" class="slide level2">
 <h2>Coroutines</h2>
@@ -887,14 +901,14 @@ Exercises:
 <div class="sourceCode" id="cb9"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb9-1"><a href="#cb9-1"></a>Generator<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> getNext<span class="op">(</span><span class="dt">int</span> start <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">int</span> step <span class="op">=</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
 <span id="cb9-2"><a href="#cb9-2"></a>    <span class="kw">auto</span> value <span class="op">=</span> start<span class="op">;</span></span>
 <span id="cb9-3"><a href="#cb9-3"></a>    <span class="cf">while</span> <span class="op">(</span><span class="kw">true</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb9-4"><a href="#cb9-4"></a>        <span class="cf">co_yield</span> value<span class="op">;</span>            </span>
+<span id="cb9-4"><a href="#cb9-4"></a>        <span class="cf">co_yield</span> value<span class="op">;</span></span>
 <span id="cb9-5"><a href="#cb9-5"></a>        value <span class="op">+=</span> step<span class="op">;</span></span>
 <span id="cb9-6"><a href="#cb9-6"></a>    <span class="op">}</span></span>
 <span id="cb9-7"><a href="#cb9-7"></a><span class="op">}</span></span>
 <span id="cb9-8"><a href="#cb9-8"></a></span>
 <span id="cb9-9"><a href="#cb9-9"></a><span class="kw">auto</span> gen <span class="op">=</span> getNext<span class="op">(</span><span class="dv">100</span><span class="op">,</span> <span class="op">-</span><span class="dv">10</span><span class="op">);</span></span>
 <span id="cb9-10"><a href="#cb9-10"></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;=</span> <span class="dv">20</span><span class="op">;</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb9-11"><a href="#cb9-11"></a>    gen<span class="op">.</span>next<span class="op">();</span>             </span>
+<span id="cb9-11"><a href="#cb9-11"></a>    gen<span class="op">.</span>next<span class="op">();</span></span>
 <span id="cb9-12"><a href="#cb9-12"></a>    <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> gen<span class="op">.</span>getValue<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">" "</span><span class="op">;</span></span>
 <span id="cb9-13"><a href="#cb9-13"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
@@ -907,7 +921,7 @@ Exercises:
 <div class="sourceCode" id="cb10"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb10-1"><a href="#cb10-1"></a><span class="co">// C++11</span></span>
 <span id="cb10-2"><a href="#cb10-2"></a><span class="kw">template</span> <span class="op">&lt;</span><span class="kw">typename</span> T<span class="op">&gt;</span>  <span class="co">// Substitution failure is not an error (SFINAE)</span></span>
 <span id="cb10-3"><a href="#cb10-3"></a><span class="bu">std::</span>enable_if_t<span class="op">&lt;</span><span class="bu">std::</span>is_same_v<span class="op">&lt;</span>T<span class="op">,</span> <span class="dt">int</span><span class="op">&gt;&gt;</span> f<span class="op">(</span>T x<span class="op">);</span></span>
-<span id="cb10-4"><a href="#cb10-4"></a> </span>
+<span id="cb10-4"><a href="#cb10-4"></a></span>
 <span id="cb10-5"><a href="#cb10-5"></a><span class="co">// C++20</span></span>
 <span id="cb10-6"><a href="#cb10-6"></a><span class="dt">void</span> f<span class="op">(</span><span class="bu">std::</span>same_as<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> <span class="kw">auto</span> x<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
@@ -932,7 +946,7 @@ Exercises:
 <section id="the-world-before-ranges-c11" class="slide level2">
 <h2>The World Before Ranges (C++11)</h2>
 <div class="sourceCode" id="cb13"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb13-1"><a href="#cb13-1"></a><span class="pp">#include </span><span class="im">&lt;algorithm&gt;</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a> </span>
+<span id="cb13-2"><a href="#cb13-2"></a></span>
 <span id="cb13-3"><a href="#cb13-3"></a><span class="dt">int</span> main<span class="op">()</span></span>
 <span id="cb13-4"><a href="#cb13-4"></a><span class="op">{</span></span>
 <span id="cb13-5"><a href="#cb13-5"></a>    <span class="bu">std::</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> data<span class="op">{</span><span class="dv">42</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">12</span><span class="op">,</span> <span class="op">-</span><span class="dv">3</span><span class="op">,</span> <span class="dv">14</span><span class="op">,</span> <span class="op">-</span><span class="dv">5</span><span class="op">};</span></span>
@@ -947,7 +961,7 @@ Exercises:
 <span id="cb14-2"><a href="#cb14-2"></a>OutputIt copy_if<span class="op">(</span> InputIt first<span class="op">,</span> InputIt last<span class="op">,</span></span>
 <span id="cb14-3"><a href="#cb14-3"></a>                  OutputIt d_first<span class="op">,</span></span>
 <span id="cb14-4"><a href="#cb14-4"></a>                  UnaryPredicate pred <span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><a href="https://gcc.godbolt.org/z/7EMhaWd5q">CompilerExplorer</a></p>
+<p><a href="https://gcc.godbolt.org/z/7EMhaWd5q"><img data-src="images/godbolt-icon.svg" height="40"> Exercise</a></p>
 </section>
 <section id="ranges-what-we-want" class="slide level2">
 <h2>Ranges: What We Want</h2>
@@ -969,7 +983,7 @@ Exercises:
 <h2>Ranges: filter</h2>
 <div class="sourceCode" id="cb17"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb17-1"><a href="#cb17-1"></a><span class="pp">#include </span><span class="im">&lt;ranges&gt;</span></span>
 <span id="cb17-2"><a href="#cb17-2"></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
-<span id="cb17-3"><a href="#cb17-3"></a> </span>
+<span id="cb17-3"><a href="#cb17-3"></a></span>
 <span id="cb17-4"><a href="#cb17-4"></a><span class="dt">int</span> main<span class="op">()</span></span>
 <span id="cb17-5"><a href="#cb17-5"></a><span class="op">{</span></span>
 <span id="cb17-6"><a href="#cb17-6"></a>    <span class="bu">std::</span>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> data<span class="op">{</span><span class="dv">42</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">12</span><span class="op">,</span> <span class="op">-</span><span class="dv">3</span><span class="op">,</span> <span class="dv">14</span><span class="op">,</span> <span class="op">-</span><span class="dv">5</span><span class="op">};</span></span>
@@ -977,7 +991,7 @@ Exercises:
 <span id="cb17-8"><a href="#cb17-8"></a></span>
 <span id="cb17-9"><a href="#cb17-9"></a>    <span class="kw">auto</span> pos <span class="op">=</span> data <span class="op">|</span> <span class="bu">std::</span>views<span class="bu">::</span>filter<span class="op">(</span>even<span class="op">);</span></span>
 <span id="cb17-10"><a href="#cb17-10"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><a href="https://gcc.godbolt.org/z/T5W6K46Gb">CompilerExplorer</a></p>
+<p><a href="https://gcc.godbolt.org/z/T5W6K46Gb"><img data-src="images/godbolt-icon.svg" height="40"> Exercise</a></p>
 </section>
 <section id="ranges-how-it-works" class="slide level2">
 <h2>Ranges: How it works</h2>
@@ -1082,7 +1096,7 @@ Exercises:
 <ul>
 <li>Available at <a href="https://github.com/fmtlib/fmt">{fmt}</a> until compiler support</li>
 </ul>
-<p><a href="https://godbolt.org/z/Psoavhbc4">CompilerExplorer</a></p>
+<p><a href="https://godbolt.org/z/Psoavhbc4"><img data-src="images/godbolt-icon.svg" height="40"> Exercise</a></p>
 </section>
 <section id="comparison-before-c20" class="slide level2">
 <h2>Comparison before C++20</h2>
@@ -1099,7 +1113,7 @@ Exercises:
 <li><code>op(const&amp; T2, const&amp; T1)</code></li>
 </ul></li>
 </ul>
-<p><a href="https://godbolt.org/z/8qj6vx1hf">Exercise</a></p>
+<p><a href="https://godbolt.org/z/8qj6vx1hf"><img data-src="images/godbolt-icon.svg" height="40"> Exercise</a></p>
 <aside class="notes">
 <ul>
 <li>Write a 2-dim. point class with all comparison operators</li>
@@ -1178,7 +1192,7 @@ Exercises:
 <p><a href="https://codingcompetitions.withgoogle.com/codejam">GoogleCodeJam</a></p>
 <p>2016 Quali Round Problem B: Revenge of the Pancakes</p>
 <p>Stack of pancakes with a happy face made of chocolate on one side ‘+’ and nothing on the other side ‘-’. Goal is to have all pancakes with the happy side on the top.</p>
-<p><a href="https://godbolt.org/z/jc8TocKMn">Here we go!</a></p>
+<p><a href="https://godbolt.org/z/jc8TocKMn"><img data-src="images/godbolt-icon.svg" height="40"> Here we go!</a></p>
 </section>
 <section id="coding-competition-solution" class="slide level2 smaller">
 <h2>Coding Competition Solution</h2>
@@ -1202,7 +1216,7 @@ Exercises:
 <span id="cb27-18"><a href="#cb27-18"></a>  <span class="op">}</span></span>
 <span id="cb27-19"><a href="#cb27-19"></a><span class="op">}</span></span>
 <span id="cb27-20"><a href="#cb27-20"></a><span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> <span class="st">"You need "</span> <span class="op">&lt;&lt;</span> n <span class="op">&lt;&lt;</span> <span class="st">" flips to make all happy."</span> <span class="op">&lt;&lt;</span> <span class="bu">std::</span>endl<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><a href="https://godbolt.org/z/8jKWfGY59">CompilerExplorer</a></p>
+<p><a href="https://godbolt.org/z/8jKWfGY59"><img data-src="images/godbolt-icon.svg" height="40"> Exercise</a></p>
 <aside class="notes">
 <p>Solution: 74 flips</p>
 <style type="text/css">
@@ -1232,7 +1246,8 @@ Exercises:
 <span id="cb28-8"><a href="#cb28-8"></a><span class="kw">auto</span> primes <span class="op">=</span> <span class="co">// use std::views::iota, std::views::filter, std::views::take(10)</span></span>
 <span id="cb28-9"><a href="#cb28-9"></a></span>
 <span id="cb28-10"><a href="#cb28-10"></a>fmt<span class="op">::</span>print<span class="op">(</span><span class="st">"</span><span class="sc">{}\n</span><span class="st">"</span><span class="op">,</span> primes<span class="op">);</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><a href="https://godbolt.org/z/14MEKKo6z">Here we go!</a></p>
+<p><a href="https://godbolt.org/z/14MEKKo6z"><img data-src="images/godbolt-icon.svg" height="40"> Here we go!</a></p>
+<p><a href="https://godbolt.org/z/sqndT57j3"><img data-src="images/godbolt-icon.svg" height="40"> Solution</a></p>
 </section>
 <section id="summary" class="slide level2">
 <h2>Summary</h2>
@@ -1247,7 +1262,6 @@ Exercises:
 </ul></li>
 <li><code>Reflections</code> and more ranges are expected for C++23</li>
 </ul>
-<p><a href="https://godbolt.org/z/sqndT57j3">Solution</a></p>
 </section>
 <section id="thank-you" class="slide level2 center">
 <h2>Thank you</h2>
@@ -1479,6 +1493,24 @@ Exercises:
     </script>
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
+      const toggleBodyColorMode = (bsSheetEl) => {
+        const mode = bsSheetEl.getAttribute("data-mode");
+        const bodyEl = window.document.querySelector("body");
+        if (mode === "dark") {
+          bodyEl.classList.add("quarto-dark");
+          bodyEl.classList.remove("quarto-light");
+        } else {
+          bodyEl.classList.add("quarto-light");
+          bodyEl.classList.remove("quarto-dark");
+        }
+      }
+      const toggleBodyColorPrimary = () => {
+        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+        if (bsSheetEl) {
+          toggleBodyColorMode(bsSheetEl);
+        }
+      }
+      toggleBodyColorPrimary();  
       const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
       tabsets.forEach(function(tabset) {
         const tabby = new Tabby('#' + tabset.id);
@@ -1497,7 +1529,24 @@ Exercises:
         button.classList.add('code-copy-button-checked');
         var currentTitle = button.getAttribute("title");
         button.setAttribute("title", "Copied!");
+        let tooltip;
+        if (window.bootstrap) {
+          button.setAttribute("data-bs-toggle", "tooltip");
+          button.setAttribute("data-bs-placement", "left");
+          button.setAttribute("data-bs-title", "Copied!");
+          tooltip = new bootstrap.Tooltip(button, 
+            { trigger: "manual", 
+              customClass: "code-copy-button-tooltip",
+              offset: [0, -8]});
+          tooltip.show();    
+        }
         setTimeout(function() {
+          if (tooltip) {
+            tooltip.hide();
+            button.removeAttribute("data-bs-title");
+            button.removeAttribute("data-bs-toggle");
+            button.removeAttribute("data-bs-placement");
+          }
           button.setAttribute("title", currentTitle);
           button.classList.remove('code-copy-button-checked');
         }, 1000);
@@ -1527,31 +1576,50 @@ Exercises:
       for (var i=0; i<noterefs.length; i++) {
         const ref = noterefs[i];
         tippyHover(ref, function() {
-          let href = ref.getAttribute('href');
+          // use id or data attribute instead here
+          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
           try { href = new URL(href).hash; } catch {}
           const id = href.replace(/^#\/?/, "");
           const note = window.document.getElementById(id);
           return note.innerHTML;
         });
       }
+      const findCites = (el) => {
+        const parentEl = el.parentElement;
+        if (parentEl) {
+          const cites = parentEl.dataset.cites;
+          if (cites) {
+            return {
+              el,
+              cites: cites.split(' ')
+            };
+          } else {
+            return findCites(el.parentElement)
+          }
+        } else {
+          return undefined;
+        }
+      };
       var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
       for (var i=0; i<bibliorefs.length; i++) {
         const ref = bibliorefs[i];
-        const cites = ref.parentNode.getAttribute('data-cites').split(' ');
-        tippyHover(ref, function() {
-          var popup = window.document.createElement('div');
-          cites.forEach(function(cite) {
-            var citeDiv = window.document.createElement('div');
-            citeDiv.classList.add('hanging-indent');
-            citeDiv.classList.add('csl-entry');
-            var biblioDiv = window.document.getElementById('ref-' + cite);
-            if (biblioDiv) {
-              citeDiv.innerHTML = biblioDiv.innerHTML;
-            }
-            popup.appendChild(citeDiv);
+        const citeInfo = findCites(ref);
+        if (citeInfo) {
+          tippyHover(citeInfo.el, function() {
+            var popup = window.document.createElement('div');
+            citeInfo.cites.forEach(function(cite) {
+              var citeDiv = window.document.createElement('div');
+              citeDiv.classList.add('hanging-indent');
+              citeDiv.classList.add('csl-entry');
+              var biblioDiv = window.document.getElementById('ref-' + cite);
+              if (biblioDiv) {
+                citeDiv.innerHTML = biblioDiv.innerHTML;
+              }
+              popup.appendChild(citeDiv);
+            });
+            return popup.innerHTML;
           });
-          return popup.innerHTML;
-        });
+        }
       }
     });
     </script>
